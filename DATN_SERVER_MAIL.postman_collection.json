@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "012a5713-81ca-49d5-b88b-31e43b0ca805",
+		"name": "DATN_SERVER_MAIL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25693899"
+	},
+	"item": [
+		{
+			"name": "Send Mail Reset Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"kiempham1245@gmail.com\",\r\n    \"token\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/send-mail-reset-password",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"send-mail-reset-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Mail OTP Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"otp\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/send-mail-otp-register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"send-mail-otp-register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Mail OTP Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"otp\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/send-mail-otp-login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"send-mail-otp-login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Mail OTP Transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"otp\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/send-mail-otp-transaction",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"send-mail-otp-transaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Mail Thankyou",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"user\": {\r\n        \"firstName\": \"Nguyen Dinh\",\r\n        \"lastName\": \"Khoi\",\r\n        \"email\": \"khoi@gmail.com\",\r\n        \"password\": \"Abcd@1234\",\r\n        \"address\": \"Gò vấp\",\r\n        \"phoneNumber\": \"023456789\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/send-mail-thankyou",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"send-mail-thankyou"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Mail Transaction Verify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"transaction\": {\r\n        \"transactionCode\": \"9573844a86\",\r\n        \"transactionTime\": \"2023-10-09T14:45:10\",\r\n        \"amount\": 10000,\r\n        \"senderAccountNumber\": \"3c94282d\",\r\n        \"senderFullName\": \"Phạm Đoàn Admin\",\r\n        \"recipientAccountNumber\": null,\r\n        \"recipientFullName\": null,\r\n        \"description\": \"Withdraw money to bank\",\r\n        \"transactionType\": \"WITHDRAW\",\r\n        \"transactionStatus\": \"SUCCESS\",\r\n        \"verify\": null\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/send-mail-transaction-verify",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"send-mail-transaction-verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Mail Transaction Unverify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"transaction\": {\r\n        \"transactionCode\": \"9573844a86\",\r\n        \"transactionTime\": \"2023-10-09T14:45:10\",\r\n        \"amount\": 10000,\r\n        \"senderAccountNumber\": \"3c94282d\",\r\n        \"senderFullName\": \"Phạm Đoàn Admin\",\r\n        \"recipientAccountNumber\": null,\r\n        \"recipientFullName\": null,\r\n        \"description\": \"Withdraw money to bank\",\r\n        \"transactionType\": \"WITHDRAW\",\r\n        \"transactionStatus\": \"SUCCESS\",\r\n        \"verify\": null\r\n    },\r\n    \"transaction_alter\": {\r\n        \"transactionCode\": \"9573844a86\",\r\n        \"transactionTime\": \"2023-10-09T14:45:10\",\r\n        \"amount\": 10000,\r\n        \"senderAccountNumber\": \"3c94282d\",\r\n        \"senderFullName\": \"Phạm Đoàn Admin\",\r\n        \"recipientAccountNumber\": null,\r\n        \"recipientFullName\": null,\r\n        \"description\": \"Withdraw money to bank\",\r\n        \"transactionType\": \"WITHDRAW\",\r\n        \"transactionStatus\": \"SUCCESS\",\r\n        \"verify\": null\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/send-mail-transaction-unverify",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"send-mail-transaction-unverify"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
