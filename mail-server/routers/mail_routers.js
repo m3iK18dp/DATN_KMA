@@ -4,7 +4,7 @@ const MailController = require("../controller/mail_controller");
 
 router.post("/send-mail-otp-login", MailController.sendMailOTPLogin);
 router.post("/send-mail-otp-register", MailController.sendMailOTPRegister);
-router.post("/send-mail-thankyou", MailController.sendMailThankyou);
+router.post("/send-mail-thank-you", MailController.sendMailThankyou);
 router.post(
   "/send-mail-otp-transaction",
   MailController.sendMailOTPTransaction
@@ -15,7 +15,11 @@ router.post(
   MailController.sendMailTransactionVerify
 );
 router.post(
-  "/send-mail-transaction-un-verify",
-  MailController.sendMailTransactionUnVerify
+  "/send-mail-transaction-verify-to-recipient",
+  MailController.sendMailTransactionVerifyToRecipient
+);
+router.post(
+  "/send-mail-transaction-not-verify",
+  MailController.sendMailTransactionNotVerify
 );
 module.exports = router;

@@ -1,0 +1,81 @@
+@keyframes unRotateAnimation {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes rotateAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+@keyframes shrinkWidth {
+  from {
+    width: 260px; /* Kích thước ban đầu */
+  }
+  to {
+    width: 70px; /* Kích thước sau khi giảm dần */
+  }
+}
+@keyframes unShrinkWidth {
+  from {
+    width: 70px; /* Kích thước ban đầu */
+  }
+  to {
+    width: 260px; /* Kích thước sau khi giảm dần */
+  }
+}
+.rotated {
+  animation: rotateAnimation 0.1s ease-in-out forwards;
+}
+.unRotated {
+  animation: unRotateAnimation 0.1s ease-in-out forwards;
+}
+.div-collaps {
+  animation: shrinkWidth 0.1s ease-in-out forwards;
+}
+.un-div-collaps {
+  animation: unShrinkWidth 0.1s ease-in-out forwards;
+}
+.collaps:hover {
+  cursor: pointer;
+}
+.div-tab {
+  /* padding-left: 20px; */
+  max-height: calc(100% - 70px);
+  overflow-y: auto;
+  color: white;
+}
+
+.tab-icon {
+  margin-right: 15px;
+  text-align: center;
+}
+.tab {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  align-items: center;
+}
+.div-tab div:first-child {
+  margin-top: 0;
+}
+.div-tab div:last-child {
+  margin-bottom: 0;
+}
+.tab:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+}
+.active {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  cursor: not-allowed;
+}

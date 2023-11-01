@@ -1,0 +1,50 @@
+.context-menu {
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.8);
+	width: 190px;
+	padding: 5px;
+	z-index: 1000;
+	border-radius: 10px;
+	box-shadow: rgba(0, 0, 0, 0.4) 1px 12px 35px;
+}
+h6 {
+	font-size: 12px;
+	font-weight: bold;
+	font-style: italic;
+	display: inline;
+	margin: 0;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.context-menu.list-playlist {
+	/* top: 0px;
+	left: 240px; */
+	display: block;
+	z-index: 10001;
+	color: white;
+	width: 150px;
+	max-height: 250px;
+	overflow: auto;
+	color: black;
+}
+.context-menu-row {
+	padding: 2px;
+	/* border-bottom: 1px solid rgba(131, 131, 131, 0.2); */
+	margin-bottom: 2px;
+	margin-bottom: 2px;
+
+	padding: 4px;
+	border-radius: 5px;
+}
+.flex {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.context-menu-row:hover {
+	background-color: rgba(255, 255, 255, 0.8);
+	cursor: pointer;
+}
+.context-menu-row:hover h6 {
+	color: rgba(0, 0, 0, 0.6) !important;
+}

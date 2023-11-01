@@ -1,0 +1,33 @@
+.select-option div:first-child {
+  width: 150px;
+  height: 45px;
+  padding: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.5);
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  /* border-top-right-radius: 5px;
+  border-top-left-radius: 5px; */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.select-option div:last-child {
+  width: 150px;
+  height: 45px;
+  padding: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  /* border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px; */
+}
+.select-option
+  div:not(.select-option div:first-child && .select-option div:last-child) {
+  width: 150px;
+  height: 45px;
+  padding: 10px;
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.select-option {
+  border-radius: 5px;
+}

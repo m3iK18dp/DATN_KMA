@@ -1,0 +1,61 @@
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-pause-button,
+audio::-webkit-media-controls-start-playback-button {
+  display: none !important;
+}
+
+audio::-webkit-media-controls {
+  display: inline-flex !important;
+  width: auto !important;
+}
+audio {
+  width: 70%;
+  height: 20px;
+  display: block;
+  margin: 20px auto 10px auto;
+}
+.mr-15 {
+  margin-right: 15px;
+}
+
+a:hover {
+  color: rgb(40, 144, 144);
+  cursor: pointer;
+}
+.controls-audio {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.control {
+  display: inline-block;
+  margin: 0 5px;
+}
+td,
+th {
+  text-align: center;
+}
+th:hover {
+  color: rgb(216, 95, 253);
+  cursor: pointer;
+}
+.col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+}
+.form-label {
+  /* margin: 0 auto; */
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+}
+.row {
+  margin-bottom: 5px;
+  /* margin-left: 10px; */
+}
+/* .form-label {
+  margin-left: 10px;
+} */
