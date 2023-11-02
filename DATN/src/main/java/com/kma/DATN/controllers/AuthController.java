@@ -112,7 +112,7 @@ public class AuthController {
     }
 
     @PostMapping("/submit_reset_password")
-    public ResponseObject<Boolean> submitResetPassword(@RequestBody String username) {
+    public ResponseObject<Boolean> submitResetPassword(@RequestParam String username) {
         try {
             return new ResponseObject<>(
                     "ok",

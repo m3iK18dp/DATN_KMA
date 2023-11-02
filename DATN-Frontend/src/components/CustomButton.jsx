@@ -28,7 +28,7 @@ function CustomButton({
       onMouseOver={(e) => {
         e.target.style.cursor = disable ? "not-allowed" : "pointer";
         if (!disable) {
-          document.getElementById(`icon-button-${id}-1`).style.color =
+          if (IconButton !== null) document.getElementById(`icon-button-${id}-1`).style.color =
             colorHover;
           document.getElementById(`icon-button-${id}-2`).style.color =
             colorHover;
@@ -36,7 +36,7 @@ function CustomButton({
         }
       }}
       onMouseOut={() => {
-        document.getElementById(`icon-button-${id}-1`).style.color = color;
+        if (IconButton !== null) document.getElementById(`icon-button-${id}-1`).style.color = color;
         document.getElementById(`icon-button-${id}-2`).style.color = color;
         if (onMouseOutFunc !== null) onMouseOutFunc();
       }}

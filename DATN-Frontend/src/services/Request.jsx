@@ -17,18 +17,15 @@ const callApi = async (
     headers,
     timeout:
       endpoint.includes("songs") &&
-      ["post", "put"].includes(method.toLowerCase())
+        ["post", "put"].includes(method.toLowerCase())
         ? 30000
         : 10000,
   };
   if (
     !(
-      (endpoint.includes("auth") &&
-        method === "post" &&
-        !endpoint.includes("auth/logout_on_all_other_devices")) ||
-      (endpoint.includes("songs") &&
-        method === "get" &&
-        !localStorage.getItem("token"))
+      (endpoint.includes("auth") && method === "post" && !endpoint.includes("auth/logout_on_all_other_devices")) ||
+      endpoint.includes("otp") ||
+      !localStorage.getItem("token")
     )
   ) {
     options.headers = {
@@ -36,10 +33,10 @@ const callApi = async (
       ...headers,
     };
   }
-  if (method.toLowerCase() === "get") {
-    if (Object.keys(params).length !== 0)
-      options.url = options.url + "?" + queryString.stringify(params);
-  } else {
+
+  if (Object.keys(params).length !== 0)
+    options.url = options.url + "?" + queryString.stringify(params);
+  if (method.toLowerCase() !== "get" && data !== null) {
     options.data = data;
   }
   try {

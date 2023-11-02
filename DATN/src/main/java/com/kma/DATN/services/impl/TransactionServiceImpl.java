@@ -330,6 +330,7 @@ public class TransactionServiceImpl implements ITransactionService {
         List<Object> withdraw = new ArrayList<>();
         List<Object> transfer = new ArrayList<>();
         List<Object> credited = new ArrayList<>();
+        Long[] total = new Long[]{0L, 0L, 0L, 0L};
         User userAuth = extractUser(request);
         userId = userAuth.getId();
         if (Objects.equals(accountNumber, ""))
@@ -352,15 +353,23 @@ public class TransactionServiceImpl implements ITransactionService {
         );
         transactions.forEach(transaction -> {
             labels.add(transaction.getTransactionTime().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy hh:mm a")));
-            if (transaction.getTransactionType() == TransactionType.DEPOSIT)
+            if (transaction.getTransactionType() == TransactionType.DEPOSIT) {
                 deposit.add(transaction.getAmount());
-            if (transaction.getTransactionType() == TransactionType.WITHDRAW)
+                total[0] += transaction.getAmount();
+            }
+            if (transaction.getTransactionType() == TransactionType.WITHDRAW) {
                 withdraw.add(transaction.getAmount());
+                total[1] += transaction.getAmount();
+            }
             if (transaction.getTransactionType() == TransactionType.TRANSFER) {
-                if (Objects.equals(transaction.getSenderAccountNumber(), finalAccountNumber))
+                if (Objects.equals(transaction.getSenderAccountNumber(), finalAccountNumber)) {
                     transfer.add(transaction.getAmount());
-                else
+                    total[2] += transaction.getAmount();
+                } else {
                     credited.add(transaction.getAmount());
+                    total[3] += transaction.getAmount();
+                }
+
             }
         });
         result.put("label", labels);
@@ -368,6 +377,7 @@ public class TransactionServiceImpl implements ITransactionService {
         result.put("withdraw", withdraw);
         result.put("transfer", transfer);
         result.put("credited", credited);
+        result.put("total", List.of(total));
         return result;
     }
 

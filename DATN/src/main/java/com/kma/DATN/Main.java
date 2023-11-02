@@ -1,17 +1,13 @@
 package com.kma.DATN;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.kma.DATN.fabric.DTO.TransactionFabric;
-import com.kma.DATN.models.Transaction;
-import com.kma.DATN.models.TransactionStatus;
-import com.kma.DATN.models.TransactionType;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
     static final String URL_HYPERLEDGER_FABRIC_API = "http://192.168.152.129:4000";
@@ -54,32 +50,50 @@ public class Main {
 //
 //        System.out.println(responseObject.getData());
 
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        Transaction transaction = new Transaction();
-        transaction.setAmount(500000L);//
-        transaction.setTransactionCode("2b5e454db7");
-        transaction.setTransactionTime(LocalDateTime.now());
-        transaction.setSenderAccountNumber("3c94282d");//
-        transaction.setSenderFullName("Phạm Đoàn Admin");//
-        transaction.setRecipientAccountNumber("40ff7af2");//
-        transaction.setRecipientFullName("Pham Doan Kiem");//
-        transaction.setDescription("Send money to Pham Doan Kiem");//
-        transaction.setTransactionType(TransactionType.TRANSFER);//
-        transaction.setTransactionStatus(TransactionStatus.SUCCESS);//
-        try {
-            TransactionFabric transactionFabric = new TransactionFabric(
-                    "2b5e454db7", "2023-10-31T18:57:52Z", sha256(objectMapper.writeValueAsString(transaction))
-            );
-            String dataHash = transactionFabric.getDataHash();
-            System.out.println(dataHash);
-            System.out.println(objectMapper.writeValueAsString(transaction));
-            System.out.println(sha256(objectMapper.writeValueAsString(transaction)).equals(dataHash));
-            transaction.setAmount(500001L);
-            System.out.println(objectMapper.writeValueAsString(transaction));
-            System.out.println(sha256(objectMapper.writeValueAsString(transaction)).equals(dataHash));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+//        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+//        Transaction transaction = new Transaction();
+//        transaction.setAmount(500000L);//
+//        transaction.setTransactionCode("2b5e454db7");
+//        transaction.setTransactionTime(LocalDateTime.now());
+//        transaction.setSenderAccountNumber("3c94282d");//
+//        transaction.setSenderFullName("Phạm Đoàn Admin");//
+//        transaction.setRecipientAccountNumber("40ff7af2");//
+//        transaction.setRecipientFullName("Pham Doan Kiem");//
+//        transaction.setDescription("Send money to Pham Doan Kiem");//
+//        transaction.setTransactionType(TransactionType.TRANSFER);//
+//        transaction.setTransactionStatus(TransactionStatus.SUCCESS);//
+//        try {
+//            TransactionFabric transactionFabric = new TransactionFabric(
+//                    "2b5e454db7", "2023-10-31T18:57:52Z", sha256(objectMapper.writeValueAsString(transaction))
+//            );
+//            String dataHash = transactionFabric.getDataHash();
+//            System.out.println(dataHash);
+//            System.out.println(objectMapper.writeValueAsString(transaction));
+//            System.out.println(sha256(objectMapper.writeValueAsString(transaction)).equals(dataHash));
+//            transaction.setAmount(500001L);
+//            System.out.println(objectMapper.writeValueAsString(transaction));
+//            System.out.println(sha256(objectMapper.writeValueAsString(transaction)).equals(dataHash));
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+        // Chuỗi thời gian ban đầu ở múi giờ ICT
+        String ictTimeStr = "2023-11-01T18:30:22Z";
+
+        // Chuyển đổi sang LocalDateTime
+        LocalDateTime ictLocalDateTime = LocalDateTime.parse(ictTimeStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+        // Xác định múi giờ ICT
+        ZoneId ictZone = ZoneId.of("Asia/Ho_Chi_Minh");
+
+        // Chuyển đổi sang múi giờ UTC (0)
+        ZonedDateTime ictZonedDateTime = ictLocalDateTime.atZone(ictZone);
+        ZonedDateTime utcZonedDateTime = ictZonedDateTime.withZoneSameInstant(ZoneOffset.UTC);
+
+        // Định dạng lại thời gian theo chuẩn "yyyy-MM-dd HH:mm:ss.SSS Z"
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS Z");
+        String utcTimeStr = utcZonedDateTime.format(formatter);
+
+        System.out.println(utcTimeStr);
     }
 
     private static String convertQueryToUrlType(String jsonString) {

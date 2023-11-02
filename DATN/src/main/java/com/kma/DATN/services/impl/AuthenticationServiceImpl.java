@@ -149,18 +149,19 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     @Override
     public Boolean submitResetPassword(String username) {
         Token t = new Token();
+        User user = userService.findUserByEmail(username)
+                .orElseThrow(() -> new BadCredentialsException("No account found matching username."));
+        if (user.getStatus() == UserStatus.DELETED) {
+            throw new BadCredentialsException("User is deleted.");
+        }
+        userService.changeRevokeAllUserResetPasswordTokens(username, -1);
+        final UserDetails userDetails =
+                new CustomUserDetailsService(userService).loadUserByUsername(user.getEmail());
+        t.setUser(user);
+        t.setToken(JwtTokenUtil.generateJwtToken(userDetails, 1));
+        t.setTokenType(TokenType.RESET_PASSWORD);
+        t.setRevoked(0);
         try {
-            User user = userService.findUserByEmail(username).orElseThrow(() -> new BadCredentialsException("No account found matching username."));
-            if (user.getStatus() == UserStatus.DELETED) {
-                throw new BadCredentialsException("User is deleted.");
-            }
-            userService.changeRevokeAllUserResetPasswordTokens(username, -1);
-            final UserDetails userDetails =
-                    new CustomUserDetailsService(userService).loadUserByUsername(user.getEmail());
-            t.setUser(userService.findUserByEmail(user.getEmail()).orElse(null));
-            t.setToken(JwtTokenUtil.generateJwtToken(userDetails, 1));
-            t.setTokenType(TokenType.RESET_PASSWORD);
-            t.setRevoked(0);
             tokenRepository.save(t);
         } catch (Exception e) {
             throw new RuntimeException("Error when query");

@@ -14,8 +14,13 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface UserRepository extends JpaRepository<User, String> {
 
+    @Query(value = """
+            SELECT * FROM Users u WHERE u.email = :email
+            """, nativeQuery = true)
+    Optional<User> findByEmail(@Param("email") String email);
 
-    Optional<User> findByEmail(String email);
+    //    Optional<User> findByEmail(String email);
+//    Optional<User> findByEmail(String email);
 
     //    @Query(value = """
 //            DELETE FROM musicmanager.users_roles WHERE user_id = :id;
@@ -82,6 +87,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             WHERE u.id = a.user_id AND a.accountNumber = :accountNumber
             """, nativeQuery = true)
     User getUserByAccountNumber(@Param("accountNumber") String accountNumber);
+
 
 //    @Query(value = """
 //            SELECT u.* FROM musicmanager.users u, musicmanager.roles r, musicmanager.users_roles ur

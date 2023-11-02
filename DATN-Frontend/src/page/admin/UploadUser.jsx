@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
-import userService from "../services/UserService";
+import userService from "../../services/UserService";
 import { useParams, useNavigate } from "react-router-dom";
 import { AiFillSave } from "react-icons/ai";
 import { MdCancel } from "react-icons/md";
-import NavbarComponent from "../components/NavbarComponent";
-import LastUpdateTimeComponent from "../components/LastUpdateTimeComponent";
-import CustomFormGroup from "../components/CustomFormGroup";
-import { checkToken } from "../services/CheckToken";
-import MySelect from "../components/MySelect";
+import NavbarComponent from "../../components/NavbarComponent";
+import LastUpdateTimeComponent from "../../components/LastUpdateTimeComponent";
+import CustomFormGroup from "../../components/CustomFormGroup";
+import { checkToken } from "../../services/CheckToken";
+import MySelect from "../../components/MySelect";
 import { toast } from "react-toastify";
 
 function UploadUser() {
@@ -22,8 +22,8 @@ function UploadUser() {
       ? "Create"
       : "Error"
     : id.id > 0
-    ? "Update"
-    : "Error";
+      ? "Update"
+      : "Error";
   const [firstNameIsFilled, setFirstNameIsFilled] = useState("");
   const [lastNameIsFilled, setLastNameIsFilled] = useState("");
   const [emailIsFilled, setEmailIsFilled] = useState("");

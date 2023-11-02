@@ -1,32 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { Container, Row, Button, Form } from "react-bootstrap";
-import userService from "../services/UserService";
 import { useNavigate } from "react-router-dom";
-import { AiFillSave } from "react-icons/ai";
-import CustomFormGroup from "../components/CustomFormGroup";
-import { checkToken } from "../services/CheckToken";
-import CustomToggle from "../components/CustomToggle";
+import CustomFormGroup from "../../components/CustomFormGroup";
+import { checkToken } from "../../services/CheckToken";
+import CustomToggle from "../../components/CustomToggle";
+import transactionService from "../../services/TransactionService";
+import userService from "../../services/UserService";
 import { ToastContainer, toast } from "react-toastify";
-import PinComponent from "../components/PinComponent";
-function MyPin() {
+import PinComponent from "../../components/PinComponent";
+function Transfer() {
   const navigate = useNavigate();
-  const [oldPinIsFilled, setOldPinIsFilled] = useState("");
-  const [newPinIsFilled, setNewPinIsFilled] = useState("");
-  const [passwordIsFilled, setPasswordIsFilled] = useState("");
+  const [senderAccountIsFilled, setSenderAccountIsFilled] = useState("");
+  const [recipientAccountIsFilled, setRecipientAccountIsFilled] = useState("");
+  const [amountIsFilled, setAmountIsFilled] = useState("");
+  const [pinIsFilled, setPinIsFilled] = useState("");
   const [status, setStatus] = useState("");
-  const [userPin, setUserPin] = useState({
-    password: "",
-    oldPin: "",
-    newPin: "",
+  const [userTransfer, setUserTransfer] = useState({
+    senderAccount: "",
+    amount: "",
+    recipientAccount: "",
+    description: "",
+    pin: "",
   });
-
+  const [fullName, setFullName] = useState("");
   const [isFirst, setIsFirst] = useState(true);
   const [checkForm, setCheckForm] = useState(true);
   const [inProcessing, setInProcessing] = useState(false);
-  // const [passwordLogoutAll, setPasswordLogoutAll] = useState("");
-  // const [showLogoutAll, setShowLogoutAll] = useState(false);
-  // const [passwordInLogoutIsFull, setPasswordInLogoutIsFull] = useState(false);
   const [checkPin, setCheckPin] = useState(true);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
@@ -59,39 +59,66 @@ function MyPin() {
       }
       return "";
     };
-    setPasswordIsFilled(
-      validateInput(userPin.password, Infinity, `Please enter Password`)
+    setSenderAccountIsFilled(
+      validateInput(
+        userTransfer.senderAccount,
+        8,
+        `Please enter Sender Account Number`
+      )
     );
-    setOldPinIsFilled(validateInput(userPin.oldPin, 6, `Please enter old Pin`));
-    setNewPinIsFilled(validateInput(userPin.newPin, 6, "Please new Pin"));
-  }, [userPin, isFirst]);
+    setRecipientAccountIsFilled(
+      validateInput(
+        userTransfer.recipientAccount,
+        8,
+        `Please enter Recipient Account Number`
+      )
+    );
+    setAmountIsFilled(
+      validateInput(userTransfer.amount, Infinity, `Please enter Amount`)
+    );
+    setPinIsFilled(validateInput(userTransfer.pin, 6, `Please enter Pin`));
+  }, [userTransfer, isFirst]);
   useEffect(() => {
     setStatus("");
-  }, [userPin]);
-
+  }, [userTransfer]);
+  useEffect(() => {
+    userService
+      .getUserFullNameByAccountNumber(userTransfer.recipientAccount)
+      .then((response) => {
+        if (response.status === "ok") setFullName(response.data);
+        else setFullName("");
+      });
+  }, [userTransfer.recipientAccount]);
   const set = (prop, value) => {
-    setUserPin({ ...userPin, [prop]: value });
+    setUserTransfer({ ...userTransfer, [prop]: value });
   };
   function handleSubmit() {
     setIsFirst(false);
     if (checkForm) {
       setInProcessing(true);
-      userService
-        .updatePin(userPin.password, userPin.oldPin, userPin.newPin, navigate)
+      transactionService
+        .transfer(
+          userTransfer.senderAccount,
+          userTransfer.recipientAccount,
+          userTransfer.pin,
+          userTransfer.amount,
+          userTransfer.description,
+          navigate
+        )
         .then((res) => {
           if (res.status === "ok") {
-            toast.success("Update User successful", {
+            toast.success("Transfer successful", {
               autoClose: 1000,
             });
           } else {
             setStatus("");
-            toast.error("Update User failed!", {
+            toast.error("Transfer Failed!", {
               autoClose: 1000,
             });
           }
           setInProcessing(false);
         });
-    } else setStatus("Update failed! Check your information.");
+    } else setStatus("Transfer failed! Check your information.");
   }
   return (
     <div style={{ display: "flex", width: "100%", height: "100%" }}>
@@ -108,7 +135,7 @@ function MyPin() {
             width: "100%",
             height: "100%",
             display: "flex",
-            alignItems: windowHeight <= 470 ? "flex-start" : "center",
+            alignItems: windowHeight <= 765 ? "flex-start" : "center",
           }}
         >
           <Container>
@@ -137,45 +164,71 @@ function MyPin() {
                     marginBottom: "0",
                   }}
                 >
-                  Update User Pin
+                  Transfer Money
                 </h1>
                 <div className="card-body">
                   <Form>
                     <CustomFormGroup
-                      // formGroupStyle={{ width: "100%", marginRight: 20 }}
                       funcEnter={handleSubmit}
-                      controlId="oldPin"
+                      controlId="senderAccount"
                       func={set}
-                      placeholder="Enter old Pin"
-                      label="Old Pin"
-                      value={userPin.oldPin}
-                      warning={oldPinIsFilled}
+                      placeholder="Enter Your Account"
+                      label="Your Account"
+                      value={userTransfer.senderAccount}
+                      warning={senderAccountIsFilled}
+                      readonly={inProcessing}
+                    />
+                    <CustomFormGroup
+                      type="number"
+                      funcEnter={handleSubmit}
+                      controlId="amount"
+                      func={set}
+                      placeholder="Enter Amount"
+                      label="Amount"
+                      value={userTransfer.amount}
+                      warning={amountIsFilled}
                       readonly={inProcessing}
                     />
                     <CustomFormGroup
                       funcEnter={handleSubmit}
-                      controlId="newPin"
+                      controlId="recipientAccount"
                       func={set}
-                      placeholder="Enter new Pin"
-                      label="New Pin"
-                      value={userPin.newPin}
-                      warning={newPinIsFilled}
+                      placeholder="Enter Recipient Account"
+                      label="Recipient Account"
+                      value={userTransfer.recipientAccount}
+                      warning={recipientAccountIsFilled}
                       readonly={inProcessing}
                     />
-
                     <CustomFormGroup
                       funcEnter={handleSubmit}
-                      controlId="password"
+                      controlId="recipientFullName"
                       func={set}
-                      placeholder="Enter your Password"
-                      label="Password"
-                      value={userPin.password}
-                      warning={passwordIsFilled}
+                      placeholder="Recipient Full Name"
+                      label="Recipient Full Name"
+                      value={fullName}
+                      readonly={true}
+                    />
+                    <CustomFormGroup
+                      funcEnter={handleSubmit}
+                      controlId="description"
+                      func={set}
+                      placeholder="Enter Description"
+                      label="Description"
+                      value={userTransfer.description}
                       readonly={inProcessing}
                     />
-
+                    <CustomFormGroup
+                      funcEnter={handleSubmit}
+                      controlId="pin"
+                      func={set}
+                      placeholder="Enter Pin"
+                      label="Pin"
+                      value={userTransfer.pin}
+                      warning={pinIsFilled}
+                      readonly={inProcessing}
+                    />
                     <div className="box-footer">
-                      <div style={{ textAlign: "center", margin: "20px 0px" }}>
+                      <div style={{ textAlign: "center", margin: "30px 0px" }}>
                         <Button
                           disabled={inProcessing}
                           onClick={() => handleSubmit()}
@@ -188,8 +241,7 @@ function MyPin() {
                           }}
                           title="Save"
                         >
-                          <AiFillSave size={30}></AiFillSave>
-                          <span>{"   "}Change Pin</span>
+                          <span>{"   "}Transfer</span>
                         </Button>
                       </div>
                       <p
@@ -214,4 +266,4 @@ function MyPin() {
   );
 }
 
-export default MyPin;
+export default Transfer;

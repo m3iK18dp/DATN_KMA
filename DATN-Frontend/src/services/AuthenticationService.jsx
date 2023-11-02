@@ -38,9 +38,9 @@ const authenticationService = {
       throw new Error(err);
     }
   },
-  register: async (user, navigate) => {
+  register: async (user, otp, navigate) => {
     try {
-      const res = await callApi(navigate, "auth", "post", user);
+      const res = await callApi(navigate, "auth", "post", user, { otp: otp });
       if (res.status === "ok") {
         localStorage.setItem("token", res.data[0]);
         sessionStorage.setItem("username", user.email);
@@ -76,7 +76,8 @@ const authenticationService = {
       navigate,
       "auth/submit_reset_password",
       "post",
-      username
+      null,
+      { username: username }
     );
   },
   changePasswordForForgerPassword: async (password, token, navigate) => {

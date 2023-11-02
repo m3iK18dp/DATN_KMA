@@ -21,8 +21,12 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
   useEffect(() => {
     if (params._account_number) {
       statisticService
-        .getStatistics({ _account_number: params._account_number }, navigate)
+        .getStatistics(params, navigate)
         .then((res) => setStatistics(res.data));
+    }
+  }, [navigate, params]);
+  useEffect(() => {
+    if (params._account_number) {
       statisticService
         .getStatisticBalance(
           { _account_number: params._account_number },
@@ -41,28 +45,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
     setData({
       labels: statistics.label,
       datasets: [
-        {
-          label: "Transfer",
-          fill: true,
-          lineTension: 0.2,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: "butt",
-          borderDash: [5, 1],
-          borderDashOffset: 0.0,
-          borderJoinStyle: "miter",
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 3,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 3,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: statistics.transfer,
-          hidden: false,
-        },
+
         {
           label: "Deposit",
           fill: true,
@@ -105,6 +88,28 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
           pointRadius: 1,
           pointHitRadius: 10,
           data: statistics.withdraw,
+          hidden: false,
+        },
+        {
+          label: "Transfer",
+          fill: true,
+          lineTension: 0.2,
+          backgroundColor: "rgba(75,192,192,0.4)",
+          borderColor: "rgba(75,192,192,1)",
+          borderCapStyle: "butt",
+          borderDash: [5, 1],
+          borderDashOffset: 0.0,
+          borderJoinStyle: "miter",
+          pointBorderColor: "rgba(75,192,192,1)",
+          pointBackgroundColor: "#fff",
+          pointBorderWidth: 3,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "rgba(75,192,192,1)",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointHoverBorderWidth: 3,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: statistics.transfer,
           hidden: false,
         },
         {
@@ -186,7 +191,23 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
       ),
     });
   }, [depositVisible, withdrawVisible, transferVisible, creditedVisible, data]);
+  const generateRandomColorArray = (length) => {
+    let arr = [];
+    for (let i = 0; i < length; i++) {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      const alpha = 0.4; // Có thể điều chỉnh độ trong suốt ở đây
 
+      arr.push(
+        // [
+        `rgba(${r}, ${g}, ${b}, ${alpha})`
+        //   `rgba(${r}, ${g}, ${b}, ${alpha})`,
+        // ]
+      );
+    }
+    return arr;
+  };
   return (
     <>
       <div className="col-start-2 col-end-4 p-4">
@@ -512,7 +533,75 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
           <div className="border rounded-md px-6 py-3 h-200 flex justify-around bg-gray-1000">
             <div style={{ width: "100%" }}>
               <div>
-                <Pie data={data} options={options} style={{ maxHeight: 350 }} />
+                <Pie data={{
+                  labels: ["Deposit", "Withdraw", "Transfer", "Credited"],
+                  datasets: [
+                    {
+                      // label: "Category Quantity Sold",
+                      // backgroundColor: "rgba(14, 159, 110,0.4)",
+                      backgroundColor: dataUse.datasets.map(dataset => dataset.backgroundColor),
+                      // ["rgba(14, 159, 110,0.4)"],
+                      borderColor: "rgba(14, 159, 110,1)",
+                      borderCapStyle: "butt",
+                      borderDash: [],
+                      borderDashOffset: 0.0,
+                      borderJoinStyle: "miter",
+                      pointBorderColor: "rgba(14, 159, 110,1)",
+                      pointBackgroundColor: "#fff",
+                      pointBorderWidth: 3,
+                      pointHoverRadius: 5,
+                      pointHoverBackgroundColor: "rgba(14, 159, 110,1)",
+                      pointHoverBorderColor: "rgba(220,220,220,1)",
+                      pointHoverBorderWidth: 3,
+                      pointRadius: 1,
+                      pointHitRadius: 10,
+                      data: statistics.total,
+                      // hidden: false,
+                    },
+                  ],
+                }}
+                  options={{
+                    scales: {
+                      x: {
+                        type: "category",
+                        labels: ["Deposit", "Withdraw", "Transfer", "Credited"],
+                        grid: {
+                          display: true,
+                        },
+                        display: false,
+                      },
+                      y: {
+                        grid: {
+                          display: true,
+                        },
+                      },
+                    },
+                    plugins: {
+                      legend: {
+                        display: true,
+                        position: "top",
+                        labels: {
+                          generateLabels: (chart) => {
+                            const labels = [];
+                            const datasets = chart.data;
+                            for (let i = 0; i < datasets.labels.length; i++) {
+                              if (datasets.labels[i]) {
+                                labels.push({
+                                  text: datasets.labels[i],
+                                  fillStyle:
+                                    datasets.datasets[0].backgroundColor[i],
+                                  strokeStyle:
+                                    datasets.datasets[0].borderColor[i],
+                                });
+                              }
+                            }
+                            return labels;
+                          },
+                        },
+                      },
+                    },
+                  }}
+                  style={{ maxHeight: 350 }} />
               </div>
             </div>
           </div>

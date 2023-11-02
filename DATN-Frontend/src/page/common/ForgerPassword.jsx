@@ -1,13 +1,13 @@
-import "../css/login.css";
-import authenticationService from "../services/AuthenticationService";
+import "../../css/login.css";
+import authenticationService from "../../services/AuthenticationService";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import NavbarComponent from "../components/NavbarComponent";
-import CustomFormGroup from "../components/CustomFormGroup";
-import CustomButton from "../components/CustomButton";
-import { checkToken } from "../services/CheckToken";
+import NavbarComponent from "../../components/NavbarComponent";
+import CustomFormGroup from "../../components/CustomFormGroup";
+import CustomButton from "../../components/CustomButton";
+import { checkToken } from "../../services/CheckToken";
 import { ToastContainer, toast } from "react-toastify";
 
 const ForgetPassword = () => {
@@ -93,9 +93,9 @@ const ForgetPassword = () => {
   const handleSubmit = () => {
     setIsFirst(false);
     if (checkForm) {
-      setStatus("Please wait...Login in progress");
+      setStatus("Please wait...Submit in progress");
       setInProcessing(true);
-      if (!token)
+      if (!token) {
         authenticationService
           .submitResetPassword(authLogin.username, navigate)
           .then((data) => {
@@ -115,8 +115,11 @@ const ForgetPassword = () => {
               });
             }
             setInProcessing(false);
+            setStatus("")
           });
-      else
+      }
+      else {
+        setStatus("Please wait...Change Password in progress");
         authenticationService
           .changePasswordForForgerPassword(authLogin.password, token, navigate)
           .then((data) => {
@@ -132,8 +135,10 @@ const ForgetPassword = () => {
                 autoClose: 1000,
               });
             }
+            setStatus("")
             setInProcessing(false);
           });
+      }
     } else {
       setStatus(
         !token

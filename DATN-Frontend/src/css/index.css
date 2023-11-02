@@ -154,3 +154,6 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #2fb6779f;
 }
+svg{
+  display: inline-block;
+}

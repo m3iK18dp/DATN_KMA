@@ -2,13 +2,13 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import CustomFormGroup from "../components/CustomFormGroup";
-import { checkToken } from "../services/CheckToken";
-import CustomToggle from "../components/CustomToggle";
-import transactionService from "../services/TransactionService";
+import CustomFormGroup from "../../components/CustomFormGroup";
+import { checkToken } from "../../services/CheckToken";
+import CustomToggle from "../../components/CustomToggle";
+import transactionService from "../../services/TransactionService";
 import { ToastContainer, toast } from "react-toastify";
-import PinComponent from "../components/PinComponent";
-import userService from "../services/UserService";
+import PinComponent from "../../components/PinComponent";
+import userService from "../../services/UserService";
 function Deposit() {
   const navigate = useNavigate();
   const [amountIsFilled, setAmountIsFilled] = useState("");

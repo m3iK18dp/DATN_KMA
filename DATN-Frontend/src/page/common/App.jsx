@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import NavbarComponent from "../components/NavbarComponent";
-import { checkToken } from "../services/CheckToken";
+import NavbarComponent from "../../components/NavbarComponent";
+import { checkToken } from "../../services/CheckToken";
 
 function App() {
   const navigate = useNavigate();

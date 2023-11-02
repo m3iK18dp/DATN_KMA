@@ -10,7 +10,7 @@ const otpService = {
       6: "UPDATE_INFO",
     };
     try {
-      return await callApi(navigate, `auth/authenticate`, "post", null, {
+      return await callApi(navigate, `otp`, "post", null, {
         email: email,
         type: otpType[type],
       });

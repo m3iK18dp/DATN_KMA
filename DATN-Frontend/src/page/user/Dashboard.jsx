@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "../css/dashboard.css";
+import "../../css/dashboard.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Container, Row, Col, Form, Table } from "react-bootstrap";
@@ -12,25 +12,25 @@ import {
   BsSearch,
 } from "react-icons/bs";
 import { MdOutlineSearchOff } from "react-icons/md";
-import PaginationComponent from "../components/PaginationComponent";
-import convertPathSearchUrl from "../services/ConvertPathSearchUrl";
-import CustomButton from "../components/CustomButton";
-import CustomTableHeaderWithSort from "../components/CustomTableHeaderWithSort";
-import { checkToken } from "../services/CheckToken";
-import CustomContextMenu from "../components/contextMenu/CustomContextMenu";
-import CustomToggle from "../components/CustomToggle";
-import transactionService from "../services/TransactionService";
-import TransactionType from "../components/TransactionType";
-import CustomSelectOptions from "../components/CustomSelectOptions";
-import accountService from "../services/AccountService";
-import userService from "../services/UserService";
-import PinComponent from "../components/PinComponent";
+import PaginationComponent from "../../components/PaginationComponent";
+import convertPathSearchUrl from "../../services/ConvertPathSearchUrl";
+import CustomButton from "../../components/CustomButton";
+import CustomTableHeaderWithSort from "../../components/CustomTableHeaderWithSort";
+import { checkToken } from "../../services/CheckToken";
+import CustomContextMenu from "../../components/contextMenu/CustomContextMenu";
+import CustomToggle from "../../components/CustomToggle";
+import transactionService from "../../services/TransactionService";
+import TransactionType from "../../components/TransactionType";
+import CustomSelectOptions from "../../components/CustomSelectOptions";
+import accountService from "../../services/AccountService";
+import userService from "../../services/UserService";
+import PinComponent from "../../components/PinComponent";
 import { ToastContainer } from "react-toastify";
-import CustomChart from "../components/charts/Chart";
+import CustomChart from "../../components/charts/Chart";
 import moment from "moment";
 import { LuBadgeDollarSign } from "react-icons/lu";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import formatter from "../utils/formatter";
+import formatter from "../../utils/formatter";
 function Dashboard() {
   const navigate = useNavigate();
   const prams = useParams();
@@ -85,59 +85,7 @@ function Dashboard() {
     _field: "transactionTime",
     _type_sort: "asc",
   });
-  useEffect(() => {
-    checkToken(navigate);
-    const searchParams = new URLSearchParams(location.search);
-    const currentParams = {};
-    [
-      { field: "keyword", default: "" },
-      { field: "transaction_type", default: "" },
-      {
-        field: "account_number",
-        default: "",
-      },
-      {
-        field: "transaction_time",
-        default: "",
-      },
-      {
-        field: "start_time",
-        default: "",
-      },
-      {
-        field: "end_time",
-        default: "",
-      },
-      {
-        field: "verify",
-        default: "",
-      },
-      { field: "page", default: 0 },
-      { field: "limit", default: 10 },
-      { field: "field", default: "transactionTime" },
-      { field: "type_sort", default: "desc" },
-    ].forEach((prop) => {
-      const value = searchParams.get(prop.field);
-      if (value != null) {
-        search[prop.field] =
-          prop.field === "page" ? parseInt(value) - 1 : value;
-        currentParams[`_${prop.field}`] =
-          prop.field === "page" ? parseInt(value) - 1 : value;
-      } else search[prop.field] = prop.default;
-    });
-    setParams(currentParams);
-    // if (params._account_number && params._account_number !== "")
-    // if (!isFirst)
-  }, [window.location.href]);
-  useEffect(() => {
-    if (search.account_number && selectOption)
-      transactionService.get(params, navigate).then((data) => {
-        if (search.account_number !== "") {
-          setTotalPages(data.data.totalPages);
-          setCurrentTransactions(data.data.content);
-        }
-      });
-  }, [params]);
+
   useEffect(() => {
     if (isFirst) {
       if (selectOption === null) {
@@ -183,8 +131,61 @@ function Dashboard() {
     selectOption,
   ]);
   useEffect(() => {
-    if (!isFirst) set("account_number", selectOption.accountNumber);
+    if (!isFirst) set("account_number", selectOption?.accountNumber);
   }, [selectOption]);
+  useEffect(() => {
+    checkToken(navigate);
+    const searchParams = new URLSearchParams(location.search);
+    const currentParams = {};
+    [
+      { field: "keyword", default: "" },
+      { field: "transaction_type", default: "" },
+      {
+        field: "account_number",
+        default: "",
+      },
+      {
+        field: "transaction_time",
+        default: "",
+      },
+      {
+        field: "start_time",
+        default: "",
+      },
+      {
+        field: "end_time",
+        default: "",
+      },
+      {
+        field: "verify",
+        default: "",
+      },
+      { field: "page", default: 0 },
+      { field: "limit", default: 10 },
+      { field: "field", default: "transactionTime" },
+      { field: "type_sort", default: "desc" },
+    ].forEach((prop) => {
+      const value = searchParams.get(prop.field);
+      if (value != null) {
+        search[prop.field] =
+          prop.field === "page" ? parseInt(value) - 1 : value;
+        currentParams[`_${prop.field}`] =
+          prop.field === "page" ? parseInt(value) - 1 : value;
+      } else search[prop.field] = prop.default;
+    });
+    setParams(currentParams);
+    // if (params._account_number && params._account_number !== "")
+    // if (!isFirst)
+  }, [window.location.href]);
+  useEffect(() => {
+    if (search.account_number !== "")
+      transactionService.get(params, navigate).then((data) => {
+        if (search.account_number !== "") {
+          setTotalPages(data.data.totalPages);
+          setCurrentTransactions(data.data.content);
+        }
+      });
+  }, [params]);
   const handleSearch = () => {
     const search = [];
     [
@@ -200,7 +201,7 @@ function Dashboard() {
         property: field,
         value:
           (["transaction_time"].includes(field) && filterTime !== "time") ||
-          (["start_time", "end_time"].includes(field) && filterTime === "time")
+            (["start_time", "end_time"].includes(field) && filterTime === "time")
             ? ""
             : get(field),
       });
@@ -211,15 +212,15 @@ function Dashboard() {
     const search = [];
     (searchField === "all"
       ? [
-          "keyword",
-          "transaction_type",
-          "transaction_time",
-          "start_time",
-          "end_time",
-          "verify",
-          "field",
-          "type_sort",
-        ]
+        "keyword",
+        "transaction_type",
+        "transaction_time",
+        "start_time",
+        "end_time",
+        "verify",
+        "field",
+        "type_sort",
+      ]
       : [searchField]
     ).forEach((field) => {
       set(
@@ -250,8 +251,8 @@ function Dashboard() {
             get("field") !== field
               ? "asc"
               : get("type_sort") === "asc"
-              ? "desc"
-              : "asc",
+                ? "desc"
+                : "asc",
         },
       ])
     );
@@ -303,8 +304,9 @@ function Dashboard() {
   const totalBalance = () => {
     let total = 0;
     accounts.forEach((a) => (total += a.balance));
-    return total;
+    return total || 1;
   };
+
   return (
     <div style={{ display: "flex", width: "100%", height: "100%" }}>
       <PinComponent
@@ -339,13 +341,12 @@ function Dashboard() {
             width: "100%",
             minWidth: 400,
           }}
-          className={`background-color-2 filter-container ${
-            expandFilter
-              ? isAdmin
-                ? "expanded-no-admin"
-                : "expanded-admin"
-              : ""
-          }`}
+          className={`background-color-2 filter-container ${expandFilter
+            ? isAdmin
+              ? "expanded-no-admin"
+              : "expanded-admin"
+            : ""
+            }`}
         >
           <Form
             style={{
@@ -415,7 +416,6 @@ function Dashboard() {
                         />
                       </div>
                       <div className="text-xl italic text-green-800">
-                        +
                         {(
                           (selectOption?.balance / totalBalance()) *
                           100
@@ -639,13 +639,12 @@ function Dashboard() {
           />
         </Container>
         <div
-          className={`filter-container ${
-            expandFilter
-              ? isAdmin
-                ? "expanded-no-admin"
-                : "expanded-admin"
-              : ""
-          }`}
+          className={`filter-container ${expandFilter
+            ? isAdmin
+              ? "expanded-no-admin"
+              : "expanded-admin"
+            : ""
+            }`}
         >
           <div
             style={{
@@ -676,13 +675,12 @@ function Dashboard() {
               marginLeft: "auto",
               width: "100%",
             }}
-            className={`filter-container ${
-              expandFilter
-                ? isAdmin
-                  ? "expanded-no-admin"
-                  : "expanded-admin"
-                : ""
-            }`}
+            className={`filter-container ${expandFilter
+              ? isAdmin
+                ? "expanded-no-admin"
+                : "expanded-admin"
+              : ""
+              }`}
           >
             <Table
               striped

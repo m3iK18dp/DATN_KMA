@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { Container, Col, Row, Button, Form } from "react-bootstrap";
-import userService from "../services/UserService";
+import userService from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { AiFillSave } from "react-icons/ai";
 import { MdCancel } from "react-icons/md";
 import { FaUserEdit, FaUserLock } from "react-icons/fa";
-import CustomButton from "../components/CustomButton";
-import LastUpdateTimeComponent from "../components/LastUpdateTimeComponent";
-import CustomFormGroup from "../components/CustomFormGroup";
-import { checkToken } from "../services/CheckToken";
-import CustomToggle from "../components/CustomToggle";
+import CustomButton from "../../components/CustomButton";
+import LastUpdateTimeComponent from "../../components/LastUpdateTimeComponent";
+import CustomFormGroup from "../../components/CustomFormGroup";
+import { checkToken } from "../../services/CheckToken";
+import CustomToggle from "../../components/CustomToggle";
 import { ToastContainer, toast } from "react-toastify";
-import PinComponent from "../components/PinComponent";
+import PinComponent from "../../components/PinComponent";
 function MyAccount() {
   const navigate = useNavigate();
 

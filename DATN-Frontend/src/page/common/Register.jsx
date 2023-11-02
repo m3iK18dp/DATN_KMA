@@ -1,15 +1,16 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Col } from "react-bootstrap";
-import "../css/login.css";
+import "../../css/login.css";
 import { useState, useEffect } from "react";
-import authenticationService from "../services/AuthenticationService";
+import authenticationService from "../../services/AuthenticationService";
 import { Link, useNavigate } from "react-router-dom";
-import NavbarComponent from "../components/NavbarComponent";
-import CustomFormGroup from "../components/CustomFormGroup";
-import CustomButton from "../components/CustomButton";
-import { checkToken } from "../services/CheckToken";
+import NavbarComponent from "../../components/NavbarComponent";
+import CustomFormGroup from "../../components/CustomFormGroup";
+import CustomButton from "../../components/CustomButton";
+import { checkToken } from "../../services/CheckToken";
 import { toast } from "react-toastify";
+import otpService from "../../services/OTPService";
 function Register() {
   const navigate = useNavigate();
   useEffect(() => {
@@ -26,7 +27,10 @@ function Register() {
     confirmPassword: "",
   });
   const set = (prop, value) => {
-    setUser({ ...user, [prop]: value });
+    if (prop === "otp")
+      setOtp(value);
+    else
+      setUser({ ...user, [prop]: value });
   };
   const [firstNameIsFilled, setFirstNameIsFilled] = useState("");
   const [lastNameIsFilled, setLastNameIsFilled] = useState("");
@@ -35,11 +39,12 @@ function Register() {
   const [phoneNumberIsFilled, setPhoneNumberIsFilled] = useState("");
   const [passwordIsFilled, setPasswordIsFilled] = useState("");
   const [confirmPasswordIsFilled, setConfirmPasswordIsFilled] = useState("");
+  const [otpIsFilled, setOtpIsFilled] = useState("");
   const [status, setStatus] = useState("");
   const [isFirst, setIsFirst] = useState(true);
   const [checkForm, setCheckForm] = useState(true);
   const [inProcessing, setInProcessing] = useState(false);
-
+  const [otp, setOtp] = useState("");
   const validateInput = (field, maxLength, message = "") => {
     if (field.length === 0) {
       setCheckForm(false);
@@ -69,6 +74,7 @@ function Register() {
     setPasswordIsFilled(
       validateInput(user.password, 20, "Please enter password")
     );
+    setOtpIsFilled(validateInput(otp, Infinity, "Please enter OTP"))
     if (user.password !== "") {
       if (user.password.length < 8 || user.password.length > 20) {
         setCheckForm(false);
@@ -109,13 +115,13 @@ function Register() {
     if (checkForm) {
       setStatus("Please wait...Saving is in progress");
       setInProcessing(true);
-      authenticationService.register(user, navigate).then((res) => {
+      authenticationService.register(user, otp, navigate).then((res) => {
         if (res.status === "ok") {
           setStatus("");
           toast.success("Registration successful!", {
             autoClose: 1000,
           });
-          navigate("/u/dashboard");
+          navigate("/login");
         } else {
           setEmailIsFilled(res.message);
           setStatus("Registration failed.");
@@ -126,6 +132,14 @@ function Register() {
       setStatus("Failed. Please check information entered.");
     }
   }
+  const [countTime, setCountTime] = useState(-1)
+  useEffect(() => {
+    setTimeout(() => {
+      if (countTime > 0 && countTime <= 60)
+        setCountTime(countTime - 1);
+    }, 1000)
+    console.log(countTime)
+  }, [countTime])
   return (
     <div>
       <NavbarComponent disabled={inProcessing} />
@@ -248,7 +262,42 @@ function Register() {
                   readonly={inProcessing}
                 />
               </Col>
+              <CustomFormGroup
+                type="text"
+                funcEnter={handleSubmit}
+                controlId="formOtp"
+                prop="otp"
+                func={set}
+                placeholder={"Enter OTP"}
+                label={"OTP"}
+                value={otp}
+                warning={otpIsFilled}
+                readonly={inProcessing}
+              />
+              <div className="text-right">
+                <div className={`text-sm italic underline transition-color duration-300 hover:text-gray-600 ${countTime > 0 || user.email === "" ? "hover:cursor-not-allowed text-gray-500" : "hover:cursor-pointer"}`}
+                  onClick={() => {
+                    if (countTime <= 0 && user.email !== "") {
+                      setCountTime(70);
+                      otpService.createOTP(user.email, 2, navigate)
+                        .then(
+                          res => {
+                            if (res.status === "ok") {
+                              toast.success((countTime === -1 ? "Send" : "Resend") + " OTP Success", { autoClose: 1000 });
+                              setCountTime(60);
+                            } else {
+                              toast.error((countTime === -1 ? "Send" : "Resend") + " OTP Failed. Try again!", { autoClose: 1000 });
+                              setCountTime(0);
+                            };
+                          }
+                        );
+                    }
+                  }}
+                >
+                  {countTime === -1 ? "Get OTP" : countTime === 0 ? "Resend OTP" : countTime <= 60 ? `Resend (${countTime}s)` : "Waiting Send OTP"}
+                </div>
 
+              </div>
               <CustomButton
                 className="text-center "
                 style={{

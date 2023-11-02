@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "../css/users.css";
+import "../../css/users.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Container, Row, Col, Form, Table } from "react-bootstrap";
@@ -12,16 +12,16 @@ import {
 } from "react-icons/bs";
 import { RiUserSearchLine } from "react-icons/ri";
 import { MdCancel, MdOutlineSearchOff } from "react-icons/md";
-import PaginationComponent from "../components/PaginationComponent";
-import NavbarComponent from "../components/NavbarComponent";
-import userService from "../services/UserService";
-import convertPathSearchUrl from "../services/ConvertPathSearchUrl";
-import CustomInput from "../components/CustomInput";
-import CustomButton from "../components/CustomButton";
-import CustomTableHeaderWithSort from "../components/CustomTableHeaderWithSort";
-import { checkToken } from "../services/CheckToken";
-import MySelect from "../components/MySelect";
-import CustomContextMenuUser from "../components/contextMenu/CustomContextMenuUsers";
+import PaginationComponent from "../../components/PaginationComponent";
+import NavbarComponent from "../../components/NavbarComponent";
+import userService from "../../services/UserService";
+import convertPathSearchUrl from "../../services/ConvertPathSearchUrl";
+import CustomInput from "../../components/CustomInput";
+import CustomButton from "../../components/CustomButton";
+import CustomTableHeaderWithSort from "../../components/CustomTableHeaderWithSort";
+import { checkToken } from "../../services/CheckToken";
+import MySelect from "../../components/MySelect";
+import CustomContextMenuUser from "../../components/contextMenu/CustomContextMenuUsers";
 import { toast } from "react-toastify";
 
 function Users() {
@@ -76,8 +76,8 @@ function Users() {
             prop === "page"
               ? parseInt(value) - 1
               : prop === "role_ids"
-              ? value.split(",").map(Number)
-              : value;
+                ? value.split(",").map(Number)
+                : value;
       }
       params[`_${prop}`] =
         prop === "id" ? (get(prop) > 0 ? get(prop) : -1) : get(prop);
@@ -168,8 +168,8 @@ function Users() {
             get("field") !== field
               ? "asc"
               : get("type_sort") === "asc"
-              ? "desc"
-              : "asc",
+                ? "desc"
+                : "asc",
         },
       ])
     );
@@ -232,9 +232,8 @@ function Users() {
           backgroundColor: "#f8f9fa",
           minWidth: 450,
         }}
-        className={`background-color filter-container ${
-          expandFilter ? "expanded-no-admin" : ""
-        }`}
+        className={`background-color filter-container ${expandFilter ? "expanded-no-admin" : ""
+          }`}
       >
         <Form
           style={{
@@ -293,8 +292,8 @@ function Users() {
                       status === "1"
                         ? "Enabled"
                         : status === "0"
-                        ? "Disabled"
-                        : "None"
+                          ? "Disabled"
+                          : "None"
                     }
                     name="status"
                     value={status}
@@ -363,9 +362,8 @@ function Users() {
           marginTop: 250,
           overflowX: "auto",
         }}
-        className={`filter-container ${
-          expandFilter ? "expanded-no-admin" : ""
-        }`}
+        className={`filter-container ${expandFilter ? "expanded-no-admin" : ""
+          }`}
       >
         <Table style={{}} striped bordered>
           <thead className="table-dark">

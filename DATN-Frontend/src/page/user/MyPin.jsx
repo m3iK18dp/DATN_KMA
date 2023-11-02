@@ -1,28 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { Container, Row, Button, Form } from "react-bootstrap";
+import userService from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
-import CustomFormGroup from "../components/CustomFormGroup";
-import { checkToken } from "../services/CheckToken";
-import CustomToggle from "../components/CustomToggle";
-import transactionService from "../services/TransactionService";
+import { AiFillSave } from "react-icons/ai";
+import CustomFormGroup from "../../components/CustomFormGroup";
+import { checkToken } from "../../services/CheckToken";
+import CustomToggle from "../../components/CustomToggle";
 import { ToastContainer, toast } from "react-toastify";
-import PinComponent from "../components/PinComponent";
-import userService from "../services/UserService";
-function Withdraw() {
+import PinComponent from "../../components/PinComponent";
+function MyPin() {
   const navigate = useNavigate();
-  const [amountIsFilled, setAmountIsFilled] = useState("");
-  const [pinIsFilled, setPinIsFilled] = useState("");
+  const [oldPinIsFilled, setOldPinIsFilled] = useState("");
+  const [newPinIsFilled, setNewPinIsFilled] = useState("");
+  const [passwordIsFilled, setPasswordIsFilled] = useState("");
   const [status, setStatus] = useState("");
-  const [userWithdraw, setUserWithdraw] = useState({
-    account: "",
-    amount: "",
-    pin: "",
+  const [userPin, setUserPin] = useState({
+    password: "",
+    oldPin: "",
+    newPin: "",
   });
 
   const [isFirst, setIsFirst] = useState(true);
   const [checkForm, setCheckForm] = useState(true);
   const [inProcessing, setInProcessing] = useState(false);
+  // const [passwordLogoutAll, setPasswordLogoutAll] = useState("");
+  // const [showLogoutAll, setShowLogoutAll] = useState(false);
+  // const [passwordInLogoutIsFull, setPasswordInLogoutIsFull] = useState(false);
   const [checkPin, setCheckPin] = useState(true);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
@@ -55,43 +59,39 @@ function Withdraw() {
       }
       return "";
     };
-    setAmountIsFilled(
-      validateInput(userWithdraw.amount, Infinity, `Please enter Amount`)
+    setPasswordIsFilled(
+      validateInput(userPin.password, Infinity, `Please enter Password`)
     );
-    setPinIsFilled(validateInput(userWithdraw.pin, 6, `Please enter Pin`));
-  }, [userWithdraw, isFirst]);
+    setOldPinIsFilled(validateInput(userPin.oldPin, 6, `Please enter old Pin`));
+    setNewPinIsFilled(validateInput(userPin.newPin, 6, "Please new Pin"));
+  }, [userPin, isFirst]);
   useEffect(() => {
     setStatus("");
-  }, [userWithdraw]);
+  }, [userPin]);
 
   const set = (prop, value) => {
-    setUserWithdraw({ ...userWithdraw, [prop]: value });
+    setUserPin({ ...userPin, [prop]: value });
   };
   function handleSubmit() {
     setIsFirst(false);
     if (checkForm) {
       setInProcessing(true);
-      transactionService
-        .withdraw(
-          userWithdraw.account,
-          userWithdraw.pin,
-          userWithdraw.amount,
-          navigate
-        )
+      userService
+        .updatePin(userPin.password, userPin.oldPin, userPin.newPin, navigate)
         .then((res) => {
           if (res.status === "ok") {
-            toast.success("Withdraw money successful", {
+            toast.success("Update User successful", {
               autoClose: 1000,
             });
           } else {
             setStatus("");
-            toast.error("Withdraw money failed!", {
+            toast.error("Update User failed!", {
               autoClose: 1000,
             });
           }
           setInProcessing(false);
         });
-    } else setStatus("Withdraw money failed! Check your information.");
+    } else setStatus("Update failed! Check your information.");
   }
   return (
     <div style={{ display: "flex", width: "100%", height: "100%" }}>
@@ -108,7 +108,7 @@ function Withdraw() {
             width: "100%",
             height: "100%",
             display: "flex",
-            alignItems: windowHeight <= 480 ? "flex-start" : "center",
+            alignItems: windowHeight <= 470 ? "flex-start" : "center",
           }}
         >
           <Container>
@@ -137,45 +137,45 @@ function Withdraw() {
                     marginBottom: "0",
                   }}
                 >
-                  Withdraw Money
+                  Update User Pin
                 </h1>
                 <div className="card-body">
                   <Form>
                     <CustomFormGroup
                       // formGroupStyle={{ width: "100%", marginRight: 20 }}
                       funcEnter={handleSubmit}
-                      controlId="account"
+                      controlId="oldPin"
                       func={set}
-                      placeholder="Enter Account"
-                      label="Account"
-                      value={userWithdraw.account}
-                      warning={amountIsFilled}
-                      readonly={inProcessing}
-                    />
-                    <CustomFormGroup
-                      // formGroupStyle={{ width: "100%", marginRight: 20 }}
-                      type="number"
-                      funcEnter={handleSubmit}
-                      controlId="amount"
-                      func={set}
-                      placeholder="Enter Amount"
-                      label="Amount"
-                      value={userWithdraw.amount}
-                      warning={amountIsFilled}
+                      placeholder="Enter old Pin"
+                      label="Old Pin"
+                      value={userPin.oldPin}
+                      warning={oldPinIsFilled}
                       readonly={inProcessing}
                     />
                     <CustomFormGroup
                       funcEnter={handleSubmit}
-                      controlId="pin"
+                      controlId="newPin"
                       func={set}
-                      placeholder="Enter Pin"
-                      label="Pin"
-                      value={userWithdraw.pin}
-                      warning={pinIsFilled}
+                      placeholder="Enter new Pin"
+                      label="New Pin"
+                      value={userPin.newPin}
+                      warning={newPinIsFilled}
                       readonly={inProcessing}
                     />
+
+                    <CustomFormGroup
+                      funcEnter={handleSubmit}
+                      controlId="password"
+                      func={set}
+                      placeholder="Enter your Password"
+                      label="Password"
+                      value={userPin.password}
+                      warning={passwordIsFilled}
+                      readonly={inProcessing}
+                    />
+
                     <div className="box-footer">
-                      <div style={{ textAlign: "center", margin: "30px 0px" }}>
+                      <div style={{ textAlign: "center", margin: "20px 0px" }}>
                         <Button
                           disabled={inProcessing}
                           onClick={() => handleSubmit()}
@@ -188,7 +188,8 @@ function Withdraw() {
                           }}
                           title="Save"
                         >
-                          <span>{"   "}Withdraw</span>
+                          <AiFillSave size={30}></AiFillSave>
+                          <span>{"   "}Change Pin</span>
                         </Button>
                       </div>
                       <p
@@ -213,4 +214,4 @@ function Withdraw() {
   );
 }
 
-export default Withdraw;
+export default MyPin;

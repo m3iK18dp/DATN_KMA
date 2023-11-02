@@ -1,20 +1,21 @@
 import { ToastContainer } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
-import App from "./page/App";
-import Login from "./page/Login";
-import Register from "./page/Register";
-import MyAccount from "./page/MyAccount";
-import Users from "./page/Users";
-import ErrorPage from "./page/ErrorPage";
-import UploadUser from "./page/UploadUser";
-import MyPin from "./page/MyPin";
-import Deposit from "./page/Deposit";
-import Withdraw from "./page/Withdraw";
-import Transfer from "./page/Transfer";
-import Dashboard from "./page/Dashboard";
-import ForgetPassword from "./page/ForgerPassword";
+import App from "./page/common/App";
+import Login from "./page/common/Login";
+import ForgetPassword from "./page/common/ForgerPassword";
+import Register from "./page/common/Register";
+import MyAccount from "./page/user/MyAccount";
+import Users from "./page/admin/Users";
+import ErrorPage from "./page/common/ErrorPage";
+import UploadUser from "./page/admin/UploadUser";
+import MyPin from "./page/user/MyPin";
+import Deposit from "./page/user/Deposit";
+import Withdraw from "./page/user/Withdraw";
+import Transfer from "./page/user/Transfer";
+import Dashboard from "./page/user/Dashboard";
 import { useEffect, useState } from "react";
 import ScrollToTopButton from "./components/ScrollToTopButton";
+
 function RouteApp() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   //   useEffect(() => {}, []);
@@ -36,7 +37,7 @@ function RouteApp() {
               </Routes> //   </LayoutManager>
             ) : (
               <Routes>
-                <ErrorPage code={403}></ErrorPage>
+                <Route path="*" element={<ErrorPage code={403} />} />
               </Routes>
             )
           }
@@ -49,17 +50,21 @@ function RouteApp() {
               //     currentUser={currentUser}
               //     setCurrentUser={setCurrentUser}
               //   >
-              <Routes>
-                <Route path="profile" element={<MyAccount />} />
-                <Route path="pin" element={<MyPin />} />
-                <Route path="deposit" element={<Deposit />} />
-                <Route path="withdraw" element={<Withdraw />} />
-                <Route path="transfer" element={<Transfer />} />
-                <Route path="dashboard" element={<Dashboard />} />
-              </Routes> //   </LayoutManager>
+              <>
+                <Routes>
+                  <Route path="profile" element={<MyAccount />} />
+                  <Route path="pin" element={<MyPin />} />
+                  <Route path="deposit" element={<Deposit />} />
+                  <Route path="withdraw" element={<Withdraw />} />
+                  <Route path="transfer" element={<Transfer />} />
+                  <Route path="dashboard" element={<Dashboard />} />
+                </Routes>
+                <ScrollToTopButton />
+              </>
+              //   </LayoutManager>
             ) : (
               <Routes>
-                <ErrorPage code={403}></ErrorPage>
+                <Route path="*" element={<ErrorPage code={403} />} />
               </Routes>
             )
           }
@@ -67,18 +72,20 @@ function RouteApp() {
         <Route
           path="/*"
           element={
-            <Routes>
-              <Route path="" element={<App />} />
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-              <Route path="forget-password" element={<ForgetPassword />} />
-              <Route path="error/:code" element={<ErrorPage />} />
-              <Route path="*" element={<ErrorPage code={404} />} />
-            </Routes>
+            <>
+              <Routes>
+                <Route path="" element={<App />} />
+                <Route path="login" element={<Login setToken={setToken} />} />
+                <Route path="register" element={<Register />} />
+                <Route path="forget-password" element={<ForgetPassword />} />
+                <Route path="error/:code" element={<ErrorPage />} />
+                <Route path="*" element={<ErrorPage code={404} />} />
+              </Routes>
+              <ScrollToTopButton />
+            </>
           }
         />
       </Routes>
-      <ScrollToTopButton />
     </>
   );
 }

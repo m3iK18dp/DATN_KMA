@@ -2,28 +2,24 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import CustomFormGroup from "../components/CustomFormGroup";
-import { checkToken } from "../services/CheckToken";
-import CustomToggle from "../components/CustomToggle";
-import transactionService from "../services/TransactionService";
-import userService from "../services/UserService";
+import CustomFormGroup from "../../components/CustomFormGroup";
+import { checkToken } from "../../services/CheckToken";
+import CustomToggle from "../../components/CustomToggle";
+import transactionService from "../../services/TransactionService";
 import { ToastContainer, toast } from "react-toastify";
-import PinComponent from "../components/PinComponent";
-function Transfer() {
+import PinComponent from "../../components/PinComponent";
+import userService from "../../services/UserService";
+function Withdraw() {
   const navigate = useNavigate();
-  const [senderAccountIsFilled, setSenderAccountIsFilled] = useState("");
-  const [recipientAccountIsFilled, setRecipientAccountIsFilled] = useState("");
   const [amountIsFilled, setAmountIsFilled] = useState("");
   const [pinIsFilled, setPinIsFilled] = useState("");
   const [status, setStatus] = useState("");
-  const [userTransfer, setUserTransfer] = useState({
-    senderAccount: "",
+  const [userWithdraw, setUserWithdraw] = useState({
+    account: "",
     amount: "",
-    recipientAccount: "",
-    description: "",
     pin: "",
   });
-  const [fullName, setFullName] = useState("");
+
   const [isFirst, setIsFirst] = useState(true);
   const [checkForm, setCheckForm] = useState(true);
   const [inProcessing, setInProcessing] = useState(false);
@@ -59,66 +55,43 @@ function Transfer() {
       }
       return "";
     };
-    setSenderAccountIsFilled(
-      validateInput(
-        userTransfer.senderAccount,
-        8,
-        `Please enter Sender Account Number`
-      )
-    );
-    setRecipientAccountIsFilled(
-      validateInput(
-        userTransfer.recipientAccount,
-        8,
-        `Please enter Recipient Account Number`
-      )
-    );
     setAmountIsFilled(
-      validateInput(userTransfer.amount, Infinity, `Please enter Amount`)
+      validateInput(userWithdraw.amount, Infinity, `Please enter Amount`)
     );
-    setPinIsFilled(validateInput(userTransfer.pin, 6, `Please enter Pin`));
-  }, [userTransfer, isFirst]);
+    setPinIsFilled(validateInput(userWithdraw.pin, 6, `Please enter Pin`));
+  }, [userWithdraw, isFirst]);
   useEffect(() => {
     setStatus("");
-  }, [userTransfer]);
-  useEffect(() => {
-    userService
-      .getUserFullNameByAccountNumber(userTransfer.recipientAccount)
-      .then((response) => {
-        if (response.status === "ok") setFullName(response.data);
-        else setFullName("");
-      });
-  }, [userTransfer.recipientAccount]);
+  }, [userWithdraw]);
+
   const set = (prop, value) => {
-    setUserTransfer({ ...userTransfer, [prop]: value });
+    setUserWithdraw({ ...userWithdraw, [prop]: value });
   };
   function handleSubmit() {
     setIsFirst(false);
     if (checkForm) {
       setInProcessing(true);
       transactionService
-        .transfer(
-          userTransfer.senderAccount,
-          userTransfer.recipientAccount,
-          userTransfer.pin,
-          userTransfer.amount,
-          userTransfer.description,
+        .withdraw(
+          userWithdraw.account,
+          userWithdraw.pin,
+          userWithdraw.amount,
           navigate
         )
         .then((res) => {
           if (res.status === "ok") {
-            toast.success("Transfer successful", {
+            toast.success("Withdraw money successful", {
               autoClose: 1000,
             });
           } else {
             setStatus("");
-            toast.error("Transfer Failed!", {
+            toast.error("Withdraw money failed!", {
               autoClose: 1000,
             });
           }
           setInProcessing(false);
         });
-    } else setStatus("Transfer failed! Check your information.");
+    } else setStatus("Withdraw money failed! Check your information.");
   }
   return (
     <div style={{ display: "flex", width: "100%", height: "100%" }}>
@@ -135,7 +108,7 @@ function Transfer() {
             width: "100%",
             height: "100%",
             display: "flex",
-            alignItems: windowHeight <= 765 ? "flex-start" : "center",
+            alignItems: windowHeight <= 480 ? "flex-start" : "center",
           }}
         >
           <Container>
@@ -164,57 +137,31 @@ function Transfer() {
                     marginBottom: "0",
                   }}
                 >
-                  Transfer Money
+                  Withdraw Money
                 </h1>
                 <div className="card-body">
                   <Form>
                     <CustomFormGroup
+                      // formGroupStyle={{ width: "100%", marginRight: 20 }}
                       funcEnter={handleSubmit}
-                      controlId="senderAccount"
+                      controlId="account"
                       func={set}
-                      placeholder="Enter Your Account"
-                      label="Your Account"
-                      value={userTransfer.senderAccount}
-                      warning={senderAccountIsFilled}
+                      placeholder="Enter Account"
+                      label="Account"
+                      value={userWithdraw.account}
+                      warning={amountIsFilled}
                       readonly={inProcessing}
                     />
                     <CustomFormGroup
+                      // formGroupStyle={{ width: "100%", marginRight: 20 }}
                       type="number"
                       funcEnter={handleSubmit}
                       controlId="amount"
                       func={set}
                       placeholder="Enter Amount"
                       label="Amount"
-                      value={userTransfer.amount}
+                      value={userWithdraw.amount}
                       warning={amountIsFilled}
-                      readonly={inProcessing}
-                    />
-                    <CustomFormGroup
-                      funcEnter={handleSubmit}
-                      controlId="recipientAccount"
-                      func={set}
-                      placeholder="Enter Recipient Account"
-                      label="Recipient Account"
-                      value={userTransfer.recipientAccount}
-                      warning={recipientAccountIsFilled}
-                      readonly={inProcessing}
-                    />
-                    <CustomFormGroup
-                      funcEnter={handleSubmit}
-                      controlId="recipientFullName"
-                      func={set}
-                      placeholder="Recipient Full Name"
-                      label="Recipient Full Name"
-                      value={fullName}
-                      readonly={true}
-                    />
-                    <CustomFormGroup
-                      funcEnter={handleSubmit}
-                      controlId="description"
-                      func={set}
-                      placeholder="Enter Description"
-                      label="Description"
-                      value={userTransfer.description}
                       readonly={inProcessing}
                     />
                     <CustomFormGroup
@@ -223,7 +170,7 @@ function Transfer() {
                       func={set}
                       placeholder="Enter Pin"
                       label="Pin"
-                      value={userTransfer.pin}
+                      value={userWithdraw.pin}
                       warning={pinIsFilled}
                       readonly={inProcessing}
                     />
@@ -241,7 +188,7 @@ function Transfer() {
                           }}
                           title="Save"
                         >
-                          <span>{"   "}Transfer</span>
+                          <span>{"   "}Withdraw</span>
                         </Button>
                       </div>
                       <p
@@ -266,4 +213,4 @@ function Transfer() {
   );
 }
 
-export default Transfer;
+export default Withdraw;

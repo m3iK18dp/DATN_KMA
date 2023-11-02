@@ -1,16 +1,17 @@
-import "../css/login.css";
-import authenticationService from "../services/AuthenticationService";
+import "../../css/login.css";
+import authenticationService from "../../services/AuthenticationService";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import NavbarComponent from "../components/NavbarComponent";
-import CustomFormGroup from "../components/CustomFormGroup";
-import CustomButton from "../components/CustomButton";
-import { checkToken } from "../services/CheckToken";
+import NavbarComponent from "../../components/NavbarComponent";
+import CustomFormGroup from "../../components/CustomFormGroup";
+import CustomButton from "../../components/CustomButton";
+import { checkToken } from "../../services/CheckToken";
 import { ToastContainer, toast } from "react-toastify";
+import otpService from "../../services/OTPService";
 
-const Login = () => {
+function Login({ setToken }) {
   const navigate = useNavigate();
   useEffect(() => {
     checkToken(navigate, 0);
@@ -28,12 +29,13 @@ const Login = () => {
   const [passwordIsFilled, setPasswordIsFilled] = useState("");
   const [status, setStatus] = useState("");
   const [inProcessing, setInProcessing] = useState(false);
+  const [typeLogin, setTypeLogin] = useState(0)
   useEffect(() => {
     setUsernameIsFilled(
       authLogin.username === "" && !isFirst ? "Please enter username" : ""
     );
     setPasswordIsFilled(
-      authLogin.password === "" && !isFirst ? "Please enter Password" : ""
+      authLogin.password === "" && !isFirst ? `Please enter ${typeLogin === "0" ? "Password" : "OTP"}` : ""
     );
   }, [authLogin, isFirst, status]);
   useEffect(() => {
@@ -44,25 +46,34 @@ const Login = () => {
     if (!(authLogin.username === "" || authLogin.password === "")) {
       setStatus("Please wait...Login in progress");
       setInProcessing(true);
-      authenticationService.login(authLogin, navigate).then((data) => {
+      (typeLogin === 0 ? authenticationService.login(authLogin, navigate) : authenticationService.loginByOTP(authLogin, navigate)).then((data) => {
         if (data.status === "ok") {
           localStorage.setItem("token", data.data[0]);
           toast.success("Login successful!", {
             autoClose: 1000,
           });
+          setToken(data.data[0])
           navigate("/u/dashboard");
         } else {
           toast.error("Login failed. " + data.message, {
             autoClose: 1000,
           });
         }
+        setStatus("")
         setInProcessing(false);
       });
     } else {
       setStatus("Please enter username and password.");
     }
   };
-
+  const [countTime, setCountTime] = useState(-1)
+  useEffect(() => {
+    setTimeout(() => {
+      if (countTime > 0 && countTime <= 60)
+        setCountTime(countTime - 1);
+    }, 1000)
+    console.log(countTime)
+  }, [countTime])
   return (
     <div>
       <NavbarComponent disabled={inProcessing} />
@@ -70,17 +81,17 @@ const Login = () => {
       <div className=" background-container-opacity-low" />
       <ToastContainer />
       <div
-        // fluid="true"
+        fluid="true"
         style={{
-          with: "70%",
-          minWidth: 300,
-          maxWidth: 400,
+          with: "80%",
+          minWidth: 350,
+          maxWidth: 450,
           paddingTop: 150,
           margin: "0px auto",
         }}
       >
         <Col
-          className="card "
+          className="card"
           style={{
             border: "3px solid purple",
             backgroundColor: "rgba(255,255,255,0.2)",
@@ -96,15 +107,7 @@ const Login = () => {
           >
             Login
           </h1>
-          <div
-            className="card-body"
-            style={{
-              with: "80%",
-              minWidth: 400,
-              maxWidth: 550,
-              padding: "10px 50px",
-            }}
-          >
+          <div className="card-body py-10 px-10">
             <Form className="card-body">
               <CustomFormGroup
                 funcEnter={handleSubmit}
@@ -117,20 +120,56 @@ const Login = () => {
                 warning={usernameIsFilled}
                 readonly={inProcessing}
               />
+
               <CustomFormGroup
                 type="password"
                 funcEnter={handleSubmit}
                 controlId="formBasicPassword"
                 prop="password"
                 func={set}
-                placeholder="Enter password"
-                label="Password"
+                placeholder={typeLogin === 0 ? "Enter password" : "Enter OTP"}
+                label={typeLogin === 0 ? "Password" : "OTP"}
                 value={authLogin.password}
                 warning={passwordIsFilled}
                 readonly={inProcessing}
               />
+              <div className="flex">
+
+                <div className="text-sm italic underline transition-color duration-300 hover:text-gray-600 hover:cursor-pointer" onClick={() => {
+                  set("password", "");
+                  setTypeLogin(typeLogin === 0 ? 1 : 0);
+                }}>
+                  {typeLogin === 0 ? "Login with OTP" : "Login with Password"}
+                </div>
+                {
+                  typeLogin === 1 &&
+                  <div className={`text-sm italic underline transition-color duration-300 hover:text-gray-600 ${countTime > 0 || authLogin.username === "" ? "hover:cursor-not-allowed text-gray-500" : "hover:cursor-pointer"}`}
+                    onClick={() => {
+                      if (countTime <= 0 && authLogin.username !== "") {
+                        setCountTime(70);
+                        otpService.createOTP(authLogin.username, 1, navigate)
+                          .then(
+                            res => {
+                              if (res.status === "ok") {
+                                toast.success((countTime === -1 ? "Send" : "Resend") + " OTP Success", { autoClose: 1000 });
+                                setCountTime(60);
+                              } else {
+                                toast.error((countTime === -1 ? "Send" : "Resend") + " OTP Failed. Try again!", { autoClose: 1000 });
+                                setCountTime(0);
+                              };
+                            }
+                          );
+                      }
+                    }}
+                  >
+                    {countTime === -1 ? "Get OTP" : countTime === 0 ? "Resend OTP" : countTime <= 60 ? `Resend (${countTime}s)` : "Waiting Send OTP"}
+                  </div>
+                }
+              </div>
+
               <CustomButton
-                className="text-center "
+                // className="text-center "
+                className="w-100 h-45 m-25 auto text-center bg-opacity-40 rounded-15 border border-white flex items-center justify-center"
                 style={{
                   width: 100,
                   height: 45,
