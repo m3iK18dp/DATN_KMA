@@ -10,6 +10,8 @@ import userService from "../../services/UserService";
 import { ToastContainer, toast } from "react-toastify";
 import PinComponent from "../../components/PinComponent";
 import OTPComponent from "../../components/OTPComponent";
+import CustomSelectOptions from "../../components/CustomSelectOptions";
+import accountService from "../../services/AccountService";
 function Transfer() {
   const navigate = useNavigate();
   const [senderAccountIsFilled, setSenderAccountIsFilled] = useState("");
@@ -32,7 +34,15 @@ function Transfer() {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [showOTP, setShowOTP] = useState(false);
+  const [accounts, setAccounts] = useState([])
+  const [selectOption, setSelectOption] = useState(null);
   useEffect(() => {
+    if (accounts.length === 0)
+      accountService.get({}, navigate).then((response) => {
+        setAccounts(response.data.content);
+        if (response.data.content?.length > 0)
+          setSelectOption(response.data.content[0]);
+      });
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
     };
@@ -41,6 +51,10 @@ function Transfer() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  useEffect(() => {
+    if (selectOption?.accountNumber)
+      set("account", selectOption.accountNumber)
+  }, [selectOption])
   useEffect(() => {
     checkToken(navigate);
     userService.checkPin(navigate).then((res) => {
@@ -196,7 +210,7 @@ function Transfer() {
                 </h1>
                 <div className="card-body">
                   <Form>
-                    <CustomFormGroup
+                    {/* <CustomFormGroup
                       funcEnter={handleSubmit}
                       controlId="senderAccount"
                       func={set}
@@ -205,7 +219,18 @@ function Transfer() {
                       value={userTransfer.senderAccount}
                       warning={senderAccountIsFilled}
                       readonly={inProcessing}
-                    />
+                    /> */}
+                    <CustomSelectOptions
+                      label={"Account"}
+                      listOption={accounts}
+                      set={setSelectOption}
+                      current={selectOption}
+                      style={{ width: "100%" }}
+                      styleSelect={{ backgroundColor: "white", width: "100%" }}
+                      styleOptions={{ width: "100%" }}
+                      styleOption={{ width: "100%" }}
+                      radius={20}
+                    ></CustomSelectOptions>
                     <CustomFormGroup
                       type="number"
                       funcEnter={handleSubmit}
@@ -246,6 +271,7 @@ function Transfer() {
                       readonly={inProcessing}
                     />
                     <CustomFormGroup
+                      type="password"
                       funcEnter={handleSubmit}
                       controlId="pin"
                       func={set}

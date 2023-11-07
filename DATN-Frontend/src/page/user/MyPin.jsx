@@ -143,6 +143,7 @@ function MyPin() {
                   <Form>
                     <CustomFormGroup
                       // formGroupStyle={{ width: "100%", marginRight: 20 }}
+                      type="password"
                       funcEnter={handleSubmit}
                       controlId="oldPin"
                       func={set}
@@ -153,6 +154,7 @@ function MyPin() {
                       readonly={inProcessing}
                     />
                     <CustomFormGroup
+                      type="password"
                       funcEnter={handleSubmit}
                       controlId="newPin"
                       func={set}
@@ -164,6 +166,7 @@ function MyPin() {
                     />
 
                     <CustomFormGroup
+                      type="password"
                       funcEnter={handleSubmit}
                       controlId="password"
                       func={set}

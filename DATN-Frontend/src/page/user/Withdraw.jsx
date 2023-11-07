@@ -10,6 +10,8 @@ import { ToastContainer, toast } from "react-toastify";
 import PinComponent from "../../components/PinComponent";
 import userService from "../../services/UserService";
 import OTPComponent from "../../components/OTPComponent";
+import CustomSelectOptions from "../../components/CustomSelectOptions";
+import accountService from "../../services/AccountService";
 function Withdraw() {
   const navigate = useNavigate();
   const [amountIsFilled, setAmountIsFilled] = useState("");
@@ -28,7 +30,15 @@ function Withdraw() {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [showOTP, setShowOTP] = useState(false);
+  const [accounts, setAccounts] = useState([])
+  const [selectOption, setSelectOption] = useState(null);
   useEffect(() => {
+    if (accounts.length === 0)
+      accountService.get({}, navigate).then((response) => {
+        setAccounts(response.data.content);
+        if (response.data.content?.length > 0)
+          setSelectOption(response.data.content[0]);
+      });
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
     };
@@ -37,6 +47,10 @@ function Withdraw() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  useEffect(() => {
+    if (selectOption?.accountNumber)
+      set("account", selectOption.accountNumber)
+  }, [selectOption])
   useEffect(() => {
     checkToken(navigate);
     userService.checkPin(navigate).then((res) => {
@@ -168,7 +182,7 @@ function Withdraw() {
                 </h1>
                 <div className="card-body">
                   <Form>
-                    <CustomFormGroup
+                    {/* <CustomFormGroup
                       // formGroupStyle={{ width: "100%", marginRight: 20 }}
                       funcEnter={handleSubmit}
                       controlId="account"
@@ -178,7 +192,18 @@ function Withdraw() {
                       value={userWithdraw.account}
                       warning={amountIsFilled}
                       readonly={inProcessing}
-                    />
+                    /> */}
+                    <CustomSelectOptions
+                      label={"Account"}
+                      listOption={accounts}
+                      set={setSelectOption}
+                      current={selectOption}
+                      style={{ width: "100%" }}
+                      styleSelect={{ backgroundColor: "white", width: "100%" }}
+                      styleOptions={{ width: "100%" }}
+                      styleOption={{ width: "100%" }}
+                      radius={20}
+                    ></CustomSelectOptions>
                     <CustomFormGroup
                       // formGroupStyle={{ width: "100%", marginRight: 20 }}
                       type="number"
@@ -192,6 +217,7 @@ function Withdraw() {
                       readonly={inProcessing}
                     />
                     <CustomFormGroup
+                      type="password"
                       funcEnter={handleSubmit}
                       controlId="pin"
                       func={set}

@@ -11,6 +11,8 @@ import PinComponent from "../../components/PinComponent";
 import userService from "../../services/UserService";
 import OTPComponent from "../../components/OTPComponent";
 import otpService from "../../services/OTPService";
+import accountService from "../../services/AccountService";
+import CustomSelectOptions from "../../components/CustomSelectOptions";
 function Deposit() {
   const navigate = useNavigate();
   const [amountIsFilled, setAmountIsFilled] = useState("");
@@ -29,7 +31,15 @@ function Deposit() {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [showOTP, setShowOTP] = useState(false);
+  const [accounts, setAccounts] = useState([])
+  const [selectOption, setSelectOption] = useState(null);
   useEffect(() => {
+    if (accounts.length === 0)
+      accountService.get({}, navigate).then((response) => {
+        setAccounts(response.data.content);
+        if (response.data.content?.length > 0)
+          setSelectOption(response.data.content[0]);
+      });
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
     };
@@ -38,6 +48,10 @@ function Deposit() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  useEffect(() => {
+    if (selectOption?.accountNumber)
+      set("account", selectOption.accountNumber)
+  }, [selectOption])
   useEffect(() => {
     checkToken(navigate);
     userService.checkPin(navigate).then((res) => {
@@ -171,7 +185,7 @@ function Deposit() {
                 </h1>
                 <div className="card-body">
                   <Form>
-                    <CustomFormGroup
+                    {/* <CustomFormGroup
                       // formGroupStyle={{ width: "100%", marginRight: 20 }}
                       funcEnter={handleSubmit}
                       controlId="account"
@@ -181,7 +195,18 @@ function Deposit() {
                       value={userDeposit.account}
                       warning={amountIsFilled}
                       readonly={inProcessing}
-                    />
+                    /> */}
+                    <CustomSelectOptions
+                      label={"Account"}
+                      listOption={accounts}
+                      set={setSelectOption}
+                      current={selectOption}
+                      style={{ width: "100%" }}
+                      styleSelect={{ backgroundColor: "white", width: "100%" }}
+                      styleOptions={{ width: "100%" }}
+                      styleOption={{ width: "100%" }}
+                      radius={20}
+                    ></CustomSelectOptions>
                     <CustomFormGroup
                       // formGroupStyle={{ width: "100%", marginRight: 20 }}
                       type="number"

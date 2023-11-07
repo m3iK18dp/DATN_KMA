@@ -126,10 +126,10 @@ code {
 }
 
 .filter-container.expanded-no-admin {
-  transform: translateY(-265px);
+  transform: translateY(-300px);
 }
 .filter-container.expanded-admin {
-  transform: translateY(-265px);
+  transform: translateY(-300px);
 }
 /* width */
 ::-webkit-scrollbar {
@@ -154,6 +154,6 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #2fb6779f;
 }
-svg{
+svg {
   display: inline-block;
 }
