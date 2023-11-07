@@ -71,4 +71,6 @@ public interface IUserService {
 
 
     String getUserFullNameAccountNumber(String accountNumber, HttpServletRequest request);
+
+    boolean checkPinCorrect(String pin, HttpServletRequest request);
 }

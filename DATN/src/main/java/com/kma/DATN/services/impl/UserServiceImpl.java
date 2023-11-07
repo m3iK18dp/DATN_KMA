@@ -211,6 +211,15 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public boolean checkPinCorrect(String pin, HttpServletRequest request) {
+        User user = extractUser(request);
+        if (user == null) {
+            throw new NotFoundException("User not found");
+        }
+        return new BCryptPasswordEncoder().matches(pin, user.getPin());
+    }
+
+    @Override
     public void createPIN(String pin, HttpServletRequest request) {
         User user = getUserInformation(request);
         if (user == null) {
@@ -395,6 +404,7 @@ public class UserServiceImpl implements IUserService {
             throw new RuntimeException("Not found User have account number");
         return user.getFirstName() + " " + user.getLastName();
     }
+
 
     private String generateUniqueUserId() {
         String userId;

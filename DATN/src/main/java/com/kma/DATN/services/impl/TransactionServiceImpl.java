@@ -11,6 +11,7 @@ import com.kma.DATN.repositories.AccountRepository;
 import com.kma.DATN.repositories.TokenRepository;
 import com.kma.DATN.repositories.TransactionRepository;
 import com.kma.DATN.repositories.UserRepository;
+import com.kma.DATN.services.IOTPService;
 import com.kma.DATN.services.ITransactionService;
 import com.kma.DATN.util.JwtTokenUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,6 +39,8 @@ public class TransactionServiceImpl implements ITransactionService {
     private static final Logger logger = LogManager.getLogger(TransactionServiceImpl.class);
     @Autowired
     private final UserRepository userRepository;
+    @Autowired
+    private final IOTPService otpService;
     @Autowired
     private final TokenRepository tokenRepository;
     @Autowired
@@ -70,7 +73,7 @@ public class TransactionServiceImpl implements ITransactionService {
                     throw new RuntimeException(
                             "This user has been deleted.");
                 return user;
-            }).orElse(null);
+            }).orElseThrow(() -> new RuntimeException("User not found"));
         }
         return null;
     }
@@ -83,8 +86,10 @@ public class TransactionServiceImpl implements ITransactionService {
     }
 
     @Override
-    public TransactionRequestDto cashDeposit(String accountNumber, String pin, long amount, HttpServletRequest request) {
+    public TransactionRequestDto cashDeposit(String accountNumber, String pin, long amount, String otp, HttpServletRequest request) {
         User user = extractUser(request);
+        if (!otpService.checkOTP(user.getEmail(), OTPType.TRANSACTION, otp))
+            throw new RuntimeException("OTP Invalid");
         Account account = accountRepository.findByAccountNumber(accountNumber);
         if (!user.getAccounts().contains(account))
             throw new RuntimeException("This account number is not yours");
@@ -121,9 +126,11 @@ public class TransactionServiceImpl implements ITransactionService {
     }
 
     @Override
-    public TransactionRequestDto cashWithdrawal(String accountNumber, String pin, long amount, HttpServletRequest request) {
-        Account account = accountRepository.findByAccountNumber(accountNumber);
+    public TransactionRequestDto cashWithdrawal(String accountNumber, String pin, long amount, String otp, HttpServletRequest request) {
         User user = extractUser(request);
+        if (!otpService.checkOTP(user.getEmail(), OTPType.TRANSACTION, otp))
+            throw new RuntimeException("OTP Invalid");
+        Account account = accountRepository.findByAccountNumber(accountNumber);
         if (!user.getAccounts().contains(account))
             throw new RuntimeException("This account number is not yours");
         if (account == null) {
@@ -166,9 +173,12 @@ public class TransactionServiceImpl implements ITransactionService {
             String pin,
             long amount,
             String description,
+            String otp,
             HttpServletRequest request) {
-        Account senderAccount = accountRepository.findByAccountNumber(senderAccountNumber);
         User user = extractUser(request);
+        if (!otpService.checkOTP(user.getEmail(), OTPType.TRANSACTION, otp))
+            throw new RuntimeException("OTP Invalid");
+        Account senderAccount = accountRepository.findByAccountNumber(senderAccountNumber);
         if (!user.getAccounts().contains(senderAccount))
             throw new RuntimeException("This account number is not yours");
         if (senderAccount == null) {

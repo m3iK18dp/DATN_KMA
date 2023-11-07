@@ -163,6 +163,19 @@ public class UserController {
         }
     }
 
+    @GetMapping("/pin/check-correct")
+    public ResponseObject<?> checkCorrectAccountPIN(@RequestParam("pin") String pin, HttpServletRequest request) {
+        try {
+            if (userService.checkPinCorrect(pin, request)) {
+                return new ResponseObject<>("ok", "PIN Correct", true);
+            } else {
+                return new ResponseObject<>("failed", "PIN InCorrect", false);
+            }
+        } catch (Exception exception) {
+            return new ResponseObject<>("error", exception.getMessage(), false);
+        }
+    }
+
     @PostMapping("/pin/create")
     public ResponseObject<?> createPIN(@RequestParam("pin") String pin, HttpServletRequest request) {
         try {

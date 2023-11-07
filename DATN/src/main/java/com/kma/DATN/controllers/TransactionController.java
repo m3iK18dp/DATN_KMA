@@ -73,7 +73,6 @@ public class TransactionController {
                 );
             }
         } catch (Exception exception) {
-            exception.printStackTrace();
             return new ResponseObject<>(
                     "error",
                     "Can't get Transactions with filter. " + exception.getMessage(),
@@ -158,18 +157,24 @@ public class TransactionController {
             @RequestParam("accountNumber") String accountNumber,
             @RequestParam("pin") String pin,
             @RequestParam("amount") Long amount,
+            @RequestParam("otp") String otp,
             HttpServletRequest request) {
         try {
-            return new ResponseObject<>("ok", "Deposit success", transactionService.cashDeposit(accountNumber, pin, amount, request));
+            return new ResponseObject<>("ok", "Deposit success", transactionService.cashDeposit(accountNumber, pin, amount, otp, request));
         } catch (Exception exception) {
             return new ResponseObject<>("error", "Deposit failed " + exception.getMessage(), null);
         }
     }
 
     @PostMapping("/withdraw")
-    public ResponseObject<TransactionRequestDto> cashWithdrawal(@RequestParam("accountNumber") String accountNumber, @RequestParam("pin") String pin, @RequestParam("amount") Long amount, HttpServletRequest request) {
+    public ResponseObject<TransactionRequestDto> cashWithdrawal(
+            @RequestParam("accountNumber") String accountNumber,
+            @RequestParam("pin") String pin,
+            @RequestParam("amount") Long amount,
+            @RequestParam("otp") String otp,
+            HttpServletRequest request) {
         try {
-            return new ResponseObject<>("ok", "Withdraw success", transactionService.cashWithdrawal(accountNumber, pin, amount, request));
+            return new ResponseObject<>("ok", "Withdraw success", transactionService.cashWithdrawal(accountNumber, pin, amount, otp, request));
         } catch (Exception exception) {
             return new ResponseObject<>("error", "Withdraw failed " + exception.getMessage(), null);
         }
@@ -182,9 +187,12 @@ public class TransactionController {
             @RequestParam("pin") String pin,
             @RequestParam("amount") Long amount,
             @RequestParam(value = "description", defaultValue = "") String description,
+            @RequestParam("otp") String otp,
             HttpServletRequest request) {
         try {
-            return new ResponseObject<>("ok", "Transfer success", transactionService.fundTransfer(senderAccountNumber, recipientAccountNumber, pin, amount, description, request));
+            return new ResponseObject<>("ok", "Transfer success",
+                    transactionService.fundTransfer(senderAccountNumber, recipientAccountNumber, pin, amount, description, otp, request)
+            );
         } catch (Exception exception) {
             return new ResponseObject<>("error", "Transfer failed " + exception.getMessage(), null);
         }

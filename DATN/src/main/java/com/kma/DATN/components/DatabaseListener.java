@@ -14,6 +14,7 @@ import com.kma.DATN.repositories.TriggerRepository;
 import com.kma.DATN.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class DatabaseListener {
     @Autowired
     private final UserRepository userRepository;
 
-    //    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 1000)
     public void readDatabase() {
         List<TriggerLog> triggerLogs = triggerRepository.findTriggerNotCheck();
         System.out.println("Reading the database..." + triggerLogs.stream().map(Object::toString).toList());

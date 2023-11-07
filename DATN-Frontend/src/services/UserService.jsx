@@ -54,6 +54,8 @@ const userService = {
   },
   checkPin: async (navigate) => {
     return await callApi(navigate, `pin/check`);
+  }, checkPinCorrect: async (pin, navigate) => {
+    return await callApi(navigate, `pin/check-correct`, 'get', null, { pin: pin });
   },
   createPin: async (pin, navigate) => {
     const formData = new FormData();

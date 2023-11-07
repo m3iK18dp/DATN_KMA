@@ -19,11 +19,11 @@ public interface ITransactionService {
 
     List<TransactionRequestDto> getAllTransactionsByAccountNumber(String accountNumber);
 
-    TransactionRequestDto cashDeposit(String accountNumber, String pin, long amount, HttpServletRequest request);
+    TransactionRequestDto cashDeposit(String accountNumber, String pin, long amount, String otp, HttpServletRequest request);
 
-    TransactionRequestDto cashWithdrawal(String accountNumber, String pin, long amount, HttpServletRequest request);
+    TransactionRequestDto cashWithdrawal(String accountNumber, String pin, long amount, String otp, HttpServletRequest request);
 
-    TransactionRequestDto fundTransfer(String senderAccountNumber, String recipientAccountNumber, String pin, long amount, String description, HttpServletRequest request);
+    TransactionRequestDto fundTransfer(String senderAccountNumber, String recipientAccountNumber, String pin, long amount, String description, String otp, HttpServletRequest request);
 
     Page<TransactionRequestDto> findTransactionsWithPaginationAndSort(
             String transactionCode,

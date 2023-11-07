@@ -6,7 +6,7 @@ const transactionService = {
   getAllTransactionsByAccountNumber: async (accountNumber, navigate) => {
     return await callApi(navigate, `transaction/${accountNumber}`);
   },
-  deposit: async (accountNumber, pin, amount, navigate) => {
+  deposit: async (accountNumber, pin, amount, otp, navigate) => {
     const formData = new FormData();
     formData.append("accountNumber", accountNumber);
     formData.append("pin", pin);
@@ -17,11 +17,11 @@ const transactionService = {
       `transaction/deposit`,
       "post",
       formData,
-      {},
+      { otp: otp },
       headers
     );
   },
-  withdraw: async (accountNumber, pin, amount, navigate) => {
+  withdraw: async (accountNumber, pin, amount, otp, navigate) => {
     const formData = new FormData();
     formData.append("accountNumber", accountNumber);
     formData.append("pin", pin);
@@ -32,7 +32,7 @@ const transactionService = {
       `transaction/withdraw`,
       "post",
       formData,
-      {},
+      { otp: otp },
       headers
     );
   },
@@ -42,6 +42,7 @@ const transactionService = {
     pin,
     amount,
     description,
+    otp,
     navigate
   ) => {
     const formData = new FormData();
@@ -56,7 +57,7 @@ const transactionService = {
       `transaction/transfer`,
       "post",
       formData,
-      {},
+      { otp: otp },
       headers
     );
   },

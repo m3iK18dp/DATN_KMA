@@ -9,6 +9,8 @@ import transactionService from "../../services/TransactionService";
 import { ToastContainer, toast } from "react-toastify";
 import PinComponent from "../../components/PinComponent";
 import userService from "../../services/UserService";
+import OTPComponent from "../../components/OTPComponent";
+import otpService from "../../services/OTPService";
 function Deposit() {
   const navigate = useNavigate();
   const [amountIsFilled, setAmountIsFilled] = useState("");
@@ -25,7 +27,8 @@ function Deposit() {
   const [inProcessing, setInProcessing] = useState(false);
   const [checkPin, setCheckPin] = useState(true);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [showOTP, setShowOTP] = useState(false);
   useEffect(() => {
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
@@ -56,9 +59,12 @@ function Deposit() {
       return "";
     };
     setAmountIsFilled(
-      validateInput(userDeposit.amount, Infinity, `Please enter Amount`)
+      validateInput(userDeposit.amount.toString(), Infinity, `Please enter Amount`)
     );
+
     setPinIsFilled(validateInput(userDeposit.pin, 6, `Please enter Pin`));
+    if (!isFirst && pinIsFilled === "" && userDeposit.pin?.length !== 6)
+      setPinIsFilled("Pin invalid! Pin have length is 6 number of characters");
   }, [userDeposit, isFirst]);
   useEffect(() => {
     setStatus("");
@@ -67,6 +73,7 @@ function Deposit() {
   const set = (prop, value) => {
     setUserDeposit({ ...userDeposit, [prop]: value });
   };
+
   function handleSubmit() {
     setIsFirst(false);
     if (checkForm) {
@@ -76,10 +83,13 @@ function Deposit() {
           userDeposit.account,
           userDeposit.pin,
           userDeposit.amount,
+          otp.join().replaceAll(",", ""),
           navigate
         )
         .then((res) => {
           if (res.status === "ok") {
+            setOtp(['', '', '', '', '', ''])
+            setShowOTP(false)
             toast.success("Deposit money successful", {
               autoClose: 1000,
             });
@@ -91,15 +101,37 @@ function Deposit() {
         });
     } else setStatus("Deposit money failed! Check your information.");
   }
+  const handleShowOtp = () => {
+    setIsFirst(false);
+    if (checkForm) {
+      userService.checkPinCorrect(userDeposit.pin, navigate).then(res => {
+        if (res.status === "ok") {
+          setShowOTP(true);
+        }
+        else
+          setPinIsFilled("Pin Incorrect!")
+      })
+    }
+  }
+
   return (
     <div style={{ display: "flex", width: "100%", height: "100%" }}>
       <CustomToggle></CustomToggle>
+
       <div style={{ width: "100%", height: "100%", overflowY: "auto" }}>
         {/* <NavbarComponent disabled={inProcessing} /> */}
         <div className="background-container" />
         <div className=" background-container-opacity-low" />
         <ToastContainer />
         <PinComponent checkPin={checkPin} setCheckPin={setCheckPin} />
+        <OTPComponent
+          otp={otp}
+          setOtp={setOtp}
+          setShowOTP={setShowOTP}
+          showOTP={showOTP}
+          funcConfirm={handleSubmit}
+          inProcessing={inProcessing}
+        ></OTPComponent>
         <div
           style={{
             position: "relative",
@@ -163,6 +195,7 @@ function Deposit() {
                       readonly={inProcessing}
                     />
                     <CustomFormGroup
+                      type="password"
                       funcEnter={handleSubmit}
                       controlId="pin"
                       func={set}
@@ -176,7 +209,7 @@ function Deposit() {
                       <div style={{ textAlign: "center", margin: "30px 0px" }}>
                         <Button
                           disabled={inProcessing}
-                          onClick={() => handleSubmit()}
+                          onClick={() => handleShowOtp()}
                           style={{
                             backgroundColor: "#e9ecef",
                             border: "none",

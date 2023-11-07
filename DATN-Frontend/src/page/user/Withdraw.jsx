@@ -9,6 +9,7 @@ import transactionService from "../../services/TransactionService";
 import { ToastContainer, toast } from "react-toastify";
 import PinComponent from "../../components/PinComponent";
 import userService from "../../services/UserService";
+import OTPComponent from "../../components/OTPComponent";
 function Withdraw() {
   const navigate = useNavigate();
   const [amountIsFilled, setAmountIsFilled] = useState("");
@@ -25,7 +26,8 @@ function Withdraw() {
   const [inProcessing, setInProcessing] = useState(false);
   const [checkPin, setCheckPin] = useState(true);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [showOTP, setShowOTP] = useState(false);
   useEffect(() => {
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
@@ -59,6 +61,8 @@ function Withdraw() {
       validateInput(userWithdraw.amount, Infinity, `Please enter Amount`)
     );
     setPinIsFilled(validateInput(userWithdraw.pin, 6, `Please enter Pin`));
+    if (!isFirst && pinIsFilled === "" && userWithdraw.pin?.length !== 6)
+      setPinIsFilled("Pin invalid! Pin have length is 6 number of characters");
   }, [userWithdraw, isFirst]);
   useEffect(() => {
     setStatus("");
@@ -76,10 +80,13 @@ function Withdraw() {
           userWithdraw.account,
           userWithdraw.pin,
           userWithdraw.amount,
+          otp.join().replaceAll(",", ""),
           navigate
         )
         .then((res) => {
           if (res.status === "ok") {
+            setOtp(['', '', '', '', '', ''])
+            setShowOTP(false)
             toast.success("Withdraw money successful", {
               autoClose: 1000,
             });
@@ -93,6 +100,18 @@ function Withdraw() {
         });
     } else setStatus("Withdraw money failed! Check your information.");
   }
+  const handleShowOtp = () => {
+    setIsFirst(false);
+    if (checkForm) {
+      userService.checkPinCorrect(userWithdraw.pin, navigate).then(res => {
+        if (res.status === "ok") {
+          setShowOTP(true);
+        }
+        else
+          setPinIsFilled("Pin Incorrect!")
+      })
+    }
+  }
   return (
     <div style={{ display: "flex", width: "100%", height: "100%" }}>
       <CustomToggle></CustomToggle>
@@ -102,6 +121,14 @@ function Withdraw() {
         <div className=" background-container-opacity-low" />
         <ToastContainer />
         <PinComponent checkPin={checkPin} setCheckPin={setCheckPin} />
+        <OTPComponent
+          otp={otp}
+          setOtp={setOtp}
+          setShowOTP={setShowOTP}
+          showOTP={showOTP}
+          funcConfirm={handleSubmit}
+          inProcessing={inProcessing}
+        ></OTPComponent>
         <div
           style={{
             position: "relative",
@@ -178,7 +205,7 @@ function Withdraw() {
                       <div style={{ textAlign: "center", margin: "30px 0px" }}>
                         <Button
                           disabled={inProcessing}
-                          onClick={() => handleSubmit()}
+                          onClick={() => handleShowOtp()}
                           style={{
                             backgroundColor: "#e9ecef",
                             border: "none",
