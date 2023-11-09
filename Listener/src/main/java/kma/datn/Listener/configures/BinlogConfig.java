@@ -10,7 +10,6 @@ public class BinlogConfig {
 
     @Bean
     public BinaryLogClient binaryLogClient() {
-        // Configure other client settings here
-        return new BinaryLogClient("localhost", 3306, "test_trigger", "readTriggerDATN", "123456");
+        return new BinaryLogClient("localhost", 3306, "datn_demo", "readTriggerDATN", "123456");
     }
 }

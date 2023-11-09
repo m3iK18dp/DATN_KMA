@@ -35,28 +35,27 @@ public class MyBinlogEventListener implements BinaryLogClient.EventListener {
             if (eventType == EventType.EXT_WRITE_ROWS) {
                 WriteRowsEventData writeDate = (WriteRowsEventData) data;
                 LOGGER.info(writeDate.toString());
-                if (writeDate.getTableId() == 105) {
+                if (writeDate.getTableId() == 111) {
                     List<TriggerLog> triggerLogs = triggerLogRepository.findTriggerNotCheck();
                     kafkaProducer.sendMessage(objectMapper.writeValueAsString(triggerLogs));
-                    LOGGER.info(triggerLogs.toString());
                     LogManager.writeLog(writeDate.toString(), 1);
-                } else if (writeDate.getTableId() == 99) {
+                } else if (writeDate.getTableId() == 118) {
                     LogManager.writeLog(writeDate.toString(), 0);
                 } else LogManager.writeLog(writeDate.toString(), 2);
             } else if (eventType == EventType.EXT_UPDATE_ROWS) {
                 UpdateRowsEventData updateData = (UpdateRowsEventData) data;
                 LOGGER.info(updateData.toString());
-                if (updateData.getTableId() == 105) {
+                if (updateData.getTableId() == 111) {
                     LogManager.writeLog(updateData.toString(), 1);
-                } else if (updateData.getTableId() == 99) {
+                } else if (updateData.getTableId() == 118) {
                     LogManager.writeLog(updateData.toString(), 0);
                 } else LogManager.writeLog(updateData.toString(), 2);
             } else if (eventType == EventType.EXT_DELETE_ROWS) {
                 DeleteRowsEventData deleteData = (DeleteRowsEventData) data;
                 LOGGER.info(deleteData.toString());
-                if (deleteData.getTableId() == 105) {
+                if (deleteData.getTableId() == 111) {
                     LogManager.writeLog(deleteData.toString(), 1);
-                } else if (deleteData.getTableId() == 99) {
+                } else if (deleteData.getTableId() == 118) {
                     LogManager.writeLog(deleteData.toString(), 0);
                 } else LogManager.writeLog(deleteData.toString(), 2);
             }

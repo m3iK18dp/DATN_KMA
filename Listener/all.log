@@ -1,0 +1,6 @@
+Time: 2023-11-10T00:17:24.3764678, Content: UpdateRowsEventData{tableId=118, includedColumnsBeforeUpdate={0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, includedColumns={0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, rows=[
+    {before=[200000, Tue Nov 07 19:43:58 ICT 2023, Deposit money from bank, null, null, 3c94282d, Phạm Đoàn Admin, f9dbfc2bde, 3, 1], after=[200001, Tue Nov 07 19:43:58 ICT 2023, Deposit money from bank, null, null, 3c94282d, Phạm Đoàn Admin, f9dbfc2bde, 3, 1]}
+]}
+Time: 2023-11-10T00:17:24.3784695, Content: WriteRowsEventData{tableId=111, includedColumns={0, 1, 2, 3, 4, 5}, rows=[
+    [66, {}, 2023-11-10 00:17:24.0, 3, [B@431f8830, [B@75bbe39d]
+]}
