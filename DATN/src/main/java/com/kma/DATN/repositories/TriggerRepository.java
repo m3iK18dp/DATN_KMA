@@ -22,6 +22,8 @@ public interface TriggerRepository extends JpaRepository<TriggerLog, Long> {
                 WHERE   t.type = 'INSERT' AND
                         t.checked = 1 AND
                         t.transaction LIKE CONCAT('%','\\"transactionCode\\"\\:\\"',:transactionCode,'\\"', '%')
+                ORDER BY t.id ASC
+                LIMIT 1
             """, nativeQuery = true)
-    List<TriggerLog> checkSendMail(@Param("transactionCode") String transactionCode);
+    TriggerLog checkSendMail(@Param("transactionCode") String transactionCode);
 }

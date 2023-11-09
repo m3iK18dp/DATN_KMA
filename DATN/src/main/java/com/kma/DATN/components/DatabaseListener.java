@@ -63,14 +63,14 @@ public class DatabaseListener {
                 requestSendTransactionNotVerify.setTransaction(trigger.getTransaction());
                 requestSendTransactionNotVerify.setChangedTransaction(trigger.getTransaction());
                 requestSendTransactionNotVerify.setType(trigger.getType());
-                List<TriggerLog> checkSendMail = triggerRepository.checkSendMail(trigger.getTransaction().getTransactionCode());
+                TriggerLog checkSendMail = triggerRepository.checkSendMail(trigger.getTransaction().getTransactionCode());
                 if (trigger.getType() == TriggerType.INSERT) {
                     if (checkVerify) {
                         if (
-                                !checkSendMail.isEmpty() ||
+                                checkSendMail != null ||
                                         mailService.sendMailTransactionVerify(new RequestSendTransactionVerify(userCurrent.getEmail(), trigger.getTransaction(), trigger.getCreatedAt()))
                         ) {
-                            if (trigger.getTransaction().getTransactionType() == TransactionType.TRANSFER && checkSendMail.isEmpty())
+                            if (trigger.getTransaction().getTransactionType() == TransactionType.TRANSFER && checkSendMail == null)
                                 mailService.sendMailTransactionVerifyToRecipient(
                                         new RequestSendTransactionVerify(userRepository.getUserByAccountNumber(trigger.getTransaction().getRecipientAccountNumber()).getEmail(),
                                                 trigger.getTransaction(), trigger.getCreatedAt())

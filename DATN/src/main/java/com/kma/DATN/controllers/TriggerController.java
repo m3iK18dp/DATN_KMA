@@ -5,8 +5,6 @@ import com.kma.DATN.repositories.TriggerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -15,7 +13,7 @@ public class TriggerController {
     private final TriggerRepository triggerRepository;
 
     @GetMapping("/test/{transactionCode}")
-    public List<TriggerLog> get(@PathVariable String transactionCode) {
+    public TriggerLog get(@PathVariable String transactionCode) {
         return triggerRepository.checkSendMail(transactionCode);
     }
 }

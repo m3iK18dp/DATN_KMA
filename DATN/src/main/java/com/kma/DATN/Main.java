@@ -1,13 +1,9 @@
 package com.kma.DATN;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Main {
     static final String URL_HYPERLEDGER_FABRIC_API = "http://192.168.152.129:4000";
@@ -76,24 +72,46 @@ public class Main {
 //        } catch (JsonProcessingException e) {
 //            throw new RuntimeException(e);
 //        }
-        // Chuỗi thời gian ban đầu ở múi giờ ICT
-        String ictTimeStr = "2023-11-01T18:30:22Z";
+//        // Chuỗi thời gian ban đầu ở múi giờ ICT
+//        String ictTimeStr = "2023-11-01T18:30:22Z";
+//
+//        // Chuyển đổi sang LocalDateTime
+//        LocalDateTime ictLocalDateTime = LocalDateTime.parse(ictTimeStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+//
+//        // Xác định múi giờ ICT
+//        ZoneId ictZone = ZoneId.of("Asia/Ho_Chi_Minh");
+//
+//        // Chuyển đổi sang múi giờ UTC (0)
+//        ZonedDateTime ictZonedDateTime = ictLocalDateTime.atZone(ictZone);
+//        ZonedDateTime utcZonedDateTime = ictZonedDateTime.withZoneSameInstant(ZoneOffset.UTC);
+//
+//        // Định dạng lại thời gian theo chuẩn "yyyy-MM-dd HH:mm:ss.SSS Z"
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS Z");
+//        String utcTimeStr = utcZonedDateTime.format(formatter);
+//
+//        System.out.println(utcTimeStr);
+        try {
+            // Danh sách các lệnh cần thực hiện
+            String[] commands = {"cmd /c cd c:/kafka_2.12-3.6.0 && dir"};
 
-        // Chuyển đổi sang LocalDateTime
-        LocalDateTime ictLocalDateTime = LocalDateTime.parse(ictTimeStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            // Tạo một đối tượng ProcessBuilder với danh sách lệnh
+            ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", "c:/kafka_2.12-3.6.0/bin/windows/kafka-server-start.bat c:/kafka_2.12-3.6.0/config/server.properties");
 
-        // Xác định múi giờ ICT
-        ZoneId ictZone = ZoneId.of("Asia/Ho_Chi_Minh");
+            // Chạy các lệnh
+            Process process = processBuilder.start();
 
-        // Chuyển đổi sang múi giờ UTC (0)
-        ZonedDateTime ictZonedDateTime = ictLocalDateTime.atZone(ictZone);
-        ZonedDateTime utcZonedDateTime = ictZonedDateTime.withZoneSameInstant(ZoneOffset.UTC);
+            // Đọc output từ Command Prompt (nếu cần)
+            java.util.Scanner scanner = new java.util.Scanner(process.getInputStream());
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine());
+            }
 
-        // Định dạng lại thời gian theo chuẩn "yyyy-MM-dd HH:mm:ss.SSS Z"
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS Z");
-        String utcTimeStr = utcZonedDateTime.format(formatter);
-
-        System.out.println(utcTimeStr);
+            // Đợi quá trình thực hiện lệnh kết thúc
+            int exitCode = process.waitFor();
+            System.out.println("Exit Code: " + exitCode);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private static String convertQueryToUrlType(String jsonString) {
