@@ -1,10 +1,10 @@
-package com.kma.DATN.converters;
+package kma.datn.Listener.converteres;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.kma.DATN.models.Transaction;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import kma.datn.Listener.models.Transaction;
 
 @Converter
 public class TransactionConverter implements AttributeConverter<Transaction, String> {
@@ -17,7 +17,7 @@ public class TransactionConverter implements AttributeConverter<Transaction, Str
             return objectMapper.writeValueAsString(transaction);
         } catch (Exception e) {
             return null;
-            // throw new RuntimeException("Error converting Transaction to JSON", e);
+//            throw new RuntimeException("Error converting Transaction to JSON", e);
         }
     }
 
@@ -27,7 +27,7 @@ public class TransactionConverter implements AttributeConverter<Transaction, Str
             return objectMapper.readValue(transactionJson, Transaction.class);
         } catch (Exception e) {
             return null;
-            // throw new RuntimeException("Error converting JSON to Transaction", e);
+//            throw new RuntimeException("Error converting JSON to Transaction", e);
         }
     }
 }
