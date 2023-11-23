@@ -40,3 +40,5 @@ build/
 /DATN-Frontend/node_modules
 
 /mail-server/node_modules
+
+HyperledgerFabric/

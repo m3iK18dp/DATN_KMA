@@ -19,4 +19,9 @@ public class KafkaProducer {
         LOGGER.info(String.format("Message Sent %s", message));
         kafkaTemplate.send("java", message);
     }
+
+    public void sendEvent(String message) {
+        LOGGER.info(String.format("Event Sent %s", message));
+        kafkaTemplate.send("event", message);
+    }
 }

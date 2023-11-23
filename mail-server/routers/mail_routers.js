@@ -22,4 +22,8 @@ router.post(
   "/send-mail-transaction-not-verify",
   MailController.sendMailTransactionNotVerify
 );
+router.post(
+  "/send-mail-event",
+  MailController.sendMailEvent
+);
 module.exports = router;

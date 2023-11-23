@@ -1,5 +1,6 @@
 package com.kma.DATN.mail;
 
+import com.kma.DATN.mail.DTO.RequestSendEvent;
 import com.kma.DATN.mail.DTO.RequestSendTransactionNotVerify;
 import com.kma.DATN.mail.DTO.RequestSendTransactionVerify;
 import com.kma.DATN.models.User;
@@ -24,4 +25,6 @@ public interface IMailService {
     Boolean sendMailTransactionVerifyToRecipient(RequestSendTransactionVerify requestSendTransactionVerify);
 
     Boolean sendMailTransactionNotVerify(RequestSendTransactionNotVerify requestSendTransactionNotVerify);
+
+    Boolean sendMailEvent(RequestSendEvent requestSendEvent);
 }

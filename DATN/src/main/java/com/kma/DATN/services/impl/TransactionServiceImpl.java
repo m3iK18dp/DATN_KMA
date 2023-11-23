@@ -262,10 +262,13 @@ public class TransactionServiceImpl implements ITransactionService {
                 pageable);
         if (verify) {
             List<Transaction> listTransaction = transactions.getContent();
-            List<TransactionFabric> listTransactionFabric = hyperledgerFabricService.getTransactionByIds(
-                    listTransaction.stream().map(Transaction::getTransactionCode).collect(Collectors.toList()),
-                    tokenRepository.findValidTokenByUserId(userAuth.getId()).getTokenFabric()
-            );
+            List<TransactionFabric> listTransactionFabric = !transactions.isEmpty()
+                    ? hyperledgerFabricService
+                    .getTransactionByIds(
+                            listTransaction.stream().map(Transaction::getTransactionCode).collect(Collectors.toList()),
+                            tokenRepository.findValidTokenByUserId(userAuth.getId()).getTokenFabric()
+                    )
+                    : new ArrayList<>();
             return new PageImpl<>(
                     transactions.getContent()
                             .stream()
@@ -300,6 +303,7 @@ public class TransactionServiceImpl implements ITransactionService {
 //                    transactions.getTotalElements()
 //            );
         }
+        System.out.println(transactions.toString());
         return TransactionRequestDto.fromTransactions(
                 transactions,
                 pageable);

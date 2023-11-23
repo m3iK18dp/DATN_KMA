@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 public class LogManager {
     public static void writeLog(String log, int type) {
         Logger logger = Logger.getLogger(LogManager.class.getName());
-        String fileName = type == 0 ? "transactions.log" : type == 1 ? "triggerLog.log" : "all.log";
+        String fileName = type == 0 ? "transactions.log" : type == 1 ? "triggerLog.log" : type == 2 ? "all.log" : "event.log";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             writer.write("Time: " + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) + ", Content: " + log);
             writer.newLine();

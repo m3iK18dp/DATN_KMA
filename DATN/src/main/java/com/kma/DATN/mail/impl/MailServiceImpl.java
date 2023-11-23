@@ -201,4 +201,25 @@ public class MailServiceImpl implements IMailService {
         assert responseObject != null;
         return responseObject.contains("- Success");
     }
+
+    @Override
+    public Boolean sendMailEvent(RequestSendEvent requestSendEvent) {
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<RequestSendEvent> requestEntity = new HttpEntity<>(requestSendEvent, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity
+                = restTemplate.exchange
+                (
+                        URL_MAIL_SERVER + "send-mail-event",
+                        HttpMethod.POST,
+                        requestEntity,
+                        new ParameterizedTypeReference<>() {
+                        }
+                );
+        if (responseEntity.getStatusCode() != HttpStatus.OK)
+            throw new RuntimeException("Failed send mail to user");
+        String responseObject = responseEntity.getBody();
+        assert responseObject != null;
+        return responseObject.contains("- Success");
+    }
 }

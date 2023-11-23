@@ -18,7 +18,7 @@ public class KafkaConsumer {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @KafkaListener(topics = "java", groupId = "myGroup")
-    public void consume(String message) {
+    public void consumer(String message) {
         LOGGER.info(String.format("Message received -> %s", message));
         System.out.println("====================================================================");
         try {

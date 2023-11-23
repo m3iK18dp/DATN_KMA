@@ -63,8 +63,9 @@ public class DatabaseListener {
                 requestSendTransactionNotVerify.setTransaction(trigger.getTransaction());
                 requestSendTransactionNotVerify.setChangedTransaction(trigger.getTransaction());
                 requestSendTransactionNotVerify.setType(trigger.getType());
-                TriggerLog checkSendMail = triggerRepository.checkSendMail(trigger.getTransaction().getTransactionCode());
+
                 if (trigger.getType() == TriggerType.INSERT) {
+                    TriggerLog checkSendMail = triggerRepository.checkSendMail(trigger.getTransaction().getTransactionCode());
                     if (checkVerify) {
                         if (
                                 checkSendMail != null ||
