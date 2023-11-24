@@ -1,0 +1,31 @@
+[
+  {
+    "Chaincode": "transaction_cc",
+    "EndorsersByGroups": {
+      "G0": [
+        {
+          "MSPID": "Org2MSP",
+          "LedgerHeight": 7,
+          "Endpoint": "peer0.org2.example.com:9051",
+          "Identity": "-----BEGIN CERTIFICATE-----\nMIICojCCAkigAwIBAgIUP8zS86UDpM9sDDXrhwECKFT0Gx4wCgYIKoZIzj0EAwIw\naDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK\nEwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMt\nY2Etc2VydmVyMB4XDTIzMTEyMzEwMjcwMFoXDTI0MTEyMjEwMzIwMFowWzELMAkG\nA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBl\ncmxlZGdlcjENMAsGA1UECxMEcGVlcjEOMAwGA1UEAxMFcGVlcjAwWTATBgcqhkjO\nPQIBBggqhkjOPQMBBwNCAATIxBXqPijtvv9aSsjIF/XJGs0A/g+vtMaNqDJFZg8A\neQl6d+96LVkIlBXncwfWLNO6tUgHA4MQkNgYCO7dVS9jo4HcMIHZMA4GA1UdDwEB\n/wQEAwIHgDAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSi72WRgsw2N1h3yXc1/crW\nivDhBjAfBgNVHSMEGDAWgBSzC4HWWxZJuIMDE1lwtZ+FUSRuJDAhBgNVHREEGjAY\nghZwZWVyMC5vcmcyLmV4YW1wbGUuY29tMFYGCCoDBAUGBwgBBEp7ImF0dHJzIjp7\nImhmLkFmZmlsaWF0aW9uIjoiIiwiaGYuRW5yb2xsbWVudElEIjoicGVlcjAiLCJo\nZi5UeXBlIjoicGVlciJ9fTAKBggqhkjOPQQDAgNIADBFAiEA65Bv+Aai3m7fy191\ngor6SbSSXkAMgNZFD+/mAa4IKPQCICLLl47W3DNMOeMVcz1ThJinJSIerCNY5OND\nK8Thw4us\n-----END CERTIFICATE-----\n"
+        }
+      ],
+      "G1": [
+        {
+          "MSPID": "Org1MSP",
+          "LedgerHeight": 7,
+          "Endpoint": "peer0.org1.example.com:7051",
+          "Identity": "-----BEGIN CERTIFICATE-----\nMIICojCCAkigAwIBAgIUTrqn1e/M1sZbH/I8zDMu1DulV8UwCgYIKoZIzj0EAwIw\naDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK\nEwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMt\nY2Etc2VydmVyMB4XDTIzMTEyMzEwMjcwMFoXDTI0MTEyMjEwMzIwMFowWzELMAkG\nA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBl\ncmxlZGdlcjENMAsGA1UECxMEcGVlcjEOMAwGA1UEAxMFcGVlcjAwWTATBgcqhkjO\nPQIBBggqhkjOPQMBBwNCAATXnHKmriIrShHxBw26Q0oyz7gzNNnbETJ9EyKjHgfI\nsL903bKsyuu8NUhdkFoLLrvfl6bBUOkrAlwcGRqreRBEo4HcMIHZMA4GA1UdDwEB\n/wQEAwIHgDAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBS+55ymCGTkXohqObcxcq3U\noqgRbjAfBgNVHSMEGDAWgBTAU5yLDGHgYHk7Jpg+6wDhD68YgjAhBgNVHREEGjAY\nghZwZWVyMC5vcmcxLmV4YW1wbGUuY29tMFYGCCoDBAUGBwgBBEp7ImF0dHJzIjp7\nImhmLkFmZmlsaWF0aW9uIjoiIiwiaGYuRW5yb2xsbWVudElEIjoicGVlcjAiLCJo\nZi5UeXBlIjoicGVlciJ9fTAKBggqhkjOPQQDAgNIADBFAiEAsLCwclTGyOeugD1R\nxATlpXe/6FDLXKb4g7O7/U6WTWYCIChL7qrD+DMWfW8gPlLDFZcA5Jx6t6QiQCVV\nPLbJgiZL\n-----END CERTIFICATE-----\n"
+        }
+      ]
+    },
+    "Layouts": [
+      {
+        "quantities_by_group": {
+          "G0": 1,
+          "G1": 1
+        }
+      }
+    ]
+  }
+]

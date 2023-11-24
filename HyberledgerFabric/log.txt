@@ -1,0 +1,2 @@
+Installed chaincodes on peer:
+Package ID: transaction_cc_1:10823ada8372c9b4979f0414f77f2b7e7c3762bd00f7451796bd36aa1e63c378, Label: transaction_cc_1

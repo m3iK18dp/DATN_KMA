@@ -90,3 +90,9 @@ Time: 2023-11-24T20:29:37.0955644, Content: UpdateRowsEventData{tableId=120, inc
 Time: 2023-11-24T20:31:13.8886545, Content: UpdateRowsEventData{tableId=120, includedColumnsBeforeUpdate={0, 1, 2, 3, 4}, includedColumns={0, 1, 2, 3, 4}, rows=[
     {before=[6, Sat Nov 25 03:29:37 ICT 2023, kiempham1256@gmail.com, 443113, 5], after=[6, Sat Nov 25 03:31:13 ICT 2023, kiempham1256@gmail.com, 013432, 5]}
 ]}
+Time: 2023-11-24T20:34:48.3365659, Content: UpdateRowsEventData{tableId=117, includedColumnsBeforeUpdate={0, 1, 2, 3, 4, 5}, includedColumns={0, 1, 2, 3, 4, 5}, rows=[
+    {before=[0, 106, 9201fcba, eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNDVAZ21haWwuY29tIiwiaWF0IjoxNzAwODI0MDc4LCJleHAiOjE3MDA4MjU4Nzh9.1MwJQjKftdLAMH3F6Sfy0z9ETX4odYsY5R8-0SuEYKoJzDRYHfGAq0ddyOWLcVuUYKoFOVcm2WOuiF4Bkftfpw, eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDA4NjAwNzgsInVzZXJuYW1lIjoiOTIwMWZjYmEiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMDgyNDA3OH0.6V6ZNwSfJ5K-co9YW-_ABkhfLWMM70_Ntoz_EF_T2tE, 1], after=[-1, 106, 9201fcba, eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNDVAZ21haWwuY29tIiwiaWF0IjoxNzAwODI0MDc4LCJleHAiOjE3MDA4MjU4Nzh9.1MwJQjKftdLAMH3F6Sfy0z9ETX4odYsY5R8-0SuEYKoJzDRYHfGAq0ddyOWLcVuUYKoFOVcm2WOuiF4Bkftfpw, eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDA4NjAwNzgsInVzZXJuYW1lIjoiOTIwMWZjYmEiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMDgyNDA3OH0.6V6ZNwSfJ5K-co9YW-_ABkhfLWMM70_Ntoz_EF_T2tE, 1]}
+]}
+Time: 2023-11-24T20:34:48.3378052, Content: WriteRowsEventData{tableId=117, includedColumns={0, 1, 2, 3, 4, 5}, rows=[
+    [0, 112, 9201fcba, eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNDVAZ21haWwuY29tIiwiaWF0IjoxNzAwODMyODg4LCJleHAiOjE3MDA4MzQ2ODh9.vyLZ3rwXKxl7ip-eloq2o5S6aPOlwU1TQXO5lPY1UTthMF2y8FOUJHg_FWiN-zTKwYreerjxX9J2F-42TXq1Kg, eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDA4Njg4ODgsInVzZXJuYW1lIjoiOTIwMWZjYmEiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMDgzMjg4OH0.jTFYHCADGhLltAwYlhF5TdEWAyyMmlVayMrLJVL-wXI, 1]
+]}
