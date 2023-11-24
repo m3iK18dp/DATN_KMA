@@ -1,0 +1,2512 @@
+{
+	"info": {
+		"_postman_id": "4fe4f8eb-7639-4067-914a-55a67825daf4",
+		"name": "DATN KMA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25693899"
+	},
+	"item": [
+		{
+			"name": "DATN_BACKEND_API",
+			"item": [
+				{
+					"name": "Localhost",
+					"item": [
+						{
+							"name": "Auth",
+							"item": [
+								{
+									"name": "Login",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"kiempham1256@gmail.com\",\r\n    \"password\": \"admin_Abcd@1234\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/auth/authenticate",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"authenticate"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login  By OTP",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"kiempham1256@gmail.com\",\r\n    \"password\": \"121234\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/auth/authenticate_by_otp",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"authenticate_by_otp"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Logout",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/auth/logout",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Logout On All Other Devices",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2OTU5NzYwMjEsImV4cCI6MTY5NzE4NTYyMX0.92mprntJkOME4Sb9ImxSuKkjMsT4ZTALDyRUbjB8XdiiELytYQinhE5OnRSMEd7SyvEgCa-ODBWoiD2AGuPwpw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "admin_Abcd@1234",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/auth/logout_on_all_other_devices",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"logout_on_all_other_devices"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Register",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"firstName\": \"Pham Doan\",\r\n    \"lastName\": \"Kiem\",\r\n    \"email\": \"kiem@gmail.com\",\r\n    \"password\": \"Abcd@1234\",\r\n    \"address\": \"Gò vấp\",\r\n    \"phoneNumber\": \"012345678\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/auth?otp=123456",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth"
+											],
+											"query": [
+												{
+													"key": "otp",
+													"value": "123456"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Information Account By Token",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtQGdtYWlsLmNvbSIsImlhdCI6MTY5NjMxOTQ3MywiZXhwIjoxNjk3NTI5MDczfQ.Kp5uA6a8mxbQFvmZ8SNhnOltaUit4kJgiKbxm-3FX7nqz8Ydq781yV6PbJaAR8M4zrt4uRN0Zqq3VkQWgpe5mA",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/auth/account_information",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"account_information"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SubmitResetPassword",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/auth/submit_reset_password?username=kiempham1256@gmail.com",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"submit_reset_password"
+											],
+											"query": [
+												{
+													"key": "username",
+													"value": "kiempham1256@gmail.com"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ChangePasswordForForgerPassword",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"123466\",\r\n    \"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtQGdtYWlsLmNvbSIsImlhdCI6MTY5NjMxOTQ3MywiZXhwIjoxNjk3NTI5MDczfQ.Kp5uA6a8mxbQFvmZ8SNhnOltaUit4kJgiKbxm-3FX7nqz8Ydq781yV6PbJaAR8M4zrt4uRN0Zqq3VkQWgpe5mA\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/auth/change_password_for_forget_password",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"auth",
+												"change_password_for_forget_password"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Pin",
+							"item": [
+								{
+									"name": "Pin Check",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtQGdtYWlsLmNvbSIsImlhdCI6MTY5NTk3NTM4MywiZXhwIjoxNjk3MTg0OTgzfQ.ugDmcuoBPyVEGUC9KZbO4S_B59CpL5OZgNPw8GumwPQTFfh6WO8B07sp6FPdXB9EnnGIeCJlu9umKs7fygdbaA",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/pin/check",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"pin",
+												"check"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Pin Check Correct",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNjk5MzM4MjUxLCJleHAiOjE2OTkzNDAwNTF9.iE3-zJ8j--evxxyQpc0eU6qpS477yYy7Z4mcdjksl1smD9OPoLn0-br904BwLxkT5Cinab6LX_aS3_gNN2L69Q",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/pin/check-correct?pin=123456",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"pin",
+												"check-correct"
+											],
+											"query": [
+												{
+													"key": "pin",
+													"value": "123456"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Pin",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNjk4NzUyNTUwLCJleHAiOjE2OTg3NTQzNTB9.GdGus2DnL8zEV43H9aCWvZqDocnGvG8Vih37W5jY11JiO5nHjZyzFKYk6uOHqMKqeJyaVZ1kRS_yBm58cOodgA",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "password",
+													"value": "admin_Abcd@1234",
+													"type": "text"
+												},
+												{
+													"key": "pin",
+													"value": "123456",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/pin/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"pin",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Pin",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNjk4NzQ5MzU2LCJleHAiOjE2OTg3NTExNTZ9.dUFGJ6M1-7ysXQITrgYt-PuFFHT99mR_n3SF7WQ9xEobwSotrTnJN_Z4Jn5RTlJxCZNSOcG_ke7IcbwUjNOVdA",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "password",
+													"value": "admin_Abcd@1234",
+													"type": "text"
+												},
+												{
+													"key": "newPin",
+													"value": "123456",
+													"type": "text"
+												},
+												{
+													"key": "oldPin",
+													"value": "123456",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/pin/update",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"pin",
+												"update"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Transaction",
+							"item": [
+								{
+									"name": "Deposit",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNzAwODI5NDU5LCJleHAiOjE3MDA4MzEyNTl9.OPeIphcNjbCN9w-tbeZs74EYktylKWQW8K45kAjGRaRGhe_N99biLWgXmd_1EloN7_CmXwvZFUpO3DwKrGWkXw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "accountNumber",
+													"value": "3c94282d",
+													"type": "text"
+												},
+												{
+													"key": "pin",
+													"value": "123456",
+													"type": "text"
+												},
+												{
+													"key": "amount",
+													"value": "500000",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/transaction/deposit?otp=166069",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"transaction",
+												"deposit"
+											],
+											"query": [
+												{
+													"key": "otp",
+													"value": "166069"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Withdraw",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNjk4ODQ3MDU2LCJleHAiOjE2OTg4NDg4NTZ9.lp25PQuDk5vzhGHmCb9a4rS2OXI9JTCokEMp2RUPlO6e3ZfykNQXd2rqkn3pe1RMVDZV3F4_AIbrlY0Mb-elYA",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "accountNumber",
+													"value": "3c94282d",
+													"type": "text"
+												},
+												{
+													"key": "pin",
+													"value": "123456",
+													"type": "text"
+												},
+												{
+													"key": "amount",
+													"value": "40000",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/transaction/withdraw?otp=123456",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"transaction",
+												"withdraw"
+											],
+											"query": [
+												{
+													"key": "otp",
+													"value": "123456"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Transfer",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNDVAZ21haWwuY29tIiwiaWF0IjoxNjk4ODQ3MjQ5LCJleHAiOjE2OTg4NDkwNDl9.lpMkRXLjTAMlHyM94F_kHV05GbgY70mhDASu5BkXLpGGqjSWDNAUrY3YmOB3RQSShLWk6pjfeH8dl3shGL9HWA",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "senderAccountNumber",
+													"value": "40ff7af2",
+													"description": "3c94282d",
+													"type": "text"
+												},
+												{
+													"key": "recipientAccountNumber",
+													"value": "3c94282d",
+													"description": "40ff7af2",
+													"type": "text"
+												},
+												{
+													"key": "pin",
+													"value": "123456",
+													"type": "text"
+												},
+												{
+													"key": "amount",
+													"value": "50000",
+													"type": "text"
+												},
+												{
+													"key": "description",
+													"value": "",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/transaction/transfer?otp=123456",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"transaction",
+												"transfer"
+											],
+											"query": [
+												{
+													"key": "otp",
+													"value": "123456"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Transaction By Account Number",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNzAwNDg1MTc2LCJleHAiOjE3MDA0ODY5NzZ9.Wvu8ZVuVgE9b6xMF0dIhU_czr4RxwYNBWFvMDDHCx2VQLJ97tOyXoekVDHCs3mj8cRqeOATaY7Q75tWmtO9Y4w",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/transaction/3c94282d",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"transaction",
+												"3c94282d"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Transaction",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNzAwNDg1MTc2LCJleHAiOjE3MDA0ODY5NzZ9.Wvu8ZVuVgE9b6xMF0dIhU_czr4RxwYNBWFvMDDHCx2VQLJ97tOyXoekVDHCs3mj8cRqeOATaY7Q75tWmtO9Y4w",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/transaction?_account_number=3c94282d",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"transaction"
+											],
+											"query": [
+												{
+													"key": "_transaction_status",
+													"value": "SUCCESS",
+													"disabled": true
+												},
+												{
+													"key": "_start_time",
+													"value": "2023-09-29 19:11:58",
+													"disabled": true
+												},
+												{
+													"key": "_end_time",
+													"value": "2023-09-29 19:11:59",
+													"disabled": true
+												},
+												{
+													"key": "_user_id",
+													"value": "2",
+													"disabled": true
+												},
+												{
+													"key": "_account_number",
+													"value": "3c94282d"
+												},
+												{
+													"key": "_verify",
+													"value": "true",
+													"disabled": true
+												},
+												{
+													"key": "_transaction_time",
+													"value": "2023-10-09",
+													"disabled": true
+												},
+												{
+													"key": "_transaction_code",
+													"value": "2b5e454db7",
+													"description": "242ee6ff70",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Account",
+							"item": [
+								{
+									"name": "Get Account",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtQGdtYWlsLmNvbSIsImlhdCI6MTY5NTk4NTY5NiwiZXhwIjoxNjk3MTk1Mjk2fQ.INmP2GZvAS-3LFJziUWs1DAsWSLj0nwA8lHE3mcG5Zq3GTFbmyIZXGGu-24vQrDB6qOwy11MwqF6nO-SgoBySw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/account",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"account"
+											],
+											"query": [
+												{
+													"key": "_user_id",
+													"value": "2",
+													"disabled": true
+												},
+												{
+													"key": "_account_number",
+													"value": "f0a337d1",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "User",
+							"item": [
+								{
+									"name": "Get User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtQGdtYWlsLmNvbSIsImlhdCI6MTY5NTk3NDI5MSwiZXhwIjoxNjk3MTgzODkxfQ.iIhjXi8muQWcPUVIcqWR02UXqNRPC72AcW89nlEhW9RIBZBCSXqdG0zXa-6aiQW3siuLMr0Mt9JVHEggoSmqzg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/users?_role=USER",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"users"
+											],
+											"query": [
+												{
+													"key": "_email",
+													"value": "admin@gmail.com",
+													"disabled": true
+												},
+												{
+													"key": "_name",
+													"value": "kiem",
+													"disabled": true
+												},
+												{
+													"key": "_role",
+													"value": "USER"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get User Logined Information",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtQGdtYWlsLmNvbSIsImlhdCI6MTY5NTk3NDI5MSwiZXhwIjoxNjk3MTgzODkxfQ.iIhjXi8muQWcPUVIcqWR02UXqNRPC72AcW89nlEhW9RIBZBCSXqdG0zXa-6aiQW3siuLMr0Mt9JVHEggoSmqzg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/users/information",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"users",
+												"information"
+											],
+											"query": [
+												{
+													"key": "_email",
+													"value": "admin@gmail.com",
+													"disabled": true
+												},
+												{
+													"key": "_name",
+													"value": null,
+													"disabled": true
+												},
+												{
+													"key": "_email",
+													"value": null,
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get User FullName By Account Number",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtQGdtYWlsLmNvbSIsImlhdCI6MTY5NjU4ODQ2MCwiZXhwIjoxNjk3Nzk4MDYwfQ.ST5AkTboz5lFmiYnVTKaq0NmeqKclOmJMnijjZiPEn0eV5GzRI14CTzPhueRuXd_CpPqVKjcUjdGgkq7SJQo8Q",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/user/getFullNameByAccount/1e68d099",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"user",
+												"getFullNameByAccount",
+												"1e68d099"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Insert User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2OTU5NzQ3NTYsImV4cCI6MTY5NzE4NDM1Nn0.AAA6QYNwYJF-TSTTiEXuFPyhLBpAUEYmBVvO-J1T54yKg8FnVFV9obD2IvOc7ztz0OVC_t1Ao5jP_2-C4STtzQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"firstName\": \"Nguyen Dinh\",\r\n    \"lastName\": \"Khoi\",\r\n    \"email\": \"khoi@gmail.com\",\r\n    \"password\": \"Abcd@1234\",\r\n    \"address\": \"Gò vấp\",\r\n    \"phoneNumber\": \"023456789\",\r\n    \"role\": \"ADMIN\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/users?otp=123456",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"users"
+											],
+											"query": [
+												{
+													"key": "otp",
+													"value": "123456"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2OTU5NzQ3NTYsImV4cCI6MTY5NzE4NDM1Nn0.AAA6QYNwYJF-TSTTiEXuFPyhLBpAUEYmBVvO-J1T54yKg8FnVFV9obD2IvOc7ztz0OVC_t1Ao5jP_2-C4STtzQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"firstName\": \"Nguyen Dinh\",\r\n    \"lastName\": \"Khoi\",\r\n    \"email\": \"khoi@gmail.com\",\r\n    \"password\": \"Abcd@1234\",\r\n    \"address\": \"Bình Tân\",\r\n    \"phoneNumber\": \"023456789\",\r\n    \"role\": \"USER\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/users/3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"users",
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Reset Password",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtQGdtYWlsLmNvbSIsImlhdCI6MTY5NTk3NzUwOCwiZXhwIjoxNjk3MTg3MTA4fQ.qd9392d6PdLOaEAMlVBP1qAp-txWPDsDjS39z_cfa6uoM3qLNUdJr_85AL70u2yAMS8Z7gf099D200DFNnuwgg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/users/reset_password/3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"users",
+												"reset_password",
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ChangeStatusUser",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/users/change_status/4",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"users",
+												"change_status",
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "File",
+							"item": [
+								{
+									"name": "Get Files",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/files?_ids=1,2",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"files"
+											],
+											"query": [
+												{
+													"key": "_ids",
+													"value": "1,2"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Upload",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODYwODIyNTIsImV4cCI6MTY4NzI5MTg1Mn0.sp2W3Nvgofn4fNu3plSDI02tdtQuNAj5S5gJu3KnOENoUrDKgWr4EWE6b7Eh827y12Uclf-BBZIcfoYxoO4fzQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "documents",
+													"type": "file",
+													"src": "/C:/Users/kiemp/Downloads/LUAT-AN-NINH-MANG.pdf"
+												},
+												{
+													"key": "images",
+													"type": "file",
+													"src": "/D:/Data/Hình ảnh/pts/see-you-2019.jpg"
+												},
+												{
+													"key": "type",
+													"value": "0",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/files",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"files"
+											],
+											"query": [
+												{
+													"key": "documents",
+													"value": null,
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Files",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODU4OTI5NzQsImV4cCI6MTY4NzEwMjU3NH0.2T1sdgdKlkHnLs4oJYONBOcwByKZ4ekCdsJTL_cqOERHiwha4B7lh_gqSnByvyoirtonNQQR-gmaUCKbPGdCmA",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/files",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"files"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Test",
+							"item": []
+						},
+						{
+							"name": "OTP",
+							"item": [
+								{
+									"name": "CreateOTP",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/otp?email=kiempham1256@gmail.com&type=TRANSACTION",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"otp"
+											],
+											"query": [
+												{
+													"key": "email",
+													"value": "kiempham1256@gmail.com"
+												},
+												{
+													"key": "type",
+													"value": "TRANSACTION"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "WebSocket",
+							"item": [
+								{
+									"name": "CreateOTP",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/socket/send-message",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"socket",
+												"send-message"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Statistic",
+							"item": [
+								{
+									"name": "Get Statistics",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNjk4ODUyMzM5LCJleHAiOjE2OTg4NTQxMzl9.VgT868ktkNzvQXiqtC2MYoIgv6maz-_udWLHRc7wxYvt_g8w_1U-AdveEVdIRIsKKg9Y9ixJ8MCNMR5MEBWY0A",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/transaction/get_statistics",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"transaction",
+												"get_statistics"
+											],
+											"query": [
+												{
+													"key": "_account_number",
+													"value": "3c94282d",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Statistic Balance",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNjk4ODUyMzM5LCJleHAiOjE2OTg4NTQxMzl9.VgT868ktkNzvQXiqtC2MYoIgv6maz-_udWLHRc7wxYvt_g8w_1U-AdveEVdIRIsKKg9Y9ixJ8MCNMR5MEBWY0A",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/transaction/get_statistic_balance?_account_number=3c94282d",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"transaction",
+												"get_statistic_balance"
+											],
+											"query": [
+												{
+													"key": "_account_number",
+													"value": "3c94282d"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Statistic Month",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNjk4ODU0OTYwLCJleHAiOjE2OTg4NTY3NjB9.JQQiA4CmR1WEPgYNvD-qcWqQ6gR_8R-8FGRPoXg4rihKqvpFvWeuWXxBAe4KHPw7WXQ445wDqDYWVUhxF-doag",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/transaction/get_statistics_month?_account_number=3c94282d",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"transaction",
+												"get_statistics_month"
+											],
+											"query": [
+												{
+													"key": "_account_number",
+													"value": "3c94282d"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "DATN_HYBERLEDGER_FABRIC",
+			"item": [
+				{
+					"name": "Agreement",
+					"item": [
+						{
+							"name": "Get Agreements",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{org1-user-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"user7@gmail.com\",\n    \"name\":\"pavan\",\n    \"password\":\"test@12345\",\n    \"department\": \"legal\",\n    \"orgId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.152.129:4000/v1/agreements?pageSize=100&filterType=inprogress",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"152",
+										"129"
+									],
+									"port": "4000",
+									"path": [
+										"v1",
+										"agreements"
+									],
+									"query": [
+										{
+											"key": "pageSize",
+											"value": "100"
+										},
+										{
+											"key": "bookmark",
+											"value": "\"\"",
+											"disabled": true
+										},
+										{
+											"key": "filterType",
+											"value": "inprogress"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Agreements Expiring",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{org1-user-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"user7@gmail.com\",\n    \"name\":\"pavan\",\n    \"password\":\"test@12345\",\n    \"department\": \"legal\",\n    \"orgId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/v1/agreements?pageSize=100&filterType=inprogress",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"agreements"
+									],
+									"query": [
+										{
+											"key": "pageSize",
+											"value": "100"
+										},
+										{
+											"key": "bookmark",
+											"value": "\"\"",
+											"disabled": true
+										},
+										{
+											"key": "filterType",
+											"value": "inprogress"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Agreement by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{org1-user-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"user7@gmail.com\",\n    \"name\":\"pavan\",\n    \"password\":\"test@12345\",\n    \"department\": \"legal\",\n    \"orgId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/v1/agreements/c6e15959-7411-40ff-8a0a-bdec594d919b",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"agreements",
+										"c6e15959-7411-40ff-8a0a-bdec594d919b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get History By ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{org1-user-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"user7@gmail.com\",\n    \"name\":\"pavan\",\n    \"password\":\"test@12345\",\n    \"department\": \"legal\",\n    \"orgId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/v1/agreements/c6e15959-7411-40ff-8a0a-bdec594d919b",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"agreements",
+										"c6e15959-7411-40ff-8a0a-bdec594d919b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Agreement",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjMxNTYzODMsInVzZXJuYW1lIjoidXNlcjM0QGdtYWlsLmNvbSIsIm9yZ05hbWUiOiJPcmcxIiwiaWF0IjoxNjYzMTIwMzgzfQ.K2cy327HAA1Nz5Xj-6a9bG4pxsCAEwYKu0P5IeL-UP8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY5MDA5MTMsInVzZXJuYW1lIjoicGF2YW4iLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTU3Njg2NDkxM30.3T8fgkzz4rey-ioIPXu3-Ou9jZa8RLOgUN4OW1SsYP4",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"fcn\": \"CreateContract\",\n   \"args\": [\"{\\\"comments\\\":[\\\"test comments 2\\\"],\\\"contract\\\":\\\"Laptop Contract\\\",\\\"createAt\\\":\\\"2022-09-10T11:15:06.254Z\\\",\\\"createBy\\\":\\\"user42@gmail.com\\\",\\\"department\\\":\\\"legal\\\",\\\"docType\\\":\\\"agreement\\\",\\\"document\\\":{\\\"contentHash\\\":\\\"ff44e9c20a77d9195c71a868b705d7f059e91a8e\\\",\\\"createAt\\\":\\\"2022-09-10T11:15:06.254Z\\\",\\\"createBy\\\":\\\"user42@gmail.com\\\",\\\"id\\\":\\\"ff44e9c20a77d9195c71a868b705d7f059e91a8e-test pdf file.pdf\\\",\\\"name\\\":\\\"test pdf file\\\",\\\"updatedAt\\\":\\\"2022-09-10T11:15:06.254Z\\\",\\\"updatedBy\\\":\\\"user42@gmail.com\\\",\\\"url\\\":\\\"https://contract-management.s3.us-east-2.amazonaws.com/org1/ff44e9c20a77d9195c71a868b705d7f059e91a8e-test%20pdf%20file.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT2TNFSXBMHO357PO%2F20220911%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20220911T054140Z&X-Amz-Expires=3600&X-Amz-Signature=400c4c4f380e78fe30271dd986b787b75662264310deefe837008e8ef536e6ce&X-Amz-SignedHeaders=host\\\"},\\\"endDate\\\":\\\"2022-10-10T06:05:21.732Z\\\",\\\"firstParty\\\":\\\"IBM\\\",\\\"id\\\":\\\"1889b914-3c66-4497-9eb3-b0882b3c3ae7\\\",\\\"orgId\\\":\\\"1\\\",\\\"owner\\\":\\\"org1\\\",\\\"secondParty\\\":\\\"Lenovo\\\",\\\"startDate\\\":\\\"2022-09-10T06:05:21.732Z\\\",\\\"status\\\":\\\"pending\\\",\\\"title\\\":\\\"Hardware Terms Agreement\\\",\\\"typeOfContract\\\":\\\"Legal Agreement\\\",\\\"updatedAt\\\":\\\"2022-09-10T11:15:06.254Z\\\",\\\"updatedBy\\\":\\\"user42@gmail.com\\\",\\\"approvals\\\":[{\\\"action\\\":\\\"No Action needed\\\",\\\"agreementId\\\":\\\"8889b914-3c66-4497-9eb3-b0882b3c3ae7\\\",\\\"comment\\\":\\\"Agreement approved\\\",\\\"createAt\\\":\\\"2022-09-11T05:39:29.977Z\\\",\\\"createBy\\\":\\\"user42@gmail.com\\\",\\\"department\\\":\\\"legal\\\",\\\"description\\\":\\\"user7@gmail.com\\\",\\\"docType\\\":\\\"approval\\\",\\\"id\\\":\\\"16d51a8e-b9be-4ab4-9b27-6dca6931827d\\\",\\\"orgId\\\":\\\"1\\\",\\\"status\\\":\\\"approved\\\",\\\"updatedAt\\\":\\\"2022-09-11T05:39:29.977Z\\\",\\\"updatedBy\\\":\\\"user42@gmail.com\\\"}]}\"]\n}"
+								},
+								"url": {
+									"raw": "http://localhost:4000/channels/mychannel/chaincodes/test",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"channels",
+										"mychannel",
+										"chaincodes",
+										"test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get History Of Asset Copy",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjMxNTYzODMsInVzZXJuYW1lIjoidXNlcjM0QGdtYWlsLmNvbSIsIm9yZ05hbWUiOiJPcmcxIiwiaWF0IjoxNjYzMTIwMzgzfQ.K2cy327HAA1Nz5Xj-6a9bG4pxsCAEwYKu0P5IeL-UP8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/channels/mychannel/chaincodes/test?args=[\"1889b914-3c66-4497-9eb3-b0882b3c3ae7\"]&fcn=getAssetHistory",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"channels",
+										"mychannel",
+										"chaincodes",
+										"test"
+									],
+									"query": [
+										{
+											"key": "args",
+											"value": "[\"1889b914-3c66-4497-9eb3-b0882b3c3ae7\"]"
+										},
+										{
+											"key": "fcn",
+											"value": "getAssetHistory"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"00000000\",\n\t\"orgName\": \"Org1\"\n}\t"
+						},
+						"url": {
+							"raw": "http://192.168.152.129:4000/users",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User Secret",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"00000000\",\n\t\"orgName\": \"Org1\"\n}\t"
+						},
+						"url": {
+							"raw": "http://192.168.152.129:4000/users/register",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"00000000\",\n\t\"orgName\": \"Org1\"\n}\t"
+						},
+						"url": {
+							"raw": "http://192.168.152.129:4000/users/login",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY5MDA5MTMsInVzZXJuYW1lIjoicGF2YW4iLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTU3Njg2NDkxM30.3T8fgkzz4rey-ioIPXu3-Ou9jZa8RLOgUN4OW1SsYP4",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fcn\": \"CreateTransaction\",\n    \"args\": [\"TX123455\",\"2023-09-23T10:50:10Z\",\"$2a$12$TGDSnLWrdqFTKDiTYESNFelNajEonwX7wtdZwYOz3WW/1QlWcxRFKs\"]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"transaction_cc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY5MDA5MTMsInVzZXJuYW1lIjoicGF2YW4iLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTU3Njg2NDkxM30.3T8fgkzz4rey-ioIPXu3-Ou9jZa8RLOgUN4OW1SsYP4",
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fcn\": \"UpdateTransactionById\",\n    \"args\": [\"TX123454\",\"2023-09-22T11:50:10Z\",\"$2a$12$/KvsGn11qi65cQBiDeastelZm3zdrZJlT9xfZ7ETmLcQSOP.s/iGa\"]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"transaction_cc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Transaction",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?fcn=GetAllTransaction",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"transaction_cc"
+							],
+							"query": [
+								{
+									"key": "fcn",
+									"value": "GetAllTransaction"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"TX123456\",\"2023-09-22T11:50:10Z\"]&fcn=GetTransactionById",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"transaction_cc"
+							],
+							"query": [
+								{
+									"key": "args",
+									"value": "[\"TX123456\",\"2023-09-22T11:50:10Z\"]"
+								},
+								{
+									"key": "fcn",
+									"value": "GetTransactionById"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction By IDs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"TX123456\"]&fcn=GetTransactionByIds",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"transaction_cc"
+							],
+							"query": [
+								{
+									"key": "args",
+									"value": "[\"TX123456\"]"
+								},
+								{
+									"key": "fcn",
+									"value": "GetTransactionByIds"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction By Conditions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?args=[[[\"TX123456\",\"2023-09-22T11:50:10Z\"]]]&fcn=GetTransactionByConditions",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"transaction_cc"
+							],
+							"query": [
+								{
+									"key": "args",
+									"value": "[[[\"TX123456\",\"2023-09-22T11:50:10Z\"]]]"
+								},
+								{
+									"key": "fcn",
+									"value": "GetTransactionByConditions"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction For Query",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?fcn=GetTransactionForQuery&args=[\"{\\\"selector\\\":{\\\"ID\\\":{\\\"$in\\\":[\\\"TX123456\\\",\\\"TX123457\\\"]}}}\"]",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"transaction_cc"
+							],
+							"query": [
+								{
+									"key": "fcn",
+									"value": "GetTransactionForQuery"
+								},
+								{
+									"key": "args",
+									"value": "[\"{\\\"selector\\\":{\\\"ID\\\":{\\\"$in\\\":[\\\"TX123456\\\",\\\"TX123457\\\"]}}}\"]"
+								},
+								{
+									"key": "args",
+									"value": "[\"{\\\"selector\\\":{\\\"ID\\\":{\\\"$gt\\\":null}}}\"]",
+									"disabled": true
+								},
+								{
+									"key": "args",
+									"value": "[\"{\\\"selector\\\": {\\\"ID\\\":\\\"TX123456\\\",\\\"CreateTime\\\":\\\"2023-09-22T11:50:10Z\\\"}}\"]",
+									"disabled": true
+								},
+								{
+									"key": "args",
+									"value": "[\"{\\\"selector\\\":{}}\"]",
+									"disabled": true
+								},
+								{
+									"key": "args",
+									"value": "[\"all\"]",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction By Transaction Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/qscc/channels/mychannel/chaincodes/qscc?args=[\"3018162fa3743dd7fd3dfbbd0c2ee9debec38c487562f6e8d53f8c2d38426da5\"]&peer=peer0.org1.example.com&fcn=GetTransactionByID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"qscc",
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"qscc"
+							],
+							"query": [
+								{
+									"key": "args",
+									"value": "[\"3018162fa3743dd7fd3dfbbd0c2ee9debec38c487562f6e8d53f8c2d38426da5\"]"
+								},
+								{
+									"key": "peer",
+									"value": "peer0.org1.example.com"
+								},
+								{
+									"key": "fcn",
+									"value": "GetTransactionByID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Block By block Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.152.129:4000/qscc/channels/mychannel/chaincodes/transaction_cc?peer=peer0.org1.example.com&fcn=GetBlockByNumber&args=[\"5\"]",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"qscc",
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"transaction_cc"
+							],
+							"query": [
+								{
+									"key": "peer",
+									"value": "peer0.org1.example.com"
+								},
+								{
+									"key": "fcn",
+									"value": "GetBlockByNumber"
+								},
+								{
+									"key": "args",
+									"value": "[\"5\"]"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get History Of Asset",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"9d77b61a7b\"]&fcn=GetHistoryForTransaction",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"transaction_cc"
+							],
+							"query": [
+								{
+									"key": "args",
+									"value": "[\"9d77b61a7b\"]"
+								},
+								{
+									"key": "fcn",
+									"value": "GetHistoryForTransaction"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY5MDA5MTMsInVzZXJuYW1lIjoicGF2YW4iLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTU3Njg2NDkxM30.3T8fgkzz4rey-ioIPXu3-Ou9jZa8RLOgUN4OW1SsYP4",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fcn\": \"DeleteTransactionById\",\n    \"args\": [\"TX1234561\"]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"152",
+								"129"
+							],
+							"port": "4000",
+							"path": [
+								"channels",
+								"mychannel",
+								"chaincodes",
+								"transaction_cc"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DATN_LISTENER",
+			"item": [
+				{
+					"name": "Post Event From Hyperledger",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"eventHyperType\": \"DeleteTransEvent\",\r\n    \"data\": \"Abcd71363\"\r\n}\r\n// {\r\n//     \"eventHyperType\": \"AddTransEvent\",\r\n//     \"data\": {\r\n//         \"ID\": \"TX123458\",\r\n//         \"CreateTime\": \"2023-09-23T10:50:10Z\",\r\n//         \"DataHash\": \"$2a$12$TGDSnLWrdqFTKDiTYESNFelNajEonwX7wtdZwYOz3WW/1QlWcxRFKs\"\r\n//     }\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/event-hyper",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"event-hyper"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DATN_SERVER_MAIL",
+			"item": [
+				{
+					"name": "Send Mail Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"token\": \"123456789\",\r\n    \"time\": \"2023-10-31 00:46:23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-reset-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Mail OTP Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"otp\": \"123456\",\r\n    \"time\": \"2023-10-31 00:46:23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-otp-register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-otp-register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Mail OTP Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"otp\": \"123456\",\r\n    \"time\": \"2023-10-31 00:46:23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-otp-login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-otp-login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Mail OTP Transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"otp\": \"123456\",\r\n    \"time\": \"2023-10-31 00:46:23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-otp-transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-otp-transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Mail Thankyou",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"user\": {\r\n        \"firstName\": \"Nguyen Dinh\",\r\n        \"lastName\": \"Khoi\",\r\n        \"email\": \"khoi@gmail.com\",\r\n        \"password\": \"Abcd@1234\",\r\n        \"address\": \"Gò vấp\",\r\n        \"phoneNumber\": \"023456789\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-thank-you",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-thank-you"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Mail Transaction Verify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"transaction\": {\r\n        \"transactionCode\": \"9573844a86\",\r\n        \"transactionTime\": \"2023-10-09T14:45:10\",\r\n        \"amount\": 10000,\r\n        \"senderAccountNumber\": \"3c94282d\",\r\n        \"senderFullName\": \"Phạm Đoàn Admin\",\r\n        \"recipientAccountNumber\": \"3c94283ns\",\r\n        \"recipientFullName\": \"Nguyễn Văn A\",\r\n        \"description\": \"Withdraw money to bank\",\r\n        \"transactionType\": \"TRANSFER\",\r\n        \"transactionStatus\": \"SUCCESS\"\r\n    },\r\n    \"time\":\"2023-10-31 00:46:23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-transaction-verify",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-transaction-verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Mail Transaction Verify Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"transaction\": {\r\n        \"transactionCode\": \"9573844a86\",\r\n        \"transactionTime\": \"2023-10-09T14:45:10\",\r\n        \"amount\": 10000,\r\n        \"senderAccountNumber\": \"3c94282d\",\r\n        \"senderFullName\": \"Phạm Đoàn Admin\",\r\n        \"recipientAccountNumber\": \"3c94283ns\",\r\n        \"recipientFullName\": \"Nguyễn Văn A\",\r\n        \"description\": \"Withdraw money to bank\",\r\n        \"transactionType\": \"TRANSFER\",\r\n        \"transactionStatus\": \"SUCCESS\"\r\n    },\r\n    \"time\":\"2023-10-31 00:46:23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-transaction-verify-to-recipient",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-transaction-verify-to-recipient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Mail Transaction Not Verify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"transaction\": {\r\n        \"transactionCode\": \"9573844a86\",\r\n        \"transactionTime\": \"2023-10-09T14:45:10\",\r\n        \"amount\": 10000,\r\n        \"senderAccountNumber\": \"3c94282d\",\r\n        \"senderFullName\": \"Phạm Đoàn Admin\",\r\n        \"recipientAccountNumber\": \"3c94283ns\",\r\n        \"recipientFullName\": \"Nguyễn Văn A\",\r\n        \"description\": \"Withdraw money to bank\",\r\n        \"transactionType\": \"TRANSFER\",\r\n        \"transactionStatus\": \"SUCCESS\"\r\n    },\r\n    \"changedTransaction\": {\r\n        \"transactionCode\": \"9573844a86\",\r\n        \"transactionTime\": \"2023-10-09T14:45:10\",\r\n        \"amount\": 100000,\r\n        \"senderAccountNumber\": \"3c94282d\",\r\n        \"senderFullName\": \"Phạm Đoàn Admin\",\r\n        \"recipientAccountNumber\": \"3c94283ns\",\r\n        \"recipientFullName\": \"Nguyễn Văn A Nguyễn Văn A Nguyễn Văn A\",\r\n        \"description\": \"Withdraw money to bank\",\r\n        \"transactionType\": \"TRANSFER\",\r\n        \"transactionStatus\": \"SUCCESS\"\r\n    },\r\n    \"time\": \"2023-10-31 00:46:23\",\r\n    \"type\": \"UPDATE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-transaction-not-verify",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-transaction-not-verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Mail Event",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"kiempham1256@gmail.com\",\r\n    \"eventHyper\": {\r\n        \"eventHyperType\": \"AddTransEvent\",\r\n        \"data\": {\r\n            \"ID\": \"TX123458\",\r\n            \"CreateTime\": \"2023-09-23T10:50:10Z\",\r\n            \"DataHash\": \"$2a$12$TGDSnLWrdqFTKDiTYESNFelNajEonwX7wtdZwYOz3WW/1QlWcxRFKs\"\r\n        }\r\n    },\r\n    \"time\": \"2023-10-31 00:46:23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-event"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
