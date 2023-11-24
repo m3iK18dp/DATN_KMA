@@ -59,9 +59,10 @@ const sendMailResetPassword = async (req, res, next) => {
   MailService.sendMail(mailOptions, (error, info) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (error) {
-      console.error(error);
+      console.log("Send Mail Reset Password to " + email + " Failed. Error: " + error);
       res.status(500).send(`Send mail to Email: ${email} - Failed`);
     } else {
+      console.log("Send Mail Reset Password to " + email + " Success.");
       res.send(`Send mail to Email: ${email} - Success`);
     }
   });
@@ -119,9 +120,10 @@ const sendMailOTPLogin = async (req, res, next) => {
   MailService.sendMail(mailOptions, (error, info) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (error) {
-      console.error(error);
+      console.log("Send Mail OTP Login to " + email + " Failed. Error: " + error);
       res.status(500).send(`Send mail to Email: ${email} - Failed`);
     } else {
+      console.log("Send Mail OTP Login to " + email + " Success.");
       res.send(`Send mail to Email: ${email} - Success`);
     }
   });
@@ -179,9 +181,10 @@ const sendMailOTPRegister = async (req, res, next) => {
   MailService.sendMail(mailOptions, (error, info) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (error) {
-      console.error(error);
+      console.log("Send Mail OTP Register to " + email + " Failed. Error: " + error);
       res.status(500).send(`Send mail to Email: ${email} - Failed`);
     } else {
+      console.log("Send Mail OTP Register to " + email + " Success.");
       res.send(`Send mail to Email: ${email} - Success`);
     }
   });
@@ -239,9 +242,10 @@ const sendMailOTPTransaction = async (req, res, next) => {
   MailService.sendMail(mailOptions, (error, info) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (error) {
-      console.error(error);
+      console.log("Send Mail OTP Transaction to " + email + " Failed. Error: " + error);
       res.status(500).send(`Send mail to Email: ${email} - Failed`);
     } else {
+      console.log("Send Mail OTP Transaction to " + email + " Success.");
       res.send(`Send mail to Email: ${email} - Success`);
     }
   });
@@ -326,9 +330,10 @@ const sendMailThankyou = async (req, res, next) => {
   MailService.sendMail(mailOptions, (error, info) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (error) {
-      console.error(error);
+      console.log("Send Mail Thank You to " + email + " Failed. Error: " + error);
       res.status(500).send(`Send mail to Email: ${email} - Failed`);
     } else {
+      console.log("Send Mail Thank You to " + email + " Success.");
       res.send(`Send mail to Email: ${email} - Success`);
     }
   });
@@ -456,9 +461,10 @@ const sendMailTransactionVerify = async (req, res, next) => {
   MailService.sendMail(mailOptions, (error, info) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (error) {
-      console.error(error);
+      console.log("Send Mail Transaction Verify to " + email + " Failed. Error: " + error);
       res.status(500).send(`Send mail to Email: ${email} - Failed`);
     } else {
+      console.log("Send Mail Transaction Verify to " + email + " Success.");
       res.send(`Send mail to Email: ${email} - Success`);
     }
   });
@@ -576,9 +582,10 @@ const sendMailTransactionVerifyToRecipient = async (req, res, next) => {
   MailService.sendMail(mailOptions, (error, info) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (error) {
-      console.error(error);
+      console.log("Send Mail Transaction Verity to Recipient: " + email + " Failed. Error: " + error);
       res.status(500).send(`Send mail to Email: ${email} - Failed`);
     } else {
+      console.log("Send Mail Transaction Verity to Recipient: " + email + " Success.");
       res.send(`Send mail to Email: ${email} - Success`);
     }
   });
@@ -858,9 +865,10 @@ const sendMailTransactionNotVerify = async (req, res, next) => {
   MailService.sendMail(mailOptions, (error, info) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (error) {
-      console.error(error);
+      console.log("Send Mail Transaction NOT Verity to " + email + " Failed. Error: " + error);
       res.status(500).send(`Send mail to Email: ${email} - Failed`);
     } else {
+      console.log("Send Mail Transaction NOT Verity to " + email + " Success.");
       res.send(`Send mail to Email: ${email} - Success`);
     }
   });
@@ -939,9 +947,10 @@ const sendMailEvent = async (req, res, next) => {
   MailService.sendMail(mailOptions, (error, info) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (error) {
-      console.error(error);
+      console.log("Send Mail Event to " + email + " Failed. Error: " + error);
       res.status(500).send(`Send mail to Email: ${email} - Failed`);
     } else {
+      console.log("Send Mail Event to " + email + " Success.");
       res.send(`Send mail to Email: ${email} - Success`);
     }
   });

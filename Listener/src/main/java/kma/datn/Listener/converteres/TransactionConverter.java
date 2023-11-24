@@ -17,7 +17,6 @@ public class TransactionConverter implements AttributeConverter<Transaction, Str
             return objectMapper.writeValueAsString(transaction);
         } catch (Exception e) {
             return null;
-//            throw new RuntimeException("Error converting Transaction to JSON", e);
         }
     }
 
@@ -27,7 +26,6 @@ public class TransactionConverter implements AttributeConverter<Transaction, Str
             return objectMapper.readValue(transactionJson, Transaction.class);
         } catch (Exception e) {
             return null;
-//            throw new RuntimeException("Error converting JSON to Transaction", e);
         }
     }
 }

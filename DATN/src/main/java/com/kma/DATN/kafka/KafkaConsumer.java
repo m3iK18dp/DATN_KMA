@@ -4,13 +4,16 @@ package com.kma.DATN.kafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kma.DATN.fabric.DTO.TransactionFabric;
 import com.kma.DATN.fabric.IHyperledgerFabricService;
-import com.kma.DATN.mail.DTO.RequestSendEvent;
 import com.kma.DATN.mail.DTO.RequestSendTransactionNotVerify;
 import com.kma.DATN.mail.DTO.RequestSendTransactionVerify;
 import com.kma.DATN.mail.IMailService;
-import com.kma.DATN.models.*;
+import com.kma.DATN.models.TransactionType;
+import com.kma.DATN.models.TriggerLog;
+import com.kma.DATN.models.TriggerType;
+import com.kma.DATN.models.User;
 import com.kma.DATN.repositories.TransactionRepository;
 import com.kma.DATN.repositories.TriggerRepository;
 import com.kma.DATN.repositories.UserRepository;
@@ -21,8 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -41,7 +42,7 @@ public class KafkaConsumer {
     @Autowired
     private final UserRepository userRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaConsumer.class);
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @KafkaListener(topics = "java", groupId = "myGroup")
     public void consumer(String message) {
@@ -72,7 +73,6 @@ public class KafkaConsumer {
                     requestSendTransactionNotVerify.setTransaction(trigger.getTransaction());
                     requestSendTransactionNotVerify.setChangedTransaction(trigger.getTransaction());
                     requestSendTransactionNotVerify.setType(trigger.getType());
-
                     if (trigger.getType() == TriggerType.INSERT) {
                         if (checkVerify) {
                             TriggerLog checkSendMail = triggerRepository.checkSendMail(trigger.getTransaction().getTransactionCode());
@@ -134,24 +134,6 @@ public class KafkaConsumer {
                     }
                 });
             }
-        } catch (JsonProcessingException e) {
-            LOGGER.error(e.getMessage());
-        }
-    }
-
-    @KafkaListener(topics = "event", groupId = "myGroup")
-    public void consumerEvent(String message) {
-        LOGGER.info(String.format("Event received -> %s", message));
-        try {
-            EventHyper eventHyper = objectMapper.readValue(message, EventHyper.class);
-            RequestSendEvent requestSendEvent = new RequestSendEvent();
-            requestSendEvent.setEmail("kiempham1256@gmail.com");
-            requestSendEvent.setTime(Timestamp.valueOf(LocalDateTime.now()));
-            requestSendEvent.setEventHyper(eventHyper);
-            if (mailService.sendMailEvent(requestSendEvent))
-                LOGGER.info("Send Mail Event Success -> Event: " + message);
-            else
-                LOGGER.info("Send Mail Event Failed -> Event: " + message);
         } catch (JsonProcessingException e) {
             LOGGER.error(e.getMessage());
         }

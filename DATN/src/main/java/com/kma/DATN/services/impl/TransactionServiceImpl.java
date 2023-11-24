@@ -14,6 +14,7 @@ import com.kma.DATN.repositories.UserRepository;
 import com.kma.DATN.services.IOTPService;
 import com.kma.DATN.services.ITransactionService;
 import com.kma.DATN.util.JwtTokenUtil;
+import com.kma.DATN.websocket.WebSocketService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.misc.MultiMap;
@@ -49,6 +50,8 @@ public class TransactionServiceImpl implements ITransactionService {
     private final AccountRepository accountRepository;
     @Autowired
     private final IHyperledgerFabricService hyperledgerFabricService;
+    @Autowired
+    private final WebSocketService webSocketService;
 
     @Override
     public User extractUser(HttpServletRequest request) {
@@ -230,6 +233,7 @@ public class TransactionServiceImpl implements ITransactionService {
             transactionRepository.save(transaction);
             accountRepository.save(senderAccount);
             accountRepository.save(recipientAccount);
+            webSocketService.sendMessage(recipientAccount.getAccountNumber(), "refresh-trans-history");
         } else throw new RuntimeException("Failed add transaction to fabric network");
 
         return new TransactionRequestDto(transaction);

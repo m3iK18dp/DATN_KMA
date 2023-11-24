@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import otpService from "../services/OTPService";
-function OTPComponent({ otp = [], setOtp, showOTP, setShowOTP, funcConfirm, inProcessing }) {
+function OTPComponent({ otp = [], setOtp, showOTP, setShowOTP, funcConfirm, inProcessing, setInProcessing }) {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
@@ -45,6 +45,7 @@ function OTPComponent({ otp = [], setOtp, showOTP, setShowOTP, funcConfirm, inPr
   };
   const [countTime, setCountTime] = useState(-1)
   const handleSendOTP = () => {
+    setInProcessing(true);
     const username = sessionStorage.getItem("username");
     if (username)
       if (countTime <= 0 && username) {
@@ -52,6 +53,7 @@ function OTPComponent({ otp = [], setOtp, showOTP, setShowOTP, funcConfirm, inPr
         otpService.createOTP(username, 3, navigate)
           .then(
             res => {
+              setInProcessing(false)
               if (res.status === "ok") {
                 toast.success((countTime === -1 ? "Send" : "Resend") + " OTP Success", { autoClose: 1000 });
                 setCountTime(60);
@@ -69,6 +71,7 @@ function OTPComponent({ otp = [], setOtp, showOTP, setShowOTP, funcConfirm, inPr
   }, [showOTP])
   useEffect(() => {
     setTimeout(() => {
+      if (countTime === 0) { setInProcessing(false) }
       if (countTime > 0 && countTime <= 60)
         setCountTime(countTime - 1);
     }, 1000)
@@ -161,10 +164,12 @@ function OTPComponent({ otp = [], setOtp, showOTP, setShowOTP, funcConfirm, inPr
                 backgroundColor: "white",
                 borderRadius: 5,
               }}
-              onMouseEnter={(e) => (e.target.style.cursor = "pointer")}
+              onMouseEnter={(e) => (e.currentTarget.style.cursor = inProcessing ? "not-allowed" : "pointer")}
               onClick={() => {
-                setOtp(["", "", "", "", "", ""]);
-                setShowOTP(false);
+                if (!inProcessing) {
+                  setOtp(["", "", "", "", "", ""]);
+                  setShowOTP(false);
+                }
               }}
             >
               <span>Cancel</span>

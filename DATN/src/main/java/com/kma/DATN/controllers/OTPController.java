@@ -18,7 +18,6 @@ public class OTPController {
     @Autowired
     private final IOTPService otpService;
 
-
     @PostMapping()
     public ResponseObject<Boolean> createOTP(@RequestParam("email") String email, @RequestParam("type") OTPType type) {
         try {

@@ -31,6 +31,7 @@ import moment from "moment";
 import { LuBadgeDollarSign } from "react-icons/lu";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import formatter from "../../utils/formatter";
+import WebSocketComponent from "../../components/WebSocketComponent";
 function Dashboard() {
   const navigate = useNavigate();
   const prams = useParams();
@@ -135,6 +136,10 @@ function Dashboard() {
   }, [selectOption]);
   useEffect(() => {
     checkToken(navigate);
+    getTrans()
+
+  }, [window.location.href]);
+  const getTrans = () => {
     const searchParams = new URLSearchParams(location.search);
     const currentParams = {};
     [
@@ -176,7 +181,7 @@ function Dashboard() {
     setParams(currentParams);
     // if (params._account_number && params._account_number !== "")
     // if (!isFirst)
-  }, [window.location.href]);
+  }
   useEffect(() => {
     if (search.account_number !== "")
       transactionService.get(params, navigate).then((data) => {
@@ -309,6 +314,7 @@ function Dashboard() {
 
   return (
     <div style={{ display: "flex", width: "100%", height: "100%" }}>
+      {selectOption?.accountNumber && <WebSocketComponent destination={selectOption.accountNumber} func={getTrans} />}
       <PinComponent
         checkPin={checkPin === true || checkPin === null}
         setCheckPin={setCheckPin}

@@ -12,4 +12,5 @@ public class KafkaTopicConfig {
     public NewTopic javaTopic() {
         return TopicBuilder.name("java").build();
     }
+
 }

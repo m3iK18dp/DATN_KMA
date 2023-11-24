@@ -15,6 +15,7 @@ import Transfer from "./page/user/Transfer";
 import Dashboard from "./page/user/Dashboard";
 import { useEffect, useState } from "react";
 import ScrollToTopButton from "./components/ScrollToTopButton";
+import WebSocketComponent from "./components/WebSocketComponent";
 
 function RouteApp() {
   const [token, setToken] = useState(localStorage.getItem("token"));

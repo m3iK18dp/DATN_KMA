@@ -142,6 +142,7 @@ function Withdraw() {
           showOTP={showOTP}
           funcConfirm={handleSubmit}
           inProcessing={inProcessing}
+          setInProcessing={setInProcessing}
         ></OTPComponent>
         <div
           style={{
@@ -239,7 +240,7 @@ function Withdraw() {
                             width: 200,
                             borderRadius: 7,
                           }}
-                          title="Save"
+                          title="Withdraw"
                         >
                           <span>{"   "}Withdraw</span>
                         </Button>

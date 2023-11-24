@@ -2,6 +2,7 @@ package kma.datn.Listener.components;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.shyiko.mysql.binlog.BinaryLogClient;
 import com.github.shyiko.mysql.binlog.event.*;
 import kma.datn.Listener.kafka.KafkaProducer;
@@ -24,7 +25,7 @@ public class MyBinlogEventListener implements BinaryLogClient.EventListener {
     @Autowired
     private final KafkaProducer kafkaProducer;
     Logger LOGGER = LoggerFactory.getLogger(MyBinlogEventListener.class);
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @Override
     public void onEvent(Event event) {
@@ -35,27 +36,27 @@ public class MyBinlogEventListener implements BinaryLogClient.EventListener {
             if (eventType == EventType.EXT_WRITE_ROWS) {
                 WriteRowsEventData writeDate = (WriteRowsEventData) data;
                 LOGGER.info(writeDate.toString());
-                if (writeDate.getTableId() == 111) {
+                if (writeDate.getTableId() == 121) {
                     List<TriggerLog> triggerLogs = triggerLogRepository.findTriggerNotCheck();
                     kafkaProducer.sendMessage(objectMapper.writeValueAsString(triggerLogs));
                     LogManager.writeLog(writeDate.toString(), 1);
-                } else if (writeDate.getTableId() == 118) {
+                } else if (writeDate.getTableId() == 119) {
                     LogManager.writeLog(writeDate.toString(), 0);
                 } else LogManager.writeLog(writeDate.toString(), 2);
             } else if (eventType == EventType.EXT_UPDATE_ROWS) {
                 UpdateRowsEventData updateData = (UpdateRowsEventData) data;
                 LOGGER.info(updateData.toString());
-                if (updateData.getTableId() == 111) {
+                if (updateData.getTableId() == 121) {
                     LogManager.writeLog(updateData.toString(), 1);
-                } else if (updateData.getTableId() == 118) {
+                } else if (updateData.getTableId() == 119) {
                     LogManager.writeLog(updateData.toString(), 0);
                 } else LogManager.writeLog(updateData.toString(), 2);
             } else if (eventType == EventType.EXT_DELETE_ROWS) {
                 DeleteRowsEventData deleteData = (DeleteRowsEventData) data;
                 LOGGER.info(deleteData.toString());
-                if (deleteData.getTableId() == 111) {
+                if (deleteData.getTableId() == 121) {
                     LogManager.writeLog(deleteData.toString(), 1);
-                } else if (deleteData.getTableId() == 118) {
+                } else if (deleteData.getTableId() == 119) {
                     LogManager.writeLog(deleteData.toString(), 0);
                 } else LogManager.writeLog(deleteData.toString(), 2);
             }

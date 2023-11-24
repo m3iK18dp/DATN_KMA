@@ -145,6 +145,7 @@ function Deposit() {
           showOTP={showOTP}
           funcConfirm={handleSubmit}
           inProcessing={inProcessing}
+          setInProcessing={setInProcessing}
         ></OTPComponent>
         <div
           style={{
@@ -242,7 +243,7 @@ function Deposit() {
                             width: 200,
                             borderRadius: 7,
                           }}
-                          title="Save"
+                          title="Deposit"
                         >
                           <span>{"   "}Deposit</span>
                         </Button>

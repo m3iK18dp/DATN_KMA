@@ -14,7 +14,6 @@ import CustomSelectOptions from "../../components/CustomSelectOptions";
 import accountService from "../../services/AccountService";
 function Transfer() {
   const navigate = useNavigate();
-  const [senderAccountIsFilled, setSenderAccountIsFilled] = useState("");
   const [recipientAccountIsFilled, setRecipientAccountIsFilled] = useState("");
   const [amountIsFilled, setAmountIsFilled] = useState("");
   const [pinIsFilled, setPinIsFilled] = useState("");
@@ -75,13 +74,6 @@ function Transfer() {
       }
       return "";
     };
-    setSenderAccountIsFilled(
-      validateInput(
-        userTransfer.senderAccount,
-        8,
-        `Please enter Sender Account Number`
-      )
-    );
     setRecipientAccountIsFilled(
       validateInput(
         userTransfer.recipientAccount,
@@ -143,6 +135,7 @@ function Transfer() {
     } else setStatus("Transfer failed! Check your information.");
   }
   const handleShowOtp = () => {
+    console.log("aaaaaaaaaaa")
     setIsFirst(false);
     if (checkForm) {
       userService.checkPinCorrect(userTransfer.pin, navigate).then(res => {
@@ -170,6 +163,7 @@ function Transfer() {
           showOTP={showOTP}
           funcConfirm={handleSubmit}
           inProcessing={inProcessing}
+          setInProcessing={setInProcessing}
         ></OTPComponent>
         <div
           style={{
@@ -293,7 +287,7 @@ function Transfer() {
                             width: 200,
                             borderRadius: 7,
                           }}
-                          title="Save"
+                          title="Transfer"
                         >
                           <span>{"   "}Transfer</span>
                         </Button>

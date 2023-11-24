@@ -74,12 +74,16 @@ public class SecurityConfigurer {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.requiresChannel()
                 .anyRequest().requiresInsecure();
+        // Tắt CSRF protection cho endpoint WebSocket
+        http.csrf().ignoringRequestMatchers("/ws", "/ws/**");
         http.cors().and().csrf().disable()
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 .requestMatchers("/api/auth/logout").authenticated()
                                 .requestMatchers("/api/auth", "/api/auth/**").permitAll()
+                                .requestMatchers("/ws", "/ws/**").permitAll()
+                                .requestMatchers("/api/socket", "/api/socket/**").permitAll()
                                 .requestMatchers("/api/otp", "/api/otp/**").permitAll()
                                 .requestMatchers("/api/test", "/api/test/**").permitAll()
                                 .requestMatchers("/api/transaction/**").authenticated()
@@ -111,10 +115,10 @@ public class SecurityConfigurer {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+//        configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-//        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

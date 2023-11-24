@@ -15,6 +15,7 @@ const callApi = async (
     url: `${API_BASE_URL}/${endpoint}`,
     method,
     headers,
+    withCredentials: true,
     timeout:
       endpoint.includes("songs") &&
         ["post", "put"].includes(method.toLowerCase())
