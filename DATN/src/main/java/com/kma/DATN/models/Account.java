@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -53,4 +54,18 @@ public class Account {
     @JsonIgnoreProperties("accounts-user")
     private User user;
 
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+
+        Account account = (Account) object;
+
+        return Objects.equals(accountNumber, account.accountNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return accountNumber != null ? accountNumber.hashCode() : 0;
+    }
 }

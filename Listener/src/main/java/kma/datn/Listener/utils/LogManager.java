@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Logger;
 
 public class LogManager {
-    public static void writeLog(String log, int type) {
+    public static void writeLog(String log, String name) {
         Logger logger = Logger.getLogger(LogManager.class.getName());
-        String fileName = type == 0 ? "transactions.log" : type == 1 ? "triggerLog.log" : type == 2 ? "all.log" : "event.log";
+        String fileName = name + ".log";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             writer.write("Time: " + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) + ", Content: " + log);
             writer.newLine();
@@ -17,11 +17,10 @@ public class LogManager {
         }
     }
 
-    public static void readLog(int type) {
+    public static void readLog(String name) {
         Logger logger = Logger.getLogger(LogManager.class.getName());
-        String nameFile = type == 0 ? "transactions" : type == 1 ? "triggerLog" : "all";
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(nameFile + ".log"));
+            BufferedReader reader = new BufferedReader(new FileReader(name + ".log"));
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);

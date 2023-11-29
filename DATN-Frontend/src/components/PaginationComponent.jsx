@@ -8,7 +8,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import convertPathSearchUrl from "../services/ConvertPathSearchUrl";
 import CustomButton from "./CustomButton";
-import ScrollToTopButton from "./ScrollToTopButton";
 
 function PaginationComponent({ currentPage, totalPages, objectsPerPage }) {
   currentPage += 1;
@@ -23,7 +22,7 @@ function PaginationComponent({ currentPage, totalPages, objectsPerPage }) {
         padding: "10px 15px 5px 15px",
         // zIndex: 1,
         display: "flex",
-        justifyContent: "flex-end",
+        justifyContent: "flex-start",
       }}
     >
       <Pagination style={{ margin: 0 }}>
@@ -113,9 +112,8 @@ function PaginationComponent({ currentPage, totalPages, objectsPerPage }) {
                   height: 35,
                   width: 30,
                   border: "1px solid #dee2e6",
-                  backgroundColor: `rgba(255, 255, 255, ${
-                    index + 1 === currentPage ? 0.5 : 0.1
-                  })`,
+                  backgroundColor: `rgba(255, 255, 255, ${index + 1 === currentPage ? 0.5 : 0.1
+                    })`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -224,9 +222,7 @@ function PaginationComponent({ currentPage, totalPages, objectsPerPage }) {
           ))}
         </Form.Control>
       </Pagination>
-      <Pagination style={{ margin: 0, marginBottom: 5 }}>
-        <ScrollToTopButton style />
-      </Pagination>
+
     </div>
   );
 }

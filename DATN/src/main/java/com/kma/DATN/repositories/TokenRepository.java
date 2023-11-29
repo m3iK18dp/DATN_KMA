@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface TokenRepository extends JpaRepository<Token, Long> {
 
     @Query(value = """
-                SELECT * FROM datn_demo.tokens t
+                SELECT * FROM tokens t
                 WHERE t.tokenType = 'BEARER' AND t.user_id = :userId AND t.REVOKED = 0
                 ORDER BY t.id desc
                 LIMIT 1

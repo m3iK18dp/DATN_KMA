@@ -311,16 +311,18 @@ function Dashboard() {
     accounts.forEach((a) => (total += a.balance));
     return total || 1;
   };
-
   return (
     <div style={{ display: "flex", width: "100%", height: "100%" }}>
-      {selectOption?.accountNumber && <WebSocketComponent destination={selectOption.accountNumber} func={getTrans} />}
+      {selectOption?.accountNumber &&
+        <WebSocketComponent destination={selectOption.accountNumber} func={getTrans} />
+      }
       <PinComponent
         checkPin={checkPin === true || checkPin === null}
         setCheckPin={setCheckPin}
       />
       <CustomToggle></CustomToggle>
       <div
+        id="container"
         style={{
           width: "100%",
           height: "100%",
@@ -773,7 +775,7 @@ function Dashboard() {
                       </td>
                       <td style={{ textAlign: "left" }}>
                         {transaction.description}
-                      </td>{" "}
+                      </td>
                       <td>
                         <TransactionType
                           transactionType={

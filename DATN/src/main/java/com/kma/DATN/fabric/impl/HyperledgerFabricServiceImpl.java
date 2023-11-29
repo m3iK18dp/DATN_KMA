@@ -3,6 +3,7 @@ package com.kma.DATN.fabric.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.kma.DATN.configures.GlobalConfig;
 import com.kma.DATN.fabric.DTO.AddTransactionRequest;
 import com.kma.DATN.fabric.DTO.Condition;
 import com.kma.DATN.fabric.DTO.TransactionFabric;
@@ -29,7 +30,7 @@ import java.util.Objects;
 
 @Service
 public class HyperledgerFabricServiceImpl implements IHyperledgerFabricService {
-    static final String URL_HYPERLEDGER_FABRIC_API = "http://192.168.152.129:4000";
+    static final String URL_HYPERLEDGER_FABRIC_API = GlobalConfig.getConfig("url_hyperledger_fabric").toString();
 
     @Override
     public String convertLocalDateTimeToTimeTimeInGolang(LocalDateTime time) {

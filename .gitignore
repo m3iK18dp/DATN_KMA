@@ -48,3 +48,8 @@ HyperledgerFabric/api-2.0/node_modules
 
 
 **.zip
+
+
+/Listener/**.log
+
+*.log

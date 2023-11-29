@@ -10,6 +10,12 @@ public class BinlogConfig {
 
     @Bean
     public BinaryLogClient binaryLogClient() {
-        return new BinaryLogClient("localhost", 3306, "datn_demo", "readTriggerDATN", "123456");
+        return new BinaryLogClient(
+                GlobalConfig.getConfig("binlog_hostname").toString(),
+                Integer.parseInt(GlobalConfig.getConfig("binlog_port").toString()),
+                GlobalConfig.getConfig("binlog_schema").toString(),
+                GlobalConfig.getConfig("binlog_username").toString(),
+                GlobalConfig.getConfig("binlog_password").toString()
+        );
     }
 }

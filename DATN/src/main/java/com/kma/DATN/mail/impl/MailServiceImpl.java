@@ -1,5 +1,6 @@
 package com.kma.DATN.mail.impl;
 
+import com.kma.DATN.configures.GlobalConfig;
 import com.kma.DATN.mail.DTO.*;
 import com.kma.DATN.mail.IMailService;
 import com.kma.DATN.models.User;
@@ -13,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 public class MailServiceImpl implements IMailService {
-    private final static String URL_MAIL_SERVER = "http://localhost:3001/";
+    private final static String URL_MAIL_SERVER = GlobalConfig.getConfig("url_mail_server").toString();
 
     @Override
     public Boolean sendMailOTPRegister(String username, String otp, LocalDateTime time) {

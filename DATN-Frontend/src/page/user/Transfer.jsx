@@ -52,7 +52,7 @@ function Transfer() {
   }, []);
   useEffect(() => {
     if (selectOption?.accountNumber)
-      set("account", selectOption.accountNumber)
+      set("senderAccount", selectOption.accountNumber)
   }, [selectOption])
   useEffect(() => {
     checkToken(navigate);
@@ -135,7 +135,6 @@ function Transfer() {
     } else setStatus("Transfer failed! Check your information.");
   }
   const handleShowOtp = () => {
-    console.log("aaaaaaaaaaa")
     setIsFirst(false);
     if (checkForm) {
       userService.checkPinCorrect(userTransfer.pin, navigate).then(res => {
@@ -166,6 +165,7 @@ function Transfer() {
           setInProcessing={setInProcessing}
         ></OTPComponent>
         <div
+          id="container"
           style={{
             position: "relative",
             width: "100%",

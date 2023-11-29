@@ -103,6 +103,7 @@ function MyPin() {
         <ToastContainer />
         <PinComponent checkPin={checkPin} setCheckPin={setCheckPin} />
         <div
+          id="container"
           style={{
             position: "relative",
             width: "100%",

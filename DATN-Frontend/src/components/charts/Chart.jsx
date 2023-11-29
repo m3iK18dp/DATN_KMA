@@ -45,7 +45,6 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
     setData({
       labels: statistics.label,
       datasets: [
-
         {
           label: "Deposit",
           fill: true,
@@ -178,36 +177,36 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
   const [withdrawVisible, setWithdrawVisible] = useState(true);
   const [transferVisible, setTransferVisible] = useState(true);
   const [creditedVisible, setCreditedVisible] = useState(true);
+
   useEffect(() => {
     let filter = [];
     if (depositVisible) filter = [...filter, "Deposit"];
     if (withdrawVisible) filter = [...filter, "Withdraw"];
     if (transferVisible) filter = [...filter, "Transfer"];
     if (creditedVisible) filter = [...filter, "Credited"];
+    let max = 0;
+    const newDatasets = data?.datasets.filter((dataset) => {
+      if (filter.includes(dataset.label)) {
+        if (dataset.data?.length > max)
+          max = dataset.data.length;
+        return true;
+      } return false;
+    })
     setDataUse({
       ...data,
-      datasets: data?.datasets.filter((dataset) =>
-        filter.includes(dataset.label)
-      ),
+      labels: data.labels?.slice(0, max),
+      datasets: newDatasets,
     });
-  }, [depositVisible, withdrawVisible, transferVisible, creditedVisible, data]);
-  const generateRandomColorArray = (length) => {
-    let arr = [];
-    for (let i = 0; i < length; i++) {
-      const r = Math.floor(Math.random() * 256);
-      const g = Math.floor(Math.random() * 256);
-      const b = Math.floor(Math.random() * 256);
-      const alpha = 0.4; // Có thể điều chỉnh độ trong suốt ở đây
 
-      arr.push(
-        // [
-        `rgba(${r}, ${g}, ${b}, ${alpha})`
-        //   `rgba(${r}, ${g}, ${b}, ${alpha})`,
-        // ]
-      );
-    }
-    return arr;
-  };
+    if (options?.scales)
+      options.scales["x"]["labels"] = data.labels?.slice(0, max)
+    setOptions({
+      ...options,
+    })
+
+
+  }, [depositVisible, withdrawVisible, transferVisible, creditedVisible, data]);
+
   return (
     <>
       <div className="col-start-2 col-end-4 p-4">
@@ -578,7 +577,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                     },
                     plugins: {
                       legend: {
-                        display: true,
+                        display: false,
                         position: "top",
                         labels: {
                           generateLabels: (chart) => {

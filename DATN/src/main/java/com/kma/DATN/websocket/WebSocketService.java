@@ -11,6 +11,6 @@ public class WebSocketService {
     private final SimpMessagingTemplate messagingTemplate;
 
     public void sendMessage(String destination, String message) {
-        messagingTemplate.convertAndSend(destination, message);
+        messagingTemplate.convertAndSend("/topic/" + destination, message);
     }
 }

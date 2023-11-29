@@ -1,6 +1,7 @@
 package com.kma.DATN.services.impl;
 
 import com.kma.DATN.DTO.UserRequestDto;
+import com.kma.DATN.configures.GlobalConfig;
 import com.kma.DATN.exception.NotFoundException;
 import com.kma.DATN.exception.UnauthorizedException;
 import com.kma.DATN.fabric.IHyperledgerFabricService;
@@ -379,19 +380,11 @@ public class UserServiceImpl implements IUserService {
     public void userInitialization() {
         if (userRepository.findByEmail("kiempham1256@gmail.com").isEmpty()) {
             try {
-                User u = new User();
-                u.setId("00000000");
-                u.setFirstName("Phạm Đoàn");
-                u.setLastName("Kiếm");
-                u.setEmail("kiempham1256@gmail.com");
-                u.setPassword(new BCryptPasswordEncoder().encode("admin_Abcd@1234"));
-                u.setAddress("17A Cộng Hòa");
-                u.setPhoneNumber("0373926165");
-                u.setStatus(UserStatus.ACTIVE);
-                u.setRole(Role.ADMIN);
+                User u = (User) GlobalConfig.getConfig("user_init_first");
                 accountService.createAccountWhenCreate(userRepository.save(u));
                 hyperledgerFabricService.registerUser(u.getId(), "Org1");
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new RuntimeException("Error when querying.");
             }
         }

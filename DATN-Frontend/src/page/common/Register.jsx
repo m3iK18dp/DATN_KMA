@@ -138,7 +138,6 @@ function Register() {
       if (countTime > 0 && countTime <= 60)
         setCountTime(countTime - 1);
     }, 1000)
-    console.log(countTime)
   }, [countTime])
   return (
     <div>

@@ -49,7 +49,7 @@ function Withdraw() {
   }, []);
   useEffect(() => {
     if (selectOption?.accountNumber)
-      set("account", selectOption.accountNumber)
+      set("senderAccount", selectOption.accountNumber)
   }, [selectOption])
   useEffect(() => {
     checkToken(navigate);
@@ -145,6 +145,7 @@ function Withdraw() {
           setInProcessing={setInProcessing}
         ></OTPComponent>
         <div
+          id="container"
           style={{
             position: "relative",
             width: "100%",

@@ -36,6 +36,7 @@ function CustomToggle() {
   };
   return (
     <div
+      id="toggle"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -81,6 +82,7 @@ function CustomToggle() {
             </>
           )}
           <div
+            id="button-toggle"
             style={{
               border: "0.5px solid white",
               padding: "2px 5px",
@@ -89,8 +91,8 @@ function CustomToggle() {
               isCollapse
                 ? "rotated collaps"
                 : isCollapse !== null
-                ? "unRotated collaps"
-                : ""
+                  ? "unRotated collaps"
+                  : ""
             }
             onClick={(event) => handleCollapse(event)}
           >

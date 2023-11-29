@@ -25,7 +25,6 @@ public class AuthController {
     @Autowired
     private final IAuthenticationService authenticationService;
 
-
     @PostMapping("/authenticate")
     public ResponseObject<List<Object>> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) {
         try {

@@ -20,7 +20,7 @@ public class EventHyperServiceImpl implements IEventHyperService {
     @Override
     public void eventHandling(EventHyper eventHyper) throws IOException {
         System.out.println(eventHyper);
-        LogManager.writeLog(eventHyper.toString(), 3);
+        LogManager.writeLog(eventHyper.toString(), "event");
 //        var data =
 //                eventHyper.getEventHyperType() != EventHyperType.DeleteTransEvent ?
 //                        new TransactionFabric((Map<String, String>) eventHyper.getData()) :

@@ -51,7 +51,6 @@ function UploadUser() {
     if (!isAdmin) navigate("/error/403");
     if (createOrUpdate === "Update")
       userService.get({ _id: id.id }, navigate).then((data) => {
-        console.log(data.data);
         setUser(data.data.content[0]);
       });
     userService

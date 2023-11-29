@@ -18,7 +18,6 @@ const CustomContextMenuUser = ({
   handleChangeStatus,
   handleResetPassword,
 }) => {
-  console.log(x, y);
   const [show, setShow] = useState({
     display: "none",
     left: x,

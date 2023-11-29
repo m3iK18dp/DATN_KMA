@@ -60,7 +60,7 @@ function RouteApp() {
                   <Route path="transfer" element={<Transfer />} />
                   <Route path="dashboard" element={<Dashboard />} />
                 </Routes>
-                <ScrollToTopButton />
+                {/* <ScrollToTopButton /> */}
               </>
               //   </LayoutManager>
             ) : (
@@ -82,7 +82,7 @@ function RouteApp() {
                 <Route path="error/:code" element={<ErrorPage />} />
                 <Route path="*" element={<ErrorPage code={404} />} />
               </Routes>
-              <ScrollToTopButton />
+              {/* <ScrollToTopButton /> */}
             </>
           }
         />

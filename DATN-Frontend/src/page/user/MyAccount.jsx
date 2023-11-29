@@ -31,6 +31,8 @@ function MyAccount() {
     firstName: "",
     lastName: "",
     email: "",
+    phoneNumber: "",
+    address: "",
     status: 1,
   });
 
@@ -201,6 +203,7 @@ function MyAccount() {
         <ToastContainer />
         <PinComponent checkPin={checkPin} setCheckPin={setCheckPin} />
         <div
+          id="container"
           style={{
             position: "relative",
             width: "100%",
@@ -295,7 +298,7 @@ function MyAccount() {
                     />
                     {readOnly ? (
                       <>
-                        <Form.Group className="mb-3" controlId="change">
+                        <Form.Group className="mb-3" controlId="change" style={{ display: "flex" }}>
                           <CustomButton
                             field={user.id}
                             IconButton={FaUserEdit}
