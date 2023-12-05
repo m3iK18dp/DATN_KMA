@@ -140,11 +140,9 @@ function Register() {
     }, 1000)
   }, [countTime])
   return (
-    <div>
+    <div className="background-image">
       <NavbarComponent disabled={inProcessing} />
-      <div className="background-container" />
       <div className=" background-container-opacity-low" />
-
       <div
         fluid="true"
         style={{
@@ -158,8 +156,8 @@ function Register() {
         <Col
           className="card"
           style={{
-            border: "3px solid purple",
-            backgroundColor: "rgba(255,255,255,0.2)",
+            border: "3px solid #5d5dd0",
+            backgroundColor: "rgba(20,20,20,0.4)",
             padding: "20px",
           }}
         >
@@ -194,6 +192,7 @@ function Register() {
                   value={user.firstName}
                   warning={firstNameIsFilled}
                   readonly={inProcessing}
+                  styleLabel={{ color: "white" }}
                 />
                 <CustomFormGroup
                   funcEnter={handleSubmit}
@@ -204,6 +203,7 @@ function Register() {
                   value={user.lastName}
                   warning={lastNameIsFilled}
                   readonly={inProcessing}
+                  styleLabel={{ color: "white" }}
                 />
               </Col>
               <CustomFormGroup
@@ -215,6 +215,7 @@ function Register() {
                 value={user.email}
                 warning={emailIsFilled}
                 readonly={inProcessing}
+                styleLabel={{ color: "white" }}
               />
               <CustomFormGroup
                 funcEnter={handleSubmit}
@@ -225,6 +226,7 @@ function Register() {
                 value={user.address}
                 warning={addressIsFilled}
                 readonly={inProcessing}
+                styleLabel={{ color: "white" }}
               />
               <CustomFormGroup
                 funcEnter={handleSubmit}
@@ -235,6 +237,7 @@ function Register() {
                 value={user.phoneNumber}
                 warning={phoneNumberIsFilled}
                 readonly={inProcessing}
+                styleLabel={{ color: "white" }}
               />
               <Col>
                 <CustomFormGroup
@@ -248,6 +251,7 @@ function Register() {
                   type="password"
                   warning={passwordIsFilled}
                   readonly={inProcessing}
+                  styleLabel={{ color: "white" }}
                 />
                 <CustomFormGroup
                   funcEnter={handleSubmit}
@@ -259,6 +263,7 @@ function Register() {
                   type="password"
                   warning={confirmPasswordIsFilled}
                   readonly={inProcessing}
+                  styleLabel={{ color: "white" }}
                 />
               </Col>
               <CustomFormGroup
@@ -272,9 +277,10 @@ function Register() {
                 value={otp}
                 warning={otpIsFilled}
                 readonly={inProcessing}
+                styleLabel={{ color: "white" }}
               />
               <div className="text-right">
-                <div className={`text-sm italic underline transition-color duration-300 hover:text-gray-600 ${countTime > 0 || user.email === "" ? "hover:cursor-not-allowed text-gray-500" : "hover:cursor-pointer"}`}
+                <div className={`text-sm italic underline transition-color duration-300  ${countTime > 0 || user.email === "" ? "hover:cursor-not-allowed" : "hover:cursor-pointer"}`}
                   onClick={() => {
                     if (countTime <= 0 && user.email !== "") {
                       setCountTime(70);
@@ -292,6 +298,9 @@ function Register() {
                         );
                     }
                   }}
+                  onMouseEnter={e => e.currentTarget.style.color = "gray"}
+                  onMouseOut={e => e.currentTarget.style.color = "white"}
+                  style={{ color: "white" }}
                 >
                   {countTime === -1 ? "Get OTP" : countTime === 0 ? "Resend OTP" : countTime <= 60 ? `Resend (${countTime}s)` : "Waiting Send OTP"}
                 </div>
@@ -329,7 +338,7 @@ function Register() {
                 {status}
               </p>
               <div className="mt-4">
-                <p className="text-center">
+                <p className="text-center" style={{ color: "white" }}>
                   You have account?{" "}
                   <Link to={inProcessing ? false : "/login"} className=" neon">
                     Login here

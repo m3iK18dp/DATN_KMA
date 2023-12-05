@@ -179,7 +179,7 @@ function Transfer() {
               className="col-md-8 offset-md-2"
               style={{
                 margin: "0px auto",
-                border: "3px solid purple",
+                border: "3px solid #5d5dd0",
                 width: "70%",
                 minWidth: 400,
                 maxWidth: 500,
@@ -189,7 +189,7 @@ function Transfer() {
               <div
                 className="card"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.2)",
+                  backgroundColor: "rgba(20,20,20,0.4)",
                 }}
               >
                 <h1

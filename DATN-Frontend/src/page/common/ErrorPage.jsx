@@ -57,24 +57,24 @@ const ErrorPage = ({ code = null }) => {
 
   return (
     <>
-      <Container>
-        <div className="background-container" />
-        <div className=" background-container-opacity-low" />
+      <div className="background-image flex justify-content-center" style={{ flexDirection: "column", height: "100vh", justifyContent: "space-between" }}>
+        {/* <div className="background-container" /> */}
+        {/* <div className=" background-container-opacity-low" /> */}
         <ToastContainer />
         <Row className="justify-content-center">
-          <Col md={6} className="text-center">
-            <h1>{`${code}: ${errors[code].default}`}</h1>
-            <h2 className="my-5">Oops! Something went wrong...</h2>
-            <p>{errors[code].message}</p>
-            <p>Please check the URL or try refreshing the page.</p>
-          </Col>
+          <Col md={12} className="text-center ">
+            <h1 style={{ color: 'white', fontSize: "70px" }}>{`${code}: ${errors[code].default}`}</h1>
+            <h2 style={{ color: 'white', fontSize: "25px" }} className="my-5">Oops! Something went wrong...</h2>
+            <p style={{ color: 'white', fontSize: "25px" }}>{errors[code].message}</p>
+            <p style={{ color: 'white', fontSize: "25px" }}>Please check the URL or try refreshing the page.</p>
+          </Col>  <p className="text-center" style={{ color: 'white', fontSize: "25px" }}>
+            Please <Link to="/">Home</Link> or{" "}
+            <Link to="/register">register</Link> or <Link to="/login">login</Link>{" "}
+            to continue.
+          </p>
         </Row>
-        <p className="text-center">
-          Please <Link to="/">Home</Link> or{" "}
-          <Link to="/register">register</Link> or <Link to="/login">login</Link>{" "}
-          to continue.
-        </p>
-      </Container>
+
+      </div>
     </>
   );
 };

@@ -167,8 +167,8 @@ const ForgetPassword = () => {
         <Col
           className="card "
           style={{
-            border: "3px solid purple",
-            backgroundColor: "rgba(255,255,255,0.2)",
+            border: "3px solid #5d5dd0",
+            backgroundColor: "rgba(20,20,20,0.4)",
           }}
         >
           <h1

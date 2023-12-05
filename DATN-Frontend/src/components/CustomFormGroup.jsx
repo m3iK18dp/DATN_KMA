@@ -18,6 +18,8 @@ const CustomFormGroup = forwardRef(
 			funcEnter,
 			formGroupStyle,
 			disabled = false,
+			style = {},
+			styleLabel = {}
 		},
 		ref,
 	) => {
@@ -27,7 +29,7 @@ const CustomFormGroup = forwardRef(
 				controlId={controlId}
 				style={formGroupStyle}
 			>
-				<Form.Label>{label}</Form.Label>
+				<Form.Label style={{ ...styleLabel }}>{label}</Form.Label>
 				<Form.Control
 					style={formControlStyle}
 					type={type}
@@ -47,19 +49,22 @@ const CustomFormGroup = forwardRef(
 					}}
 					disabled={disabled}
 				/>
-				{warning !== null && (
-					<p
-						style={{
-							fontStyle: 'italic',
-							color: 'red',
-							margin: 0,
-							fontSize: 12,
-						}}
-					>
-						{warning}
-					</p>
-				)}
-			</Form.Group>
+				{
+					warning !== null && (
+						<p
+							style={{
+								fontStyle: 'italic',
+								color: 'red',
+								margin: 0,
+								fontSize: 12,
+								...style
+							}}
+						>
+							{warning}
+						</p>
+					)
+				}
+			</Form.Group >
 		);
 	},
 );

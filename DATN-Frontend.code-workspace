@@ -1,15 +1,18 @@
 {
   "folders": [
-	{
-		"path": "DATN-Frontend"
-	},
-	{
-		"path": "mail-server"
-	},
-	{
-		"path": "../../GitHub/DATN-HyperledgerFabric"
-	}
-],
+    {
+      "path": "DATN-Frontend"
+    },
+    {
+      "path": "mail-server"
+    },
+    {
+      "path": "../../GitHub/DATN-HyperledgerFabric"
+    },
+    {
+      "path": "../BANK_MẪU/BankingPortal-UI-main"
+    }
+  ],
   "settings": {
     "cSpell.words": ["Trinh"]
   }

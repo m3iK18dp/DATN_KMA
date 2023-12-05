@@ -17,7 +17,7 @@ function CustomButton({
   disable = false,
   text = "",
   neon = true,
-  colorHover = "rgb(40, 144, 144)",
+  colorHover = "rgb(200, 200, 200)",
 }) {
   return (
     <div

@@ -124,7 +124,7 @@ function UploadUser() {
           className="col-md-8 offset-md-2"
           style={{
             margin: "100px auto",
-            border: "3px solid purple",
+            border: "3px solid #5d5dd0",
             width: "70%",
             minWidth: 350,
             maxWidth: 400,
@@ -133,7 +133,7 @@ function UploadUser() {
         >
           <div
             className="card"
-            style={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+            style={{ backgroundColor: "rgba(20,20,20,0.4)" }}
           >
             <h1
               className="text-center neon"

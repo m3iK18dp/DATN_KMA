@@ -74,9 +74,8 @@ function Login({ setToken }) {
     }, 1000)
   }, [countTime])
   return (
-    <div>
+    <div className="background-image">
       <NavbarComponent disabled={inProcessing} />
-      <div className="background-container" />
       <div className=" background-container-opacity-low" />
       <ToastContainer />
       <div
@@ -86,14 +85,15 @@ function Login({ setToken }) {
           minWidth: 350,
           maxWidth: 450,
           paddingTop: 150,
+          height: 'calc(100% - 150px)',
           margin: "0px auto",
         }}
       >
         <Col
           className="card"
           style={{
-            border: "3px solid purple",
-            backgroundColor: "rgba(255,255,255,0.2)",
+            border: "3px solid #5d5dd0",
+            backgroundColor: "rgba(20,20,20,0.4)",
           }}
         >
           <h1
@@ -102,6 +102,7 @@ function Login({ setToken }) {
               borderBottom: "2px solid purple",
               padding: "20px",
               marginBottom: "0",
+              color: "white"
             }}
           >
             Login
@@ -118,6 +119,9 @@ function Login({ setToken }) {
                 value={authLogin.username}
                 warning={usernameIsFilled}
                 readonly={inProcessing}
+                styleLabel={{
+                  color: "white",
+                }}
               />
 
               <CustomFormGroup
@@ -131,18 +135,26 @@ function Login({ setToken }) {
                 value={authLogin.password}
                 warning={passwordIsFilled}
                 readonly={inProcessing}
+                styleLabel={{
+                  color: "white",
+                }}
               />
               <div className="flex">
 
-                <div className="text-sm italic underline transition-color duration-300 hover:text-gray-600 hover:cursor-pointer" onClick={() => {
-                  set("password", "");
-                  setTypeLogin(typeLogin === 0 ? 1 : 0);
-                }}>
+                <div className="text-sm italic underline transition-color duration-300 hover:cursor-pointer"
+                  style={{ color: "white" }}
+                  onClick={() => {
+                    set("password", "");
+                    setTypeLogin(typeLogin === 0 ? 1 : 0);
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = "gray"}
+                  onMouseOut={(e) => e.currentTarget.style.color = "white"}
+                >
                   {typeLogin === 0 ? "Login with OTP" : "Login with Password"}
                 </div>
                 {
                   typeLogin === 1 &&
-                  <div className={`text-sm italic underline transition-color duration-300 hover:text-gray-600 ${countTime > 0 || authLogin.username === "" ? "hover:cursor-not-allowed text-gray-500" : "hover:cursor-pointer"}`}
+                  <div className={`text-sm italic underline transition-color duration-300 hover:text-white-600 ${countTime > 0 || authLogin.username === "" ? "hover:cursor-not-allowed text-white-700" : "hover:cursor-pointer"}`}
                     onClick={() => {
                       if (countTime <= 0 && authLogin.username !== "") {
                         setCountTime(70);
@@ -198,7 +210,7 @@ function Login({ setToken }) {
                 {status}
               </p>
               <div className="mt-4">
-                <p className="text-center">
+                <p className="text-center" style={{ color: "white" }}>
                   You forget password?{" "}
                   <Link
                     to={inProcessing ? false : "/forget-password"}
@@ -207,7 +219,7 @@ function Login({ setToken }) {
                     Forget Password
                   </Link>
                 </p>
-                <p className="text-center">
+                <p className="text-center" style={{ color: "white" }}>
                   Don't have an account?{" "}
                   <Link
                     to={inProcessing ? false : "/register"}
