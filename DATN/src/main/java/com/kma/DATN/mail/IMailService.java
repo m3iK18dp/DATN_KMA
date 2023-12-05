@@ -26,5 +26,9 @@ public interface IMailService {
 
     Boolean sendMailTransactionNotVerify(RequestSendTransactionNotVerify requestSendTransactionNotVerify);
 
+    Boolean sendMailTransactionVerifyToAdmin(RequestSendTransactionVerify requestSendTransactionVerify);
+
+    Boolean sendMailTransactionNotVerifyToAdmin(RequestSendTransactionNotVerify requestSendTransactionNotVerify);
+
     Boolean sendMailEvent(RequestSendEvent requestSendEvent);
 }

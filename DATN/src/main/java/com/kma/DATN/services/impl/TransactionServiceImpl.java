@@ -15,15 +15,19 @@ import com.kma.DATN.services.IOTPService;
 import com.kma.DATN.services.ITransactionService;
 import com.kma.DATN.util.JwtTokenUtil;
 import com.kma.DATN.websocket.WebSocketService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.misc.MultiMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,6 +56,8 @@ public class TransactionServiceImpl implements ITransactionService {
     private final IHyperledgerFabricService hyperledgerFabricService;
     @Autowired
     private final WebSocketService webSocketService;
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
     public User extractUser(HttpServletRequest request) {
@@ -89,71 +95,61 @@ public class TransactionServiceImpl implements ITransactionService {
     }
 
     @Override
+    @Transactional
     public TransactionRequestDto cashDeposit(String accountNumber, String pin, long amount, String otp, HttpServletRequest request) {
         User user = extractUser(request);
         if (!otpService.checkOTP(user.getEmail(), OTPType.TRANSACTION, otp))
             throw new RuntimeException("OTP Invalid");
-        Account account = accountRepository.findByAccountNumber(accountNumber);
-        if (!user.getAccounts().contains(account))
-            throw new RuntimeException("This account number is not yours");
-        if (account == null) {
-            throw new NotFoundException("Account not found");
-        }
         if (!new BCryptPasswordEncoder().matches(pin, user.getPin())) {
             throw new UnauthorizedException("Invalid PIN");
         }
-        long currentBalance = account.getBalance();
-        long newBalance = currentBalance + amount;
-        account.setBalance(newBalance);
-//        accountRepository.save(account);
-
+        if (user.getAccounts().stream().noneMatch(a -> Objects.equals(a.getAccountNumber(), accountNumber)))
+            throw new RuntimeException("This account number is not yours");
+        if (accountRepository.findByAccountNumber(accountNumber) == null) {
+            throw new NotFoundException("Account not found");
+        }
         Transaction transaction = new Transaction();
         transaction.setTransactionCode(generateUniqueTransactionCode());
-//        transaction.setSenderAccount(account);
-        transaction.setSenderAccountNumber(account.getAccountNumber());
+        transaction.setSenderAccountNumber(accountNumber);
         transaction.setSenderFullName(user.getFirstName() + " " + user.getLastName());
-
         transaction.setAmount(amount);
         transaction.setTransactionType(TransactionType.DEPOSIT);
         transaction.setTransactionTime(LocalDateTime.now().withNano(0));
         transaction.setTransactionStatus(TransactionStatus.SUCCESS);
         transaction.setDescription("Deposit money from bank");
-
         if (hyperledgerFabricService.addTransaction(transaction, tokenRepository.findValidTokenByUserId(user.getId()).getTokenFabric())) {
             transactionRepository.save(transaction);
-            accountRepository.save(account);
-        } else
+            accountRepository.changeBalance(accountNumber, amount);
+        } else {
             throw new RuntimeException("Failed add transaction to fabric network");
+
+        }
 
         return new TransactionRequestDto(transaction);
     }
 
     @Override
+    @Transactional
     public TransactionRequestDto cashWithdrawal(String accountNumber, String pin, long amount, String otp, HttpServletRequest request) {
         User user = extractUser(request);
         if (!otpService.checkOTP(user.getEmail(), OTPType.TRANSACTION, otp))
             throw new RuntimeException("OTP Invalid");
-        Account account = accountRepository.findByAccountNumber(accountNumber);
-        if (!user.getAccounts().contains(account))
-            throw new RuntimeException("This account number is not yours");
-        if (account == null) {
-            throw new NotFoundException("Account not found");
-        }
         if (!new BCryptPasswordEncoder().matches(pin, user.getPin())) {
             throw new UnauthorizedException("Invalid PIN");
         }
-        long currentBalance = account.getBalance();
-        if (currentBalance < amount) {
+        if (user.getAccounts().stream().noneMatch(a -> Objects.equals(a.getAccountNumber(), accountNumber)))
+            throw new RuntimeException("This account number is not yours");
+        Account account = accountRepository.findByAccountNumber(accountNumber);
+        entityManager.unwrap(Session.class).refresh(account, LockModeType.PESSIMISTIC_WRITE);
+        if (account == null) {
+            throw new NotFoundException("Account not found");
+        }
+        if (account.getBalance() < amount) {
             throw new InsufficientBalanceException("Insufficient balance");
         }
-        long newBalance = currentBalance - amount;
-        account.setBalance(newBalance);
-//        accountRepository.save(account);
-
         Transaction transaction = new Transaction();
         transaction.setTransactionCode(generateUniqueTransactionCode());
-//        transaction.setRecipientAccount(account);
-        transaction.setSenderAccountNumber(account.getAccountNumber());
+        transaction.setSenderAccountNumber(accountNumber);
         transaction.setSenderFullName(user.getFirstName() + " " + user.getLastName());
 
         transaction.setAmount(amount);
@@ -161,15 +157,21 @@ public class TransactionServiceImpl implements ITransactionService {
         transaction.setTransactionTime(LocalDateTime.now().withNano(0));
         transaction.setTransactionStatus(TransactionStatus.SUCCESS);
         transaction.setDescription("Withdraw money to bank");
-        if (hyperledgerFabricService.addTransaction(transaction, tokenRepository.findValidTokenByUserId(user.getId()).getTokenFabric())) {
+        if (
+                hyperledgerFabricService.addTransaction(transaction, tokenRepository.findValidTokenByUserId(user.getId()).getTokenFabric())
+        ) {
             transactionRepository.save(transaction);
-            accountRepository.save(account);
-        } else throw new RuntimeException("Failed add transaction to fabric network");
+            accountRepository.changeBalance(accountNumber, -1 * amount);
+        } else {
+//            accountRepository.changeBalance(accountNumber, amount);
+            throw new RuntimeException("Failed add transaction to fabric network");
+        }
 
         return new TransactionRequestDto(transaction);
     }
 
     @Override
+    @Transactional
     public TransactionRequestDto fundTransfer(
             String senderAccountNumber,
             String recipientAccountNumber,
@@ -181,46 +183,30 @@ public class TransactionServiceImpl implements ITransactionService {
         User user = extractUser(request);
         if (!otpService.checkOTP(user.getEmail(), OTPType.TRANSACTION, otp))
             throw new RuntimeException("OTP Invalid");
-        Account senderAccount = accountRepository.findByAccountNumber(senderAccountNumber);
-        if (!user.getAccounts().contains(senderAccount))
+        if (!new BCryptPasswordEncoder().matches(pin, user.getPin())) {
+            throw new UnauthorizedException("Invalid PIN");
+        }
+        if (user.getAccounts().stream().noneMatch(a -> Objects.equals(a.getAccountNumber(), senderAccountNumber)))
             throw new RuntimeException("This account number is not yours");
+        Account senderAccount = accountRepository.findByAccountNumber(senderAccountNumber);
         if (senderAccount == null) {
             throw new NotFoundException("Sender account not found");
         }
-
+        entityManager.unwrap(Session.class).refresh(senderAccount, LockModeType.PESSIMISTIC_WRITE);
         Account recipientAccount = accountRepository.findByAccountNumber(recipientAccountNumber);
         if (recipientAccount == null) {
             throw new NotFoundException("Target account not found");
         }
-
-        if (!new BCryptPasswordEncoder().matches(pin, user.getPin())) {
-            throw new UnauthorizedException("Invalid PIN");
-        }
-
-        long sourceBalance = senderAccount.getBalance();
-        if (sourceBalance < amount) {
+        entityManager.unwrap(Session.class).refresh(recipientAccount, LockModeType.PESSIMISTIC_WRITE);
+        if (senderAccount.getBalance() < amount) {
             throw new InsufficientBalanceException("Insufficient balance");
         }
-
-        long newSourceBalance = sourceBalance - amount;
-        senderAccount.setBalance(newSourceBalance);
-//        accountRepository.save(senderAccount);
-
-        long recipientBalance = recipientAccount.getBalance();
-        long newRecipientBalance = recipientBalance + amount;
-        recipientAccount.setBalance(newRecipientBalance);
-//        accountRepository.save(recipientAccount);
-
         Transaction transaction = new Transaction();
         transaction.setTransactionCode(generateUniqueTransactionCode());
-//        transaction.setSenderAccount(sourceAccount);
-        transaction.setSenderAccountNumber(senderAccount.getAccountNumber());
+        transaction.setSenderAccountNumber(senderAccountNumber);
         transaction.setSenderFullName(user.getFirstName() + " " + user.getLastName());
-
-//        transaction.setRecipientAccount(recipientAccount);
-        transaction.setRecipientAccountNumber(recipientAccount.getAccountNumber());
+        transaction.setRecipientAccountNumber(recipientAccountNumber);
         transaction.setRecipientFullName(recipientAccount.getUser().getFirstName() + " " + recipientAccount.getUser().getLastName());
-
         transaction.setAmount(amount);
         transaction.setTransactionType(TransactionType.TRANSFER);
         transaction.setTransactionTime(LocalDateTime.now().withNano(0));
@@ -231,11 +217,14 @@ public class TransactionServiceImpl implements ITransactionService {
             transaction.setDescription(description);
         if (hyperledgerFabricService.addTransaction(transaction, tokenRepository.findValidTokenByUserId(user.getId()).getTokenFabric())) {
             transactionRepository.save(transaction);
-            accountRepository.save(senderAccount);
-            accountRepository.save(recipientAccount);
-            webSocketService.sendMessage(recipientAccount.getAccountNumber(), "refresh-trans-history");
-        } else throw new RuntimeException("Failed add transaction to fabric network");
-
+            accountRepository.changeBalance(senderAccountNumber, -1 * amount);
+            accountRepository.changeBalance(recipientAccountNumber, amount);
+            webSocketService.sendMessage(recipientAccountNumber, "refresh-trans-history");
+        } else {
+//            accountRepository.changeBalance(recipientAccountNumber, -1 * amount);
+//            accountRepository.changeBalance(senderAccountNumber, amount);
+            throw new RuntimeException("Failed add transaction to fabric network");
+        }
         return new TransactionRequestDto(transaction);
     }
 

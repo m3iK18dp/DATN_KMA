@@ -23,6 +23,14 @@ router.post(
   MailController.sendMailTransactionNotVerify
 );
 router.post(
+  "/send-mail-transaction-verify-to-admin",
+  MailController.sendMailTransactionVerifyToAdmin
+);
+router.post(
+  "/send-mail-transaction-not-verify-to-admin",
+  MailController.sendMailTransactionNotVerifyToAdmin
+);
+router.post(
   "/send-mail-event",
   MailController.sendMailEvent
 );

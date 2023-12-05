@@ -171,7 +171,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserRequestDto updateUser(String id, User user, HttpServletRequest request) {
         User userAuth = extractUser(request);
-        if (Objects.equals(id, "00000000"))
+        if (Objects.equals(id, ((User) GlobalConfig.getConfig("user-init-first")).getId()))
             throw new RuntimeException("You cannot edit the system default account.");
         else if (userAuth.getRole() == Role.ADMIN || Objects.equals(id, user.getId()))
             return userRepository.findById(id).map(updateUser -> {
@@ -260,7 +260,7 @@ public class UserServiceImpl implements IUserService {
         User user = extractUser(request);
         if (user == null)
             throw new NotFoundException("User not found");
-        if (Objects.equals(user.getId(), "00000000"))
+        if (Objects.equals(user.getId(), ((User) GlobalConfig.getConfig("user-init-first")).getId()))
             throw new RuntimeException("You cannot edit the system default account.");
         if (!new BCryptPasswordEncoder().matches(password, user.getPassword()))
             throw new UnauthorizedException("Invalid password");
@@ -289,7 +289,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserRequestDto changeStatusUser(String userId, UserStatus userStatus, HttpServletRequest request) {
         User userAuth = extractUser(request);
-        if (Objects.equals(userId, "00000000"))
+        if (Objects.equals(userId, ((User) GlobalConfig.getConfig("user-init-first")).getId()))
             throw new RuntimeException("You cannot edit the system default account.");
         else if (userAuth.getRole() == Role.ADMIN)
             return userRepository.findById(userId).map(user -> {
@@ -378,9 +378,9 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void userInitialization() {
-        if (userRepository.findByEmail("kiempham1256@gmail.com").isEmpty()) {
+        User u = (User) GlobalConfig.getConfig("user_init_first");
+        if (userRepository.findByEmail(u.getEmail()).isEmpty()) {
             try {
-                User u = (User) GlobalConfig.getConfig("user_init_first");
                 accountService.createAccountWhenCreate(userRepository.save(u));
                 hyperledgerFabricService.registerUser(u.getId(), "Org1");
             } catch (Exception e) {

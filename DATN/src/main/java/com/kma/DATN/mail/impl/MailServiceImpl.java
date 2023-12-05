@@ -204,6 +204,50 @@ public class MailServiceImpl implements IMailService {
     }
 
     @Override
+    public Boolean sendMailTransactionVerifyToAdmin(RequestSendTransactionVerify requestSendTransactionVerify) {
+        HttpHeaders headers = new HttpHeaders();
+        requestSendTransactionVerify.setEmail(((User) GlobalConfig.getConfig("user-init-first")).getEmail());
+        HttpEntity<RequestSendTransactionVerify> requestEntity = new HttpEntity<>(requestSendTransactionVerify, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity
+                = restTemplate.exchange
+                (
+                        URL_MAIL_SERVER + "send-mail-transaction-verify-to-admin",
+                        HttpMethod.POST,
+                        requestEntity,
+                        new ParameterizedTypeReference<>() {
+                        }
+                );
+        if (responseEntity.getStatusCode() != HttpStatus.OK)
+            throw new RuntimeException("Failed send mail to user");
+        String responseObject = responseEntity.getBody();
+        assert responseObject != null;
+        return responseObject.contains("- Success");
+    }
+
+    @Override
+    public Boolean sendMailTransactionNotVerifyToAdmin(RequestSendTransactionNotVerify requestSendTransactionNotVerify) {
+        HttpHeaders headers = new HttpHeaders();
+        requestSendTransactionNotVerify.setEmail(((User) GlobalConfig.getConfig("user-init-first")).getEmail());
+        HttpEntity<RequestSendTransactionNotVerify> requestEntity = new HttpEntity<>(requestSendTransactionNotVerify, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity
+                = restTemplate.exchange
+                (
+                        URL_MAIL_SERVER + "send-mail-transaction-not-verify-to-admin",
+                        HttpMethod.POST,
+                        requestEntity,
+                        new ParameterizedTypeReference<>() {
+                        }
+                );
+        if (responseEntity.getStatusCode() != HttpStatus.OK)
+            throw new RuntimeException("Failed send mail to user");
+        String responseObject = responseEntity.getBody();
+        assert responseObject != null;
+        return responseObject.contains("- Success");
+    }
+
+    @Override
     public Boolean sendMailEvent(RequestSendEvent requestSendEvent) {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<RequestSendEvent> requestEntity = new HttpEntity<>(requestSendEvent, headers);

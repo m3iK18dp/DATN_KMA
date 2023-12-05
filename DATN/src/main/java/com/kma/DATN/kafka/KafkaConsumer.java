@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.kma.DATN.configures.GlobalConfig;
 import com.kma.DATN.fabric.DTO.TransactionFabric;
 import com.kma.DATN.fabric.IHyperledgerFabricService;
 import com.kma.DATN.mail.DTO.RequestSendTransactionNotVerify;
@@ -51,7 +52,7 @@ public class KafkaConsumer {
             List<TriggerLog> triggerLogs = objectMapper.readValue(message, new TypeReference<>() {
             });
             if (!triggerLogs.isEmpty()) {
-                String token = hyperledgerFabricService.loginUser("00000000", "Org1");
+                String token = hyperledgerFabricService.loginUser(((User) GlobalConfig.getConfig("user-init-first")).getId(), "Org1");
                 List<TransactionFabric> transactionFabrics = hyperledgerFabricService
                         .getTransactionByIds(triggerLogs.stream().map(triggerLog ->
                                 triggerLog.getType() == TriggerType.UPDATE ? triggerLog.getChangedTransaction().getTransactionCode() : triggerLog.getTransaction().getTransactionCode()
@@ -81,11 +82,14 @@ public class KafkaConsumer {
                                             mailService.sendMailTransactionVerify(new RequestSendTransactionVerify(userCurrent.getEmail(), trigger.getTransaction(), trigger.getCreatedAt()))
                             ) {
                                 if (trigger.getTransaction().getTransactionType() == TransactionType.TRANSFER &&
-                                        (checkSendMail == null || Objects.equals(checkSendMail.getId(), trigger.getId())))
+                                        (checkSendMail == null || Objects.equals(checkSendMail.getId(), trigger.getId()))) {
+                                    mailService.sendMailTransactionVerifyToAdmin(new RequestSendTransactionVerify(((User) GlobalConfig.getConfig("user-init-first")).getEmail(), trigger.getTransaction(), trigger.getCreatedAt()));
                                     mailService.sendMailTransactionVerifyToRecipient(
                                             new RequestSendTransactionVerify(userRepository.getUserByAccountNumber(trigger.getTransaction().getRecipientAccountNumber()).getEmail(),
                                                     trigger.getTransaction(), trigger.getCreatedAt())
                                     );
+                                }
+
 //                            transactionExtraRepository.save(
 //                                    TransactionExtra.builder()
 //                                            .transactionCode(trigger.getTransaction().getTransactionCode())
@@ -98,6 +102,7 @@ public class KafkaConsumer {
                             }
                         } else {
                             if (mailService.sendMailTransactionNotVerify(requestSendTransactionNotVerify)) {
+                                mailService.sendMailTransactionNotVerifyToAdmin(requestSendTransactionNotVerify);
                                 transactionRepository.deleteById(trigger.getTransaction().getTransactionCode());
                                 trigger.setChecked(true);
                                 triggerRepository.save(trigger);
@@ -107,6 +112,7 @@ public class KafkaConsumer {
                         if (!checkVerify) {
                             requestSendTransactionNotVerify.setChangedTransaction(trigger.getChangedTransaction());
                             if (mailService.sendMailTransactionNotVerify(requestSendTransactionNotVerify)) {
+                                mailService.sendMailTransactionNotVerifyToAdmin(requestSendTransactionNotVerify);
                                 if (!trigger.getChangedTransaction().getTransactionCode().equals(trigger.getTransaction().getTransactionCode())) {
                                     transactionRepository.deleteById(trigger.getChangedTransaction().getTransactionCode());
                                 }
@@ -122,6 +128,7 @@ public class KafkaConsumer {
                     } else if (trigger.getType() == TriggerType.DELETE) {
                         if (checkVerify) {
                             if (mailService.sendMailTransactionNotVerify(requestSendTransactionNotVerify)) {
+                                mailService.sendMailTransactionNotVerifyToAdmin(requestSendTransactionNotVerify);
                                 /////nan giải
                                 transactionRepository.save(trigger.getTransaction());
                                 trigger.setChecked(true);

@@ -88,7 +88,7 @@ public class HyperledgerFabricServiceImpl implements IHyperledgerFabricService {
             ResponseEntity<ResponseObject<String>> responseEntity
                     = new RestTemplate().exchange
                     (
-                            URL_HYPERLEDGER_FABRIC_API + "/users",
+                            URL_HYPERLEDGER_FABRIC_API + "users",
                             HttpMethod.POST,
                             requestEntity,
                             new ParameterizedTypeReference<>() {
@@ -123,7 +123,7 @@ public class HyperledgerFabricServiceImpl implements IHyperledgerFabricService {
             ResponseEntity<ResponseObject<Map<String, String>>> responseEntity
                     = new RestTemplate().exchange
                     (
-                            URL_HYPERLEDGER_FABRIC_API + "/users/register",
+                            URL_HYPERLEDGER_FABRIC_API + "users/register",
                             HttpMethod.POST,
                             requestEntity,
                             new ParameterizedTypeReference<>() {
@@ -160,7 +160,7 @@ public class HyperledgerFabricServiceImpl implements IHyperledgerFabricService {
             ResponseEntity<ResponseObject<String>> responseEntity
                     = new RestTemplate().exchange
                     (
-                            URL_HYPERLEDGER_FABRIC_API + "/users/login",
+                            URL_HYPERLEDGER_FABRIC_API + "users/login",
                             HttpMethod.POST,
                             requestEntity,
                             new ParameterizedTypeReference<>() {
@@ -205,7 +205,7 @@ public class HyperledgerFabricServiceImpl implements IHyperledgerFabricService {
 
         try {
             ResponseEntity<ResponseObject<?>> responseEntity = new RestTemplate().exchange(
-                    URL_HYPERLEDGER_FABRIC_API + "/channels/mychannel/chaincodes/transaction_cc",
+                    URL_HYPERLEDGER_FABRIC_API + "channels/mychannel/chaincodes/transaction_cc",
                     HttpMethod.POST,
                     requestEntity,
                     new ParameterizedTypeReference<>() {
@@ -252,7 +252,7 @@ public class HyperledgerFabricServiceImpl implements IHyperledgerFabricService {
             ResponseEntity<ResponseObject<?>> responseEntity
                     = new RestTemplate().exchange
                     (
-                            URL_HYPERLEDGER_FABRIC_API + "/channels/mychannel/chaincodes/transaction_cc",
+                            URL_HYPERLEDGER_FABRIC_API + "channels/mychannel/chaincodes/transaction_cc",
                             HttpMethod.POST,
                             requestEntity,
                             new ParameterizedTypeReference<>() {
@@ -280,7 +280,7 @@ public class HyperledgerFabricServiceImpl implements IHyperledgerFabricService {
                     = new RestTemplate().exchange
                     (
                             URL_HYPERLEDGER_FABRIC_API
-                                    + "/channels/mychannel/chaincodes/transaction_cc?fcn=GetAllTransaction",
+                                    + "channels/mychannel/chaincodes/transaction_cc?fcn=GetAllTransaction",
                             HttpMethod.GET,
                             requestEntity,
                             new ParameterizedTypeReference<>() {
@@ -308,7 +308,7 @@ public class HyperledgerFabricServiceImpl implements IHyperledgerFabricService {
                     = new RestTemplate().exchange
                     (
                             URL_HYPERLEDGER_FABRIC_API
-                                    + "/channels/mychannel/chaincodes/transaction_cc?"
+                                    + "channels/mychannel/chaincodes/transaction_cc?"
                                     + "fcn=GetTransactionById" + "&"
                                     + "args=[\"" + transactionCode + "\",\"" + convertLocalDateTimeToTimeTimeInGolang(transactionTime) + "\"]",
                             HttpMethod.GET,
@@ -363,7 +363,7 @@ public class HyperledgerFabricServiceImpl implements IHyperledgerFabricService {
             ResponseEntity<ResponseObject<List<TransactionFabric>>> responseEntity
                     = restTemplate.exchange
                     (
-                            UriComponentsBuilder.fromHttpUrl(URL_HYPERLEDGER_FABRIC_API + "/channels/mychannel/chaincodes/transaction_cc")
+                            UriComponentsBuilder.fromHttpUrl(URL_HYPERLEDGER_FABRIC_API + "channels/mychannel/chaincodes/transaction_cc")
                                     .queryParam("fcn", "GetTransactionForQuery")
                                     .queryParam("args", "[\"" + convertQueryToUrlType(query) + "\"]").toUriString(),
                             HttpMethod.GET,

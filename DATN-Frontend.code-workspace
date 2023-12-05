@@ -1,0 +1,16 @@
+{
+  "folders": [
+	{
+		"path": "DATN-Frontend"
+	},
+	{
+		"path": "mail-server"
+	},
+	{
+		"path": "../../GitHub/DATN-HyperledgerFabric"
+	}
+],
+  "settings": {
+    "cSpell.words": ["Trinh"]
+  }
+}
