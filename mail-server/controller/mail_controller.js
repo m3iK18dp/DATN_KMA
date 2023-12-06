@@ -626,7 +626,7 @@ const sendMailTransactionVerifyToRecipient = async (req, res, next) => {
             Thank you for banking with HyperWallet!
           </div> 
           <hr style="border: 2px solid black; width: 100%">
-          <div style="margin: 10px auto; Width: 600px">
+          <div style="margin: 10px auto; Width: 1000px">
             <div style="font-family: 'Times New Roman', Times, serif; font-size: 20px; line-heigh: 25px; font-style: italic; margin: 15px 0px">  
               Transaction Information
             </div> 

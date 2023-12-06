@@ -8,12 +8,11 @@
     },
     {
       "path": "../../GitHub/DATN-HyperledgerFabric"
-    },
-    {
-      "path": "../BANK_MẪU/BankingPortal-UI-main"
     }
   ],
   "settings": {
-    "cSpell.words": ["Trinh"]
+    "cSpell.words": ["Trinh"],
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive"
   }
 }

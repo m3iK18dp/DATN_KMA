@@ -15,7 +15,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 }
-.background-image {
+.background-image,
+.background-image-have-blur {
   background-color: #111827;
   box-sizing: content-box;
   background-image: url(../assets/images/background-looping-animation.gif);
@@ -26,6 +27,19 @@ body {
   right: 0;
   bottom: 0;
 }
+.background-image-have-blur::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(17, 24, 39, 0.5); /* Màu mờ (RGBA) với độ mờ 0.5 */
+  backdrop-filter: blur(
+    1px
+  ); /* Độ mờ (5px) cho trình duyệt hỗ trợ backdrop-filter */
+  z-index: -1; /* Đặt z-index thấp hơn để lớp mờ nằm phía sau ảnh */
+}
 .background-color {
   /* background-image: linear-gradient(-60deg, #5c8cfccc 20%, #d261f4af 80%),
     linear-gradient(70deg, #fc7a7a 100%, #92ffd7 10%),
@@ -34,20 +48,29 @@ body {
       rgba(253, 62, 215, 0.9) 100%,
       rgba(75, 255, 66, 0.861) 20%
     ); */
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.442);
 }
 .background-color-2 {
-  background-image: linear-gradient(-60deg, #5c8cfccc 20%, #d261f4af 80%),
-    linear-gradient(70deg, #fc7a7a 100%, #92ffd7 10%),
+  background-image: linear-gradient(
+      -70deg,
+      rgba(92, 140, 252, 0.356) 30%,
+      #6861f4af 70%
+    ),
+    linear-gradient(70deg, #e75a5a35 100%, #ffc247 10%),
     linear-gradient(
       to bottom,
-      rgba(253, 62, 215, 0.9) 100%,
-      rgba(75, 255, 66, 0.861) 20%
+      rgba(62, 186, 253, 0.477) 100%,
+      rgba(120, 92, 233, 0.4) 20%
     );
+  /* background-color: rgba(51, 137, 224, 0.9); */
 }
 .background-container {
-  background-image: linear-gradient(80deg, #5c8cfccc 20%, #d261f4af 80%),
-    linear-gradient(-50deg, #fc7a7a 100%, #92ffd7 10%),
+  background-image: linear-gradient(
+      80deg,
+      #5c8cfccc 20%,
+      rgba(244, 97, 97, 0.9) 80%
+    ),
+    linear-gradient(-50deg, #fc7a7a 100%, #92ffe7 10%),
     linear-gradient(
       to bottom,
       rgba(253, 62, 215, 0.9) 100%,
@@ -115,9 +138,9 @@ code {
   -o-text-overflow: clip;
   text-overflow: clip;
   white-space: pre;
-  text-shadow: 0 0 10px rgb(50, 163, 255), 0 0 20px rgb(110, 255, 146),
-    0 0 30px rgb(132, 31, 248), 0 0 40px #b700ff, 0 0 70px #d400ff,
-    0 0 80px #b700ff, 0 0 100px #9900ff;
+  text-shadow: 0 0 5px rgb(50, 163, 255), 0 0 10px rgb(110, 255, 146),
+    0 0 20px rgb(132, 31, 248), 0 0 20px #b700ff, 0 0 70px #d400ff,
+    0 0 30px #b700ff, 0 0 40px #9900ff;
   -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
   -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
   -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
@@ -126,9 +149,9 @@ code {
 }
 
 .neon:hover {
-  text-shadow: 0 0 10px rgb(255, 0, 0), 0 0 20px rgb(255, 137, 2),
-    0 0 30px rgb(190, 243, 228), 0 0 40px #d3ffff, 0 0 70px #d3dab4,
-    0 0 80px #c7f8f8, 0 0 100px #ceeeee;
+  text-shadow: 0 0 5px rgb(255, 0, 0), 0 0 10px rgb(255, 137, 2),
+    0 0 20px rgb(190, 243, 228), 0 0 20px #d3ffff, 0 0 70px #d3dab4,
+    0 0 30px #c7f8f8, 0 0 40px #ceeeee;
 }
 .filter-container {
   transition: 1s;
@@ -137,10 +160,10 @@ code {
 }
 
 .filter-container.expanded-no-admin {
-  transform: translateY(-300px);
+  transform: translateY(-260px);
 }
 .filter-container.expanded-admin {
-  transform: translateY(-300px);
+  transform: translateY(-26px);
 }
 /* width */
 ::-webkit-scrollbar {

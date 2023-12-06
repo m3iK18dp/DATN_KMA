@@ -194,11 +194,11 @@ function MyAccount() {
     } else setStatus("Update failed! Check your information.");
   }
   return (
-    <div style={{ display: "flex", width: "100%", height: "100%" }}>
+    <div className="background-image" style={{ display: "flex", width: "100%", height: "100%" }}>
       <CustomToggle></CustomToggle>
       <div style={{ width: "100%", height: "100%", overflowY: "auto" }}>
         {/* <NavbarComponent disabled={inProcessing} /> */}
-        <div className="background-container" />
+        {/* <div className="background-container" /> */}
         <div className=" background-container-opacity-low" />
         <ToastContainer />
         <PinComponent checkPin={checkPin} setCheckPin={setCheckPin} />
@@ -228,7 +228,7 @@ function MyAccount() {
               <div
                 className="card"
                 style={{
-                  backgroundColor: "rgba(20,20,20,0.4)",
+                  backgroundColor: "rgba(20,20,20,0.8)",
                 }}
               >
                 <h1
@@ -254,6 +254,7 @@ function MyAccount() {
                         value={user.firstName}
                         warning={firstNameIsFilled}
                         readonly={readOnly || inProcessing}
+                        styleLabel={{ color: "white" }}
                       />
                       <CustomFormGroup
                         funcEnter={handleSubmit}
@@ -264,6 +265,7 @@ function MyAccount() {
                         value={user.lastName}
                         warning={lastNameIsFilled}
                         readonly={readOnly || inProcessing}
+                        styleLabel={{ color: "white" }}
                       />
                     </Col>
                     <CustomFormGroup
@@ -275,6 +277,7 @@ function MyAccount() {
                       value={user.email}
                       warning={emailIsFilled}
                       readonly={readOnly || inProcessing}
+                      styleLabel={{ color: "white" }}
                     />
                     <CustomFormGroup
                       funcEnter={handleSubmit}
@@ -285,6 +288,7 @@ function MyAccount() {
                       value={user.address}
                       warning={addressIsFilled}
                       readonly={readOnly || inProcessing}
+                      styleLabel={{ color: "white" }}
                     />
                     <CustomFormGroup
                       funcEnter={handleSubmit}
@@ -295,6 +299,7 @@ function MyAccount() {
                       value={user.phoneNumber}
                       warning={phoneNumberIsFilled}
                       readonly={readOnly || inProcessing}
+                      styleLabel={{ color: "white" }}
                     />
                     {readOnly ? (
                       <>
@@ -344,20 +349,22 @@ function MyAccount() {
                           onClick={() => {
                             if (!inProcessing) changeChangePassword();
                           }}
+                          style={{ color: "white" }}
                           onMouseOver={(e) => {
                             e.target.style.color = "rgb(40, 144, 144)";
                             e.target.style.cursor = "pointer";
                           }}
-                          onMouseOut={(e) => (e.target.style.color = "black")}
+                          onMouseOut={(e) => (e.target.style.color = "white")}
                         >
-                          <FaUserLock size={30} />
+                          <FaUserLock color="white" size={30} />
                           <div
                             style={{
                               display: "inline-block",
                               marginLeft: 20,
                             }}
                           >
-                            <Form.Text className=" neon">
+                            <Form.Text
+                              style={{ color: "white" }} className=" neon">
                               {!changePassword
                                 ? "Click here if you want change password"
                                 : "Click here if you do not want change password"}
@@ -377,6 +384,7 @@ function MyAccount() {
                               value={listPassword[0]}
                               warning={oldPasswordIsFilled}
                               readOnly={inProcessing}
+                              styleLabel={{ color: "white" }}
                             />
                             <Col>
                               <CustomFormGroup
@@ -391,6 +399,7 @@ function MyAccount() {
                                 value={listPassword[1]}
                                 warning={newPasswordIsFilled}
                                 readOnly={inProcessing}
+                                styleLabel={{ color: "white" }}
                               />
                               <CustomFormGroup
                                 funcEnter={handleSubmit}
@@ -403,6 +412,7 @@ function MyAccount() {
                                 value={listPassword[2]}
                                 warning={confirmPasswordIsFilled}
                                 readOnly={inProcessing}
+                                styleLabel={{ color: "white" }}
                               />
                             </Col>
                           </>

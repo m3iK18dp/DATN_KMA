@@ -378,7 +378,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void userInitialization() {
-        User u = (User) GlobalConfig.getConfig("user_init_first");
+        User u = (User) GlobalConfig.getConfig("user-init-first");
         if (userRepository.findByEmail(u.getEmail()).isEmpty()) {
             try {
                 accountService.createAccountWhenCreate(userRepository.save(u));

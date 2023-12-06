@@ -41,7 +41,7 @@ function CustomToggle() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        backgroundColor: "black",
+        backgroundColor: "rgba(0,0,0,0.7)",
         height: "100%",
         padding: "10px",
         width: 260,

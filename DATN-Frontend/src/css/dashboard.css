@@ -126,3 +126,7 @@ input[type="checkbox"] {
   height: 25px;
   width: 25px;
 }
+input::placeholder {
+  color: rgba(0, 0, 0, 0.411);
+  font-size: 18px;
+}

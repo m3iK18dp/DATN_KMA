@@ -53,7 +53,7 @@ function CustomButton({
           ></IconButton>{" "}
         </div>
       )}
-      <div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center" }}>
         <span
           id={`icon-button-${id}-2`}
           fontSize={size}

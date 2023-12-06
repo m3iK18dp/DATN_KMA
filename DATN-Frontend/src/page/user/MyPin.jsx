@@ -94,11 +94,11 @@ function MyPin() {
     } else setStatus("Update failed! Check your information.");
   }
   return (
-    <div style={{ display: "flex", width: "100%", height: "100%" }}>
+    <div className="background-image" style={{ display: "flex", width: "100%", height: "100%" }}>
       <CustomToggle></CustomToggle>
       <div style={{ width: "100%", height: "100%", overflowY: "auto" }}>
         {/* <NavbarComponent disabled={inProcessing} /> */}
-        <div className="background-container" />
+        {/* <div className="background-container" /> */}
         <div className=" background-container-opacity-low" />
         <ToastContainer />
         <PinComponent checkPin={checkPin} setCheckPin={setCheckPin} />
@@ -127,7 +127,7 @@ function MyPin() {
               <div
                 className="card"
                 style={{
-                  backgroundColor: "rgba(20,20,20,0.4)",
+                  backgroundColor: "rgba(20,20,20,0.8)",
                 }}
               >
                 <h1
@@ -153,6 +153,7 @@ function MyPin() {
                       value={userPin.oldPin}
                       warning={oldPinIsFilled}
                       readonly={inProcessing}
+                      styleLabel={{ color: "white" }}
                     />
                     <CustomFormGroup
                       type="password"
@@ -164,6 +165,7 @@ function MyPin() {
                       value={userPin.newPin}
                       warning={newPinIsFilled}
                       readonly={inProcessing}
+                      styleLabel={{ color: "white" }}
                     />
 
                     <CustomFormGroup
@@ -176,6 +178,7 @@ function MyPin() {
                       value={userPin.password}
                       warning={passwordIsFilled}
                       readonly={inProcessing}
+                      styleLabel={{ color: "white" }}
                     />
 
                     <div className="box-footer">

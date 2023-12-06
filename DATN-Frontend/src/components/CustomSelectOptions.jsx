@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import "../css/customSelectOptions.css";
-function CustomSelectOptions({ label, listOption = [], set, current, style = { width: "100%" }, styleSelect = {}, styleOptions = {}, styleOption = {}, radius = 0 }) {
+function CustomSelectOptions({ label, listOption = [], set, current, style = { width: "100%" }, styleSelect = {}, styleOptions = {}, styleOption = {}, styleLabel = {}, radius = 0 }) {
   const [showSelect, setShowSelect] = useState(false);
   return (
     <div
@@ -16,7 +16,7 @@ function CustomSelectOptions({ label, listOption = [], set, current, style = { w
         ...style
       }}
     >
-      <div className="group-label" style={{ width: "20%" }}>
+      <div className="group-label" style={{ width: "20%", ...styleLabel }}>
         <label>{label}: </label>
       </div>
       <div
@@ -79,6 +79,7 @@ function CustomSelectOptions({ label, listOption = [], set, current, style = { w
                 borderRadius: radius
               }}
               className="select-option"
+              defaultChecked={listOption.length > 0 ? listOption[0] : null}
             >
               {listOption.map((item, index) => (
                 // <div
@@ -105,7 +106,7 @@ function CustomSelectOptions({ label, listOption = [], set, current, style = { w
                       "rgba(255,255,255,1)";
                   }}
                   style={{
-                    textAlign: "center", ...styleOption,
+                    textAlign: "center", ...styleOption
                   }}
                 >
                   <span

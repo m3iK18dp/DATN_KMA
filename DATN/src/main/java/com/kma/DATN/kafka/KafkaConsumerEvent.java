@@ -3,9 +3,11 @@ package com.kma.DATN.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kma.DATN.configures.GlobalConfig;
 import com.kma.DATN.mail.DTO.RequestSendEvent;
 import com.kma.DATN.mail.IMailService;
 import com.kma.DATN.models.EventHyper;
+import com.kma.DATN.models.User;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +32,7 @@ public class KafkaConsumerEvent {
         try {
             EventHyper eventHyper = objectMapper.readValue(message, EventHyper.class);
             RequestSendEvent requestSendEvent = new RequestSendEvent();
-            requestSendEvent.setEmail("kiempham1256@gmail.com");
+            requestSendEvent.setEmail(((User) GlobalConfig.getConfig("user-init-first")).getEmail());
             requestSendEvent.setTime(Timestamp.valueOf(LocalDateTime.now()));
             requestSendEvent.setEventHyper(eventHyper);
             if (mailService.sendMailEvent(requestSendEvent))

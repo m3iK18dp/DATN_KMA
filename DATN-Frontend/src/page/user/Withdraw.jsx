@@ -18,7 +18,7 @@ function Withdraw() {
   const [pinIsFilled, setPinIsFilled] = useState("");
   const [status, setStatus] = useState("");
   const [userWithdraw, setUserWithdraw] = useState({
-    account: "",
+    accountNumber: "",
     amount: "",
     pin: "",
   });
@@ -49,7 +49,7 @@ function Withdraw() {
   }, []);
   useEffect(() => {
     if (selectOption?.accountNumber)
-      set("senderAccount", selectOption.accountNumber)
+      set("accountNumber", selectOption.accountNumber)
   }, [selectOption])
   useEffect(() => {
     checkToken(navigate);
@@ -91,7 +91,7 @@ function Withdraw() {
       setInProcessing(true);
       transactionService
         .withdraw(
-          userWithdraw.account,
+          userWithdraw.accountNumber,
           userWithdraw.pin,
           userWithdraw.amount,
           otp.join().replaceAll(",", ""),
@@ -106,7 +106,9 @@ function Withdraw() {
             });
           } else {
             setStatus("");
-            toast.error("Withdraw money failed!", {
+            setOtp(['', '', '', '', '', ''])
+            setShowOTP(false)
+            toast.error("Withdraw money failed! " + res.message, {
               autoClose: 1000,
             });
           }
@@ -127,11 +129,11 @@ function Withdraw() {
     }
   }
   return (
-    <div style={{ display: "flex", width: "100%", height: "100%" }}>
+    <div className="background-image" style={{ display: "flex", width: "100%", height: "100%" }}>
       <CustomToggle></CustomToggle>
       <div style={{ width: "100%", height: "100%", overflowY: "auto" }}>
         {/* <NavbarComponent disabled={inProcessing} /> */}
-        <div className="background-container" />
+        {/* <div className="background-container" /> */}
         <div className=" background-container-opacity-low" />
         <ToastContainer />
         <PinComponent checkPin={checkPin} setCheckPin={setCheckPin} />
@@ -169,7 +171,7 @@ function Withdraw() {
               <div
                 className="card"
                 style={{
-                  backgroundColor: "rgba(20,20,20,0.4)",
+                  backgroundColor: "rgba(20,20,20,0.8)",
                 }}
               >
                 <h1
@@ -205,6 +207,7 @@ function Withdraw() {
                       styleOptions={{ width: "100%" }}
                       styleOption={{ width: "100%" }}
                       radius={20}
+                      styleLabel={{ color: "white" }}
                     ></CustomSelectOptions>
                     <CustomFormGroup
                       // formGroupStyle={{ width: "100%", marginRight: 20 }}
@@ -217,6 +220,7 @@ function Withdraw() {
                       value={userWithdraw.amount}
                       warning={amountIsFilled}
                       readonly={inProcessing}
+                      styleLabel={{ color: "white" }}
                     />
                     <CustomFormGroup
                       type="password"
@@ -228,6 +232,7 @@ function Withdraw() {
                       value={userWithdraw.pin}
                       warning={pinIsFilled}
                       readonly={inProcessing}
+                      styleLabel={{ color: "white" }}
                     />
                     <div className="box-footer">
                       <div style={{ textAlign: "center", margin: "30px 0px" }}>
@@ -243,7 +248,7 @@ function Withdraw() {
                           }}
                           title="Withdraw"
                         >
-                          <span>{"   "}Withdraw</span>
+                          <span>Withdraw</span>
                         </Button>
                       </div>
                       <p

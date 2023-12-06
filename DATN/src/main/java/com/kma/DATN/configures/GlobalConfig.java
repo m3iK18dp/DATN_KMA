@@ -14,7 +14,7 @@ public class GlobalConfig {
     private final static Map<String, Object> config = new HashMap<String, Object>() {{
         put("url_hyperledger_fabric", "http://192.168.152.130:4000/");
         put("url_mail_server", "http://localhost:3001/");
-        put("user_init_first", User.builder()
+        put("user-init-first", User.builder()
                 .id("00000000")
                 .firstName("Phạm Đoàn")
                 .lastName("Kiếm")

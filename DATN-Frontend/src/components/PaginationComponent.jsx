@@ -212,6 +212,7 @@ function PaginationComponent({ currentPage, totalPages, objectsPerPage }) {
             <option
               key={value}
               value={value}
+              defaultValue={10}
               style={{
                 color: "black",
                 // fontWeight: 'bold',

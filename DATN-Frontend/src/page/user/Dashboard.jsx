@@ -312,7 +312,7 @@ function Dashboard() {
     return total || 1;
   };
   return (
-    <div style={{ display: "flex", width: "100%", height: "100%" }}>
+    <div className="background-image-have-blur" style={{ display: "flex", width: "100%", height: "100" }}>
       {selectOption?.accountNumber &&
         <WebSocketComponent destination={selectOption.accountNumber} func={getTrans} />
       }
@@ -338,7 +338,7 @@ function Dashboard() {
         {contextMenuPosition.visible && (
           <CustomContextMenu {...contextMenuPosition} />
         )}
-        <div className="background-container" />
+        {/* <div className="background-container" /> */}
         <div className=" background-container-opacity-low" />
         <ToastContainer />
         <Container
@@ -366,16 +366,16 @@ function Dashboard() {
             <Row>
               <Col
                 style={{
-                  border: "2px solid black",
+                  border: "2px solid #73e0ff",
                   margin: 10,
                   justifyContent: "flex-start",
                   borderRadius: 5,
-                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  backgroundColor: "rgba(0, 0, 0, 0.3)",
                   width: "100%",
                   padding: "10px 30px",
                 }}
               >
-                <div style={{ width: "100%" }}>
+                <div style={{ width: "100%", color: "white" }}>
                   <h1>Hi, {user.firstName + " " + user.lastName}</h1>
                   <p>Phone Number: {user.phoneNumber}</p>
                   <p>Email: {user.email}</p>
@@ -384,19 +384,19 @@ function Dashboard() {
               </Col>
               <Col
                 style={{
-                  border: "2px solid black",
+                  border: "2px solid #73e0ff",
                   margin: 10,
                   justifyContent: "flex-start",
                   borderRadius: 5,
-                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  backgroundColor: "rgba(0, 0, 0, 0.3)",
                   width: "100%",
                   padding: "10px 30px",
                 }}
               >
-                <div style={{ width: "100%" }}>
-                  <div className="border rounded-md p-2 h-28 flex !justify-around align-center">
+                <div style={{ width: "100%", color: "white" }}>
+                  <div className=" rounded-md p-2 h-28 flex !justify-around align-center" style={{ backgroundColor: "rgba(255, 255, 255, 0.3)", border: "2px solid #73e0ff" }}>
                     <div className="flex flex-col justify-center items-center">
-                      <div className="flex justify-center items-center  text-xl text-green-800">
+                      <div className="flex justify-center items-center text-xl text-green-800">
                         <LuBadgeDollarSign size={40} />
                       </div>
                       <div className="flex justify-center items-center text-xl text-green-800">
@@ -409,13 +409,13 @@ function Dashboard() {
                     <div className="flex flex-col justify-between items-center text-2xl font-bold text-green-800">
                       <div className="h-12 w-12">
                         <CircularProgressbar
-                          value={(
-                            (selectOption?.balance / totalBalance()) *
-                            100
-                          ).toLocaleString()}
+                          value={
+                            selectOption?.balance ? selectOption.balance / totalBalance() *
+                              100 : 0
+                          }
                           styles={buildStyles({
-                            pathColor: "#0e9f6e",
-                            trailColor: "#a9a4a8",
+                            pathColor: "#29992a",
+                            trailColor: "#ffffff",
                             strokeLinecap: "butt",
                             pathTransitionDuration: 1,
                             pathTransitionTimingFunction: "linear",
@@ -425,8 +425,8 @@ function Dashboard() {
                       </div>
                       <div className="text-xl italic text-green-800">
                         {(
-                          (selectOption?.balance / totalBalance()) *
-                          100
+                          selectOption?.balance ? selectOption.balance / totalBalance() *
+                            100 : 0
                         ).toLocaleString()}
                         %
                       </div>
@@ -438,6 +438,7 @@ function Dashboard() {
                       listOption={accounts}
                       set={setSelectOption}
                       current={selectOption}
+                      style={{ width: "auto" }}
                     ></CustomSelectOptions>
                     <div style={{ marginLeft: "20%" }}>
                       <p>
@@ -445,7 +446,7 @@ function Dashboard() {
                         <span
                           className={
                             selectOption?.status === "ACTIVE"
-                              ? "text-green-700"
+                              ? "text-green-500"
                               : "text-red-700"
                           }
                         >
@@ -513,6 +514,7 @@ function Dashboard() {
                     onChange={(e) => set("keyword", e.target.value)}
                     value={search.keyword}
                     placeholder="Enter keyword"
+                    style={{ color: "black" }}
                   ></input>
                 </div>
                 <div>
@@ -695,10 +697,11 @@ function Dashboard() {
               bordered
               style={{
                 borderWidth: "0px 0",
+                backgroundColor: "#ffffff15",
               }}
             >
               <thead>
-                <tr>
+                <tr style={{ backgroundColor: "#ffffff81" }}>
                   {[
                     {
                       field: "Transaction Code",
@@ -762,28 +765,26 @@ function Dashboard() {
                       }
                       key={transaction.transactionCode}
                     >
-                      <td>{transaction.transactionCode}</td>
-                      <td>{formatter.formatCurrency(transaction.amount)}</td>
-                      <td>{transaction.senderAccountNumber}</td>
-                      <td>{transaction.senderFullName}</td>
-                      <td>{transaction.recipientAccountNumber}</td>
-                      <td>{transaction.recipientFullName}</td>
-                      <td>
+                      <td style={{ color: 'white' }}>{transaction.transactionCode}</td>
+                      <td style={{ color: 'white' }}>{formatter.formatCurrency(transaction.amount)}</td>
+                      <td style={{ color: 'white' }}>{transaction.senderAccountNumber}</td>
+                      <td style={{ color: 'white' }}>{transaction.senderFullName}</td>
+                      <td style={{ color: 'white' }}>{transaction.recipientAccountNumber}</td>
+                      <td style={{ color: 'white' }}>{transaction.recipientFullName}</td>
+                      <td style={{ color: 'white' }}>
                         {moment(transaction.transactionTime).format(
                           "MMMM DD, YYYY hh:mm A"
                         )}
                       </td>
-                      <td style={{ textAlign: "left" }}>
+                      <td style={{ textAlign: "left", color: "white" }}>
                         {transaction.description}
                       </td>
                       <td>
                         <TransactionType
                           transactionType={
-                            accounts.find(
-                              (ac) =>
-                                ac.accountNumber ===
-                                transaction.senderAccountNumber
-                            )
+                            selectOption?.accountNumber ===
+                              transaction.senderAccountNumber
+
                               ? transaction.transactionType
                               : "CREDITED"
                           }
@@ -846,7 +847,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

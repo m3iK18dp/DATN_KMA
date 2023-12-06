@@ -40,7 +40,8 @@ public class MyBinlogEventListener implements BinaryLogClient.EventListener {
                 TableMapEventData tableData = (TableMapEventData) data;
                 GlobalConfig.setConfig("info_table", HandleJsonFile.saveValueInJson(tableData.getTableId(), tableData.getTable()));
                 tableData.getTable();
-            } else if (eventType == EventType.EXT_WRITE_ROWS) {
+            }
+            if (eventType == EventType.EXT_WRITE_ROWS) {
                 WriteRowsEventData writeDate = (WriteRowsEventData) data;
                 LOGGER.info(writeDate.toString());
                 String tableName = ((JsonNode) GlobalConfig.getConfig("info_table")).get(String.valueOf(writeDate.getTableId())).asText();

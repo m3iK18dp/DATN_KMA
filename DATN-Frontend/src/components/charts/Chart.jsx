@@ -17,14 +17,24 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
   const [statisticMonth, setStatisticMonth] = useState([]);
   const [dataUse, setDataUse] = useState({ datasets: [] });
   const [options, setOptions] = useState(null);
+  const [options2, setOptions2] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     if (params._account_number) {
       statisticService
         .getStatistics(params, navigate)
-        .then((res) => setStatistics(res.data));
+        .then((res) => {
+          setStatistics(res.data);
+        });
+
     }
   }, [navigate, params]);
+  const convertVND = (value) => {
+    return value.toLocaleString('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    })
+  }
   useEffect(() => {
     if (params._account_number) {
       statisticService
@@ -49,7 +59,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
           label: "Deposit",
           fill: true,
           lineTension: 0.2,
-          backgroundColor: "rgba(120,120,255,0.4)",
+          backgroundColor: "rgba(120,120,255,0.5)",
           borderColor: "rgba(120,120,255,1)",
           borderCapStyle: "butt",
           borderDash: [],
@@ -71,7 +81,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
           label: "Withdraw",
           fill: true,
           lineTension: 0.2,
-          backgroundColor: "rgba(255,120,120,0.4)",
+          backgroundColor: "rgba(255,120,120,0.5)",
           borderColor: "rgba(255,120,120,1)",
           borderCapStyle: "butt",
           borderDash: [],
@@ -93,7 +103,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
           label: "Transfer",
           fill: true,
           lineTension: 0.2,
-          backgroundColor: "rgba(75,192,192,0.4)",
+          backgroundColor: "rgba(75,192,192,0.5)",
           borderColor: "rgba(75,192,192,1)",
           borderCapStyle: "butt",
           borderDash: [5, 1],
@@ -115,7 +125,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
           label: "Credited",
           fill: true,
           lineTension: 0.2,
-          backgroundColor: "rgba(255,255,120,0.4)",
+          backgroundColor: "rgba(255,255,120,0.5)",
           borderColor: "rgba(255,255,120,1)",
           borderCapStyle: "butt",
           borderDash: [],
@@ -149,9 +159,28 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
           grid: {
             display: true,
           },
+          ticks: {
+            callback: function (value) {
+              return value.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              });
+            },
+          },
         },
       },
       plugins: {
+        tooltip: {
+          callback:
+          {
+            label: function (value) {
+              return value.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              });
+            },
+          }
+        },
         legend: {
           display: false,
           position: "top",
@@ -170,6 +199,56 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
             },
           },
         },
+
+      },
+    });
+    setOptions2({
+      scales: {
+        x: {
+          type: "category",
+          labels: statistics.label,
+          grid: {
+            display: true,
+          },
+          display: false,
+        },
+        y: {
+          grid: {
+            display: true,
+          },
+        },
+      },
+      plugins: {
+        tooltip: {
+          callback:
+          {
+            label: function (value) {
+              return value.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              });
+            },
+          }
+        },
+        legend: {
+          display: false,
+          position: "top",
+          labels: {
+            generateLabels: (chart) => {
+              const labels = [];
+              const datasets = chart.data.datasets;
+              for (let i = 0; i < datasets.length; i++) {
+                labels.push({
+                  text: datasets[i].label,
+                  fillStyle: datasets[i].backgroundColor,
+                  strokeStyle: datasets[i].borderColor,
+                });
+              }
+              return labels;
+            },
+          },
+        },
+
       },
     });
   }, [statistics]);
@@ -212,7 +291,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
       <div className="col-start-2 col-end-4 p-4">
         {/* <p className="pb-4">Tổng quan số liệu</p> */}
         <div className="grid grid-cols-4 gap-5 pb-5">
-          <div className="border rounded-md px-10 py-3 h-28 flex justify-around align-center bg-gray-1000">
+          <div className="border rounded-md px-10 py-3 h-28 flex justify-around align-center " style={{ backgroundColor: "#ffffff14" }}>
             <div className="flex flex-col justify-center items-center">
               <div className="flex justify-center items-center  text-xl text-red-700">
                 <RiLuggageDepositFill size={25} />
@@ -237,7 +316,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                   }
                   styles={buildStyles({
                     pathColor: "#f05252",
-                    trailColor: "#a9a4a8",
+                    trailColor: "#ffffff",
                     strokeLinecap: "butt",
                     pathTransitionDuration: 1,
                     pathTransitionTimingFunction: "linear",
@@ -250,7 +329,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
               </div>
             </div>
           </div>
-          <div className="border rounded-md px-10 py-3 h-28 flex justify-around  bg-gray-1000">
+          <div className="border rounded-md px-10 py-3 h-28 flex justify-around" style={{ backgroundColor: "#ffffff14" }}>
             <div className="flex flex-col justify-center items-center">
               <div className="flex justify-center items-center  text-xl text-blue-700">
                 <BiMoneyWithdraw size={25} />
@@ -274,7 +353,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                   }
                   styles={buildStyles({
                     pathColor: "#3f83f8",
-                    trailColor: "#a9a4a8",
+                    trailColor: "#ffffff",
                     strokeLinecap: "butt",
                     pathTransitionDuration: 1,
                     pathTransitionTimingFunction: "linear",
@@ -291,7 +370,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
               </div>
             </div>
           </div>
-          <div className="border rounded-md px-10 py-3 h-28 flex justify-around align-center bg-gray-1000">
+          <div className="border rounded-md px-10 py-3 h-28 flex justify-around align-center" style={{ backgroundColor: "#ffffff14" }}>
             <div className="flex flex-col justify-center items-center">
               <div className="flex justify-center items-center  text-xl text-green-700">
                 <TbTransitionRight size={25} />
@@ -314,8 +393,8 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                       : 0
                   }
                   styles={buildStyles({
-                    pathColor: "#0e9f6e",
-                    trailColor: "#a9a4a8",
+                    pathColor: "#29992a",
+                    trailColor: "#ffffff",
                     strokeLinecap: "butt",
                     pathTransitionDuration: 1,
                     pathTransitionTimingFunction: "linear",
@@ -332,7 +411,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
               </div>
             </div>
           </div>
-          <div className="border rounded-md px-10 py-3 h-28 flex justify-around  bg-gray-1000">
+          <div className="border rounded-md px-10 py-3 h-28 flex justify-around" style={{ backgroundColor: "#ffffff14" }}>
             <div className="flex flex-col justify-center items-center">
               <div className="flex justify-center items-center  text-xl text-yellow-700">
                 <TbTransitionLeft size={25} />
@@ -356,7 +435,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                   }
                   styles={buildStyles({
                     pathColor: "#f2ad41",
-                    trailColor: "#a9a4a8",
+                    trailColor: "#ffffff",
                     strokeLinecap: "butt",
                     pathTransitionDuration: 1,
                     pathTransitionTimingFunction: "linear",
@@ -375,7 +454,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-5">
-          <div className="col-span-2 border rounded-md px-6 py-3 h-200 flex justify-around bg-gray-1000">
+          <div className="col-span-2 border rounded-md px-6 py-3 h-200 flex justify-around" style={{ backgroundColor: "#ffffff14" }}>
             <div
               style={{
                 width: "100%",
@@ -416,6 +495,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                         textDecoration: !depositVisible
                           ? "line-through"
                           : "unset",
+                        color: "white"
                       }}
                     >
                       Deposit
@@ -440,6 +520,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                         textDecoration: !withdrawVisible
                           ? "line-through"
                           : "unset",
+                        color: "white"
                       }}
                     >
                       Withdraw
@@ -464,6 +545,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                         textDecoration: !transferVisible
                           ? "line-through"
                           : "unset",
+                        color: "white"
                       }}
                     >
                       Transfer
@@ -488,6 +570,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                         textDecoration: !creditedVisible
                           ? "line-through"
                           : "unset",
+                        color: "white"
                       }}
                     >
                       Credited
@@ -522,14 +605,14 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                     justifyContent: "center",
                   }}
                 >
-                  {dataUse && options && (
-                    <Doughnut data={dataUse} options={options} />
+                  {dataUse && options2 && (
+                    <Doughnut data={dataUse} options={options2} />
                   )}
                 </div>
               </div>
             </div>
           </div>
-          <div className="border rounded-md px-6 py-3 h-200 flex justify-around bg-gray-1000">
+          <div className="border rounded-md px-6 py-3 h-200 flex justify-around " style={{ backgroundColor: "#ffffff14" }}>
             <div style={{ width: "100%" }}>
               <div>
                 <Pie data={{
@@ -604,7 +687,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
               </div>
             </div>
           </div>
-          <div className="col-span-2 border rounded-md px-6 py-3 h-200 flex justify-around bg-gray-1000">
+          <div className="col-span-3 border rounded-md px-6 py-3 h-200 flex justify-around" style={{ backgroundColor: "#ffffff14" }}>
             <div style={{ width: "100%" }}>
               <div>
                 <Line
@@ -615,17 +698,17 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                         label: "Balance",
                         fill: false,
                         lineTension: 0.5,
-                        backgroundColor: "rgba(75,192,192,0.4)",
-                        borderColor: "rgba(75,192,192,1)",
+                        backgroundColor: "rgba(45,181,97,0.4)",
+                        borderColor: "rgba(45,181,97,1)",
                         borderCapStyle: "butt",
                         borderDash: [],
                         borderDashOffset: 0.0,
                         borderJoinStyle: "miter",
-                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBorderColor: "rgba(45,181,97,1)",
                         pointBackgroundColor: "#fff",
                         pointBorderWidth: 3,
                         pointHoverRadius: 5,
-                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBackgroundColor: "rgba(45,181,97,1)",
                         pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointHoverBorderWidth: 3,
                         pointRadius: 1,
@@ -648,6 +731,14 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                       y: {
                         grid: {
                           display: true,
+                        },
+                        ticks: {
+                          callback: function (value) {
+                            return value.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                            });
+                          },
                         },
                       },
                     },
@@ -677,7 +768,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
               </div>
             </div>
           </div>
-          <div className="border rounded-md px-6 py-3 h-200 flex justify-around bg-gray-1000">
+          {/* <div className="border rounded-md px-6 py-3 h-200 flex justify-around" style={{ backgroundColor: "#ffffff14" }}>
             <div style={{ width: "100%" }}>
               <div>
                 <Doughnut
@@ -749,7 +840,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

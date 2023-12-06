@@ -23,7 +23,7 @@ public class TriggerService {
             List<Object> result = query.getResultList();
             return result.isEmpty();
         } catch (Exception e) {
-            
+
             return true;
         }
     }
@@ -139,10 +139,19 @@ public class TriggerService {
                                 SET @transactionJSON = JSON_SET(@transactionJSON, '$.description', REPLACE(OLD.description, "'", "\\\\'"));
                                 INSERT INTO TriggerLog (type, transaction)
                                 VALUES ('DELETE', @transactionJSON);
-                            END;                     
+                            END;                    
                             """;
             entityManager.createNativeQuery(createDeleteTriggerSQL).executeUpdate();
         }
+        String alterTableTriggerLogSQL =
+                """
+                        ALTER TABLE `TriggerLog`
+                        CHANGE COLUMN `changedTransaction` `changedTransaction` MEDIUMTEXT NULL DEFAULT NULL,
+                        CHANGE COLUMN `checked` `checked` BIT(1) NOT NULL DEFAULT 0,
+                        CHANGE COLUMN `createdAt` `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        CHANGE COLUMN `transaction` `transaction` MEDIUMTEXT NOT NULL;
+                        """;
+        entityManager.createNativeQuery(alterTableTriggerLogSQL).executeUpdate();
     }
 }
 

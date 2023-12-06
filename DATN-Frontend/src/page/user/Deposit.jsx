@@ -19,7 +19,7 @@ function Deposit() {
   const [pinIsFilled, setPinIsFilled] = useState("");
   const [status, setStatus] = useState("");
   const [userDeposit, setUserDeposit] = useState({
-    account: "",
+    accountNumber: "",
     amount: "",
     pin: "",
   });
@@ -50,7 +50,7 @@ function Deposit() {
   }, []);
   useEffect(() => {
     if (selectOption?.accountNumber)
-      set("senderAccount", selectOption.accountNumber)
+      set("accountNumber", selectOption.accountNumber)
   }, [selectOption])
   useEffect(() => {
     checkToken(navigate);
@@ -94,7 +94,7 @@ function Deposit() {
       setInProcessing(true);
       transactionService
         .deposit(
-          userDeposit.account,
+          userDeposit.accountNumber,
           userDeposit.pin,
           userDeposit.amount,
           otp.join().replaceAll(",", ""),
@@ -129,12 +129,12 @@ function Deposit() {
   }
 
   return (
-    <div style={{ display: "flex", width: "100%", height: "100%" }}>
+    <div className="background-image" style={{ display: "flex", width: "100%", height: "100%" }}>
       <CustomToggle></CustomToggle>
 
       <div style={{ width: "100%", height: "100%", overflowY: "auto" }}>
         {/* <NavbarComponent disabled={inProcessing} /> */}
-        <div className="background-container" />
+        {/* <div className="background-container" /> */}
         <div className=" background-container-opacity-low" />
         <ToastContainer />
         <PinComponent checkPin={checkPin} setCheckPin={setCheckPin} />
@@ -172,7 +172,7 @@ function Deposit() {
               <div
                 className="card"
                 style={{
-                  backgroundColor: "rgba(20,20,20,0.4)",
+                  backgroundColor: "rgba(20,20,20,0.8)",
                 }}
               >
                 <h1
@@ -208,6 +208,7 @@ function Deposit() {
                       styleOptions={{ width: "100%" }}
                       styleOption={{ width: "100%" }}
                       radius={20}
+                      styleLabel={{ color: "white" }}
                     ></CustomSelectOptions>
                     <CustomFormGroup
                       // formGroupStyle={{ width: "100%", marginRight: 20 }}
@@ -220,6 +221,7 @@ function Deposit() {
                       value={userDeposit.amount}
                       warning={amountIsFilled}
                       readonly={inProcessing}
+                      styleLabel={{ color: "white" }}
                     />
                     <CustomFormGroup
                       type="password"
@@ -231,6 +233,7 @@ function Deposit() {
                       value={userDeposit.pin}
                       warning={pinIsFilled}
                       readonly={inProcessing}
+                      styleLabel={{ color: "white" }}
                     />
                     <div className="box-footer">
                       <div style={{ textAlign: "center", margin: "30px 0px" }}>
