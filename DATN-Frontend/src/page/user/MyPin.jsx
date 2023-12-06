@@ -85,7 +85,7 @@ function MyPin() {
             });
           } else {
             setStatus("");
-            toast.error("Update User failed!", {
+            toast.error("Update User failed! " + res.message, {
               autoClose: 1000,
             });
           }

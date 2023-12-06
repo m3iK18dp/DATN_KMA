@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -42,14 +43,16 @@ public class MyBinlogEventListener implements BinaryLogClient.EventListener {
                 tableData.getTable();
             }
             if (eventType == EventType.EXT_WRITE_ROWS) {
-                WriteRowsEventData writeDate = (WriteRowsEventData) data;
-                LOGGER.info(writeDate.toString());
-                String tableName = ((JsonNode) GlobalConfig.getConfig("info_table")).get(String.valueOf(writeDate.getTableId())).asText();
+                WriteRowsEventData writeData = (WriteRowsEventData) data;
+                LOGGER.info(writeData.toString());
+                String tableName = ((JsonNode) GlobalConfig.getConfig("info_table")).get(String.valueOf(writeData.getTableId())).asText();
                 if (tableName.equals("triggerlog")) {
-                    List<TriggerLog> triggerLogs = triggerLogRepository.findTriggerNotCheck();
+                    System.out.println(writeData.getRows().size());
+                    List<TriggerLog> triggerLogs = triggerLogRepository.findTriggerNotCheckAndNotGot();
+                    triggerLogRepository.saveAll(triggerLogs.stream().peek(tr -> tr.setGot(true)).collect(Collectors.toList()));
                     kafkaProducer.sendMessage(objectMapper.writeValueAsString(triggerLogs));
                 }
-                LogManager.writeLog(writeDate.toString(), tableName);
+                LogManager.writeLog(writeData.toString(), tableName);
             } else if (eventType == EventType.EXT_UPDATE_ROWS) {
                 UpdateRowsEventData updateData = (UpdateRowsEventData) data;
                 String tableName = ((JsonNode) GlobalConfig.getConfig("info_table")).get(String.valueOf(updateData.getTableId())).asText();

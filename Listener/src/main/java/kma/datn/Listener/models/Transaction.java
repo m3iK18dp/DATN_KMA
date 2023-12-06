@@ -1,6 +1,8 @@
 package kma.datn.Listener.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +24,9 @@ public class Transaction {
     private String recipientAccountNumber;
     private String recipientFullName;
     private String description;
+    @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
+    @Enumerated(EnumType.STRING)
     private final TransactionStatus transactionStatus = TransactionStatus.WAIT_FOR_PIN;
 
 

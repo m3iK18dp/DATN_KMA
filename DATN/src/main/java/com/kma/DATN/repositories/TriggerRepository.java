@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @EnableJpaRepositories
 public interface TriggerRepository extends JpaRepository<TriggerLog, Long> {
@@ -25,5 +26,5 @@ public interface TriggerRepository extends JpaRepository<TriggerLog, Long> {
                 ORDER BY t.id ASC
                 LIMIT 1
             """, nativeQuery = true)
-    TriggerLog checkSendMail(@Param("transactionCode") String transactionCode);
+    Optional<TriggerLog> checkSendMail(@Param("transactionCode") String transactionCode);
 }

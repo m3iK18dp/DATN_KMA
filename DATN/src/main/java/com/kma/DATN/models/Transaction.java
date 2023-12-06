@@ -24,15 +24,15 @@ public class Transaction {
     @Column(nullable = false)
     @Min(value = 0, message = "Value must be non-negative")
     private Long amount;
-    @Column
+    @Column(nullable = false)
     private String senderAccountNumber;
-    @Column
+    @Column(nullable = false)
     private String senderFullName;
     @Column
     private String recipientAccountNumber;
     @Column
     private String recipientFullName;
-    @Column(length = 200)
+    @Column(length = 200, nullable = false)
     private String description;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

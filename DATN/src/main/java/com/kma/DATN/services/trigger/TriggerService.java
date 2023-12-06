@@ -66,12 +66,6 @@ public class TriggerService {
 //        try {
             // Create a trigger that runs after an UPDATE operation
             String createUpdateTriggerSQL =
-//                    "CREATE TRIGGER after_transaction_update " +
-//                            "AFTER UPDATE ON Transactions " +
-//                            "FOR EACH ROW " +
-//                            "BEGIN " +
-//                            "    INSERT INTO TriggerLog (message,transaction_code,checked) VALUES ('UPDATE Transaction', NEW.transactionCode,0); " +
-//                            "END;";
                     """
                             CREATE TRIGGER after_transaction_update
                             AFTER UPDATE ON Transactions
@@ -108,17 +102,10 @@ public class TriggerService {
                             END;    
                             """;
             entityManager.createNativeQuery(createUpdateTriggerSQL).executeUpdate();
-
         }
         if (isTriggerExists("after_transaction_delete")) {
             // Create a trigger that runs after a DELETE operation
             String createDeleteTriggerSQL =
-//                    "CREATE TRIGGER after_transaction_delete " +
-//                            "AFTER DELETE ON Transactions " +
-//                            "FOR EACH ROW " +
-//                            "BEGIN " +
-//                            "    INSERT INTO TriggerLog (message,transaction_code,checked) VALUES ('DELETE Transaction', OLD.transactionCode,0); " +
-//                            "END;";
                     """
                             CREATE TRIGGER after_transaction_delete
                             AFTER DELETE ON Transactions
@@ -139,7 +126,7 @@ public class TriggerService {
                                 SET @transactionJSON = JSON_SET(@transactionJSON, '$.description', REPLACE(OLD.description, "'", "\\\\'"));
                                 INSERT INTO TriggerLog (type, transaction)
                                 VALUES ('DELETE', @transactionJSON);
-                            END;                    
+                            END;                   
                             """;
             entityManager.createNativeQuery(createDeleteTriggerSQL).executeUpdate();
         }
@@ -149,9 +136,32 @@ public class TriggerService {
                         CHANGE COLUMN `changedTransaction` `changedTransaction` MEDIUMTEXT NULL DEFAULT NULL,
                         CHANGE COLUMN `checked` `checked` BIT(1) NOT NULL DEFAULT 0,
                         CHANGE COLUMN `createdAt` `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        CHANGE COLUMN `transaction` `transaction` MEDIUMTEXT NOT NULL;
+                        CHANGE COLUMN `transaction` `transaction` MEDIUMTEXT NOT NULL,
+                        CHANGE COLUMN `got` `got` BIT(1) NOT NULL DEFAULT 0;
                         """;
         entityManager.createNativeQuery(alterTableTriggerLogSQL).executeUpdate();
+        /*
+        ALTER TABLE `transactions`
+        ADD INDEX `account_sender_idx` (`senderAccountNumber` ASC) VISIBLE;
+        ALTER TABLE `transactions`
+        ADD CONSTRAINT `account_sender`
+          FOREIGN KEY (`senderAccountNumber`)
+          REFERENCES `accounts` (`accountNumber`)
+          ON DELETE NO ACTION
+          ON UPDATE NO ACTION;
+
+        ALTER TABLE `transactions`
+        ADD INDEX `account_recipient_idx` (`recipientAccountNumber` ASC) VISIBLE;
+        ALTER TABLE `transactions`
+        ADD CONSTRAINT `account_recipient`
+          FOREIGN KEY (`recipientAccountNumber`)
+          REFERENCES `accounts` (`accountNumber`)
+          ON DELETE NO ACTION
+          ON UPDATE NO ACTION;
+
+        GRANT UPDATE ON triggerlog TO 'readTriggerDATN'@'localhost';
+        GRANT SELECT ON triggerlog TO 'readTriggerDATN'@'localhost';
+        */
     }
 }
 

@@ -181,8 +181,12 @@ function OTPComponent({ otp = [], setOtp, showOTP, setShowOTP, funcConfirm, inPr
                 backgroundColor: "white",
                 borderRadius: 5,
               }}
-              onMouseEnter={(e) => (e.target.style.cursor = "pointer")}
-              onClick={() => handleSubmit()}
+              onMouseEnter={(e) => (e.currentTarget.style.cursor = inProcessing ? "not-allowed" : "pointer")}
+              onClick={() => {
+                if (!inProcessing) {
+                  handleSubmit()
+                }
+              }}
             >
               <span>Confirm</span>
             </div>

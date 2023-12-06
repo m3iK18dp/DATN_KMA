@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface IAccountService {
+    
 
-    User extractUser(HttpServletRequest request);
+    User extractUser(HttpServletRequest request, int type);
 
     AccountRequestDto createAccount(User user);
 

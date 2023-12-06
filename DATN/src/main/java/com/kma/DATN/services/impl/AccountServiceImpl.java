@@ -33,7 +33,7 @@ public class AccountServiceImpl implements IAccountService {
 
 
     @Override
-    public User extractUser(HttpServletRequest request) {
+    public User extractUser(HttpServletRequest request, int type) {
 
         if (request.getHeader("Authorization") != null) {
             if (!request.getHeader("Authorization").startsWith("Bearer "))
@@ -49,7 +49,7 @@ public class AccountServiceImpl implements IAccountService {
                 if (user.getStatus() == UserStatus.INACTIVE)
                     throw new RuntimeException(
                             "The user of the above token has been disabled.");
-                if (user.getStatus() == UserStatus.NOT_YET_ACTIVE)
+                if (type != 0 && user.getStatus() == UserStatus.NOT_YET_ACTIVE)
                     throw new RuntimeException(
                             "This user has not activated the pin code.");
                 if (user.getStatus() == UserStatus.DELETED)
@@ -102,7 +102,7 @@ public class AccountServiceImpl implements IAccountService {
             String field,
             String typeSort,
             HttpServletRequest request) {
-        User user = extractUser(request);
+        User user = extractUser(request, 0);
         Pageable pageable = PageRequest.of(page, limit)
                 .withSort(Sort.by(typeSort.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, field));
         return AccountRequestDto.fromAccounts(

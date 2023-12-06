@@ -87,12 +87,25 @@ public class SecurityConfigurer {
                                 .requestMatchers("/api/otp", "/api/otp/**").permitAll()
                                 .requestMatchers("/api/test", "/api/test/**").permitAll()
                                 .requestMatchers("/api/transaction/**").authenticated()
-                                .requestMatchers("/api/user/information", "/api/user/getFullNameByAccount/**", "/api/user/update_email", "/api/user/update_password", "/api/pin/**").authenticated()
+                                .requestMatchers(
+                                        "/api/user/information",
+                                        "/api/user/getFullNameByAccount/**",
+                                        "/api/user/update_email",
+                                        "/api/user/update_password",
+                                        "/api/pin",
+                                        "/api/pin/**"
+                                ).authenticated()
                                 .requestMatchers(HttpMethod.PUT, " /api/user/**").authenticated()
                                 .requestMatchers("/api/user").hasAnyAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.GET, " /api/user/**").hasAnyAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.POST, " /api/user/**").hasAnyAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, " /user/reset_password/**", "/user/update_email", "/user/update_password", "/user/change_status/**").hasAnyAuthority("ADMIN")
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        " /user/reset_password/**",
+                                        "/user/update_email",
+                                        "/user/update_password",
+                                        "/user/change_status/**"
+                                ).hasAnyAuthority("ADMIN")
                                 .anyRequest().authenticated()
                 ).sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -15,4 +15,17 @@ public interface TriggerLogRepository extends JpaRepository<TriggerLog, Long> {
             """, nativeQuery = true)
     List<TriggerLog> findTriggerNotCheck();
 
+    @Query(value = """
+                SELECT * FROM TriggerLog t
+                WHERE t.checked = 0 AND t.got = 0
+            """, nativeQuery = true)
+    List<TriggerLog> findTriggerNotCheckAndNotGot();
+
+//    @Query(value = """
+//                SELECT * FROM TriggerLog t
+//                WHERE t.checked = 0
+//                ORDER BY createdAt desc
+//                LIMIT :rows
+//            """, nativeQuery = true)
+//    List<TriggerLog> findTriggerNotCheck(@Param(value="rows") Integer rows);
 }

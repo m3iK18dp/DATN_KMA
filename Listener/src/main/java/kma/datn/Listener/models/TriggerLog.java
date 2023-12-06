@@ -25,6 +25,7 @@ public class TriggerLog {
     private Transaction transaction;
     @Convert(converter = TransactionConverter.class)
     private Transaction changedTransaction;
+    private boolean got;
 
     @Override
     public String toString() {
@@ -35,28 +36,7 @@ public class TriggerLog {
                 ", createdAt=" + createdAt +
                 ", transaction=" + transaction +
                 ", changedTransaction=" + changedTransaction +
+                ", got=" + got +
                 '}';
     }
-
-//    @Id
-//    private Long id;
-//    //    private TriggerType type;
-//    private String message;
-//    @JsonProperty("transactionCode")
-//    private String transaction_code;
-//    private boolean checked;
-//    @JsonProperty("createdAt")
-//    private Timestamp created_at;
-//    private String transaction;
-//    @Override
-//    public String toString() {
-//        return "TriggerLog{" +
-//                "id=" + id +
-//                ", message='" + message + '\'' +
-//                ", transactionCode='" + transaction_code + '\'' +
-//                ", checked=" + checked +
-//                ", createdAt=" + created_at +
-//                ", transaction='" + transaction + '\'' +
-//                '}';
-//    }
 }

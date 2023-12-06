@@ -14,6 +14,6 @@ public class TriggerController {
 
     @GetMapping("/test/{transactionCode}")
     public TriggerLog get(@PathVariable String transactionCode) {
-        return triggerRepository.checkSendMail(transactionCode);
+        return triggerRepository.checkSendMail(transactionCode).orElse(null);
     }
 }

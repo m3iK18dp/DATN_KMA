@@ -69,7 +69,7 @@ const userService = {
     formData.append("password", password);
     formData.append("newPin", newPin);
     const headers = { "Content-Type": "multipart/form-data" };
-    return await callApi(navigate, `pin/update`, "post", formData, {}, headers);
+    return await callApi(navigate, `pin/update`, "put", formData, {}, headers);
   },
 };
 export default userService;

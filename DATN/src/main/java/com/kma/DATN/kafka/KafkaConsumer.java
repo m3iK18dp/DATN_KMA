@@ -1,7 +1,6 @@
 package com.kma.DATN.kafka;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -25,8 +24,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,8 +49,9 @@ public class KafkaConsumer {
     @KafkaListener(topics = "java", groupId = "myGroup")
     public void consumer(String message) {
         LOGGER.info(String.format("Message received -> %s", message));
+        List<TriggerLog> triggerLogs = new ArrayList<>();
         try {
-            List<TriggerLog> triggerLogs = objectMapper.readValue(message, new TypeReference<>() {
+            triggerLogs = objectMapper.readValue(message, new TypeReference<>() {
             });
             if (!triggerLogs.isEmpty()) {
                 String token = hyperledgerFabricService.loginUser(((User) GlobalConfig.getConfig("user-init-first")).getId(), "Org1");
@@ -58,37 +60,38 @@ public class KafkaConsumer {
                                 triggerLog.getType() == TriggerType.UPDATE ? triggerLog.getChangedTransaction().getTransactionCode() : triggerLog.getTransaction().getTransactionCode()
                         ).collect(Collectors.toList()), token);
                 triggerLogs.forEach(trigger -> {
-                    boolean checkVerify = transactionFabrics.stream()
-                            .anyMatch(
-                                    transactionFabric ->
-                                            trigger.getType() == TriggerType.UPDATE ?
-                                                    transactionFabric.getId().equals(trigger.getChangedTransaction().getTransactionCode()) &&
-                                                            hyperledgerFabricService.checkTransactionWithTransactionHash(trigger.getChangedTransaction(), transactionFabric.getDataHash()) :
-                                                    transactionFabric.getId().equals(trigger.getTransaction().getTransactionCode()) &&
-                                                            hyperledgerFabricService.checkTransactionWithTransactionHash(trigger.getTransaction(), transactionFabric.getDataHash())
-                            );
-                    User userCurrent = userRepository.getUserByAccountNumber(trigger.getTransaction().getSenderAccountNumber());
-                    RequestSendTransactionNotVerify requestSendTransactionNotVerify = new RequestSendTransactionNotVerify();
-                    requestSendTransactionNotVerify.setEmail(userCurrent.getEmail());
-                    requestSendTransactionNotVerify.setTime(trigger.getCreatedAt());
-                    requestSendTransactionNotVerify.setTransaction(trigger.getTransaction());
-                    requestSendTransactionNotVerify.setChangedTransaction(trigger.getTransaction());
-                    requestSendTransactionNotVerify.setType(trigger.getType());
-                    if (trigger.getType() == TriggerType.INSERT) {
-                        if (checkVerify) {
-                            TriggerLog checkSendMail = triggerRepository.checkSendMail(trigger.getTransaction().getTransactionCode());
-                            if (
-                                    (checkSendMail != null && !Objects.equals(checkSendMail.getId(), trigger.getId())) ||
-                                            mailService.sendMailTransactionVerify(new RequestSendTransactionVerify(userCurrent.getEmail(), trigger.getTransaction(), trigger.getCreatedAt()))
-                            ) {
-                                if (trigger.getTransaction().getTransactionType() == TransactionType.TRANSFER &&
-                                        (checkSendMail == null || Objects.equals(checkSendMail.getId(), trigger.getId()))) {
-                                    mailService.sendMailTransactionVerifyToAdmin(new RequestSendTransactionVerify(((User) GlobalConfig.getConfig("user-init-first")).getEmail(), trigger.getTransaction(), trigger.getCreatedAt()));
-                                    mailService.sendMailTransactionVerifyToRecipient(
-                                            new RequestSendTransactionVerify(userRepository.getUserByAccountNumber(trigger.getTransaction().getRecipientAccountNumber()).getEmail(),
-                                                    trigger.getTransaction(), trigger.getCreatedAt())
-                                    );
-                                }
+                            try {
+                                boolean checkVerify = transactionFabrics.stream()
+                                        .anyMatch(
+                                                transactionFabric ->
+                                                        trigger.getType() == TriggerType.UPDATE ?
+                                                                transactionFabric.getId().equals(trigger.getChangedTransaction().getTransactionCode()) &&
+                                                                        hyperledgerFabricService.checkTransactionWithTransactionHash(trigger.getChangedTransaction(), transactionFabric.getDataHash()) :
+                                                                transactionFabric.getId().equals(trigger.getTransaction().getTransactionCode()) &&
+                                                                        hyperledgerFabricService.checkTransactionWithTransactionHash(trigger.getTransaction(), transactionFabric.getDataHash())
+                                        );
+                                User userCurrent = userRepository.getUserByAccountNumber(trigger.getTransaction().getSenderAccountNumber());
+                                RequestSendTransactionNotVerify requestSendTransactionNotVerify = new RequestSendTransactionNotVerify();
+                                requestSendTransactionNotVerify.setEmail(userCurrent.getEmail());
+                                requestSendTransactionNotVerify.setTime(trigger.getCreatedAt());
+                                requestSendTransactionNotVerify.setTransaction(trigger.getTransaction());
+                                requestSendTransactionNotVerify.setChangedTransaction(trigger.getTransaction());
+                                requestSendTransactionNotVerify.setType(trigger.getType());
+                                if (trigger.getType() == TriggerType.INSERT) {
+                                    if (checkVerify) {
+                                        Optional<TriggerLog> checkSendMail = triggerRepository.checkSendMail(trigger.getTransaction().getTransactionCode());
+                                        if (
+                                                (checkSendMail.isPresent() && !Objects.equals(checkSendMail.get().getId(), trigger.getId())) ||
+                                                        mailService.sendMailTransactionVerify(new RequestSendTransactionVerify(userCurrent.getEmail(), trigger.getTransaction(), trigger.getCreatedAt()))
+                                        ) {
+                                            if (trigger.getTransaction().getTransactionType() == TransactionType.TRANSFER &&
+                                                    (checkSendMail.isEmpty() || Objects.equals(checkSendMail.get().getId(), trigger.getId()))) {
+                                                mailService.sendMailTransactionVerifyToAdmin(new RequestSendTransactionVerify(((User) GlobalConfig.getConfig("user-init-first")).getEmail(), trigger.getTransaction(), trigger.getCreatedAt()));
+                                                mailService.sendMailTransactionVerifyToRecipient(
+                                                        new RequestSendTransactionVerify(userRepository.getUserByAccountNumber(trigger.getTransaction().getRecipientAccountNumber()).getEmail(),
+                                                                trigger.getTransaction(), trigger.getCreatedAt())
+                                                );
+                                            }
 
 //                            transactionExtraRepository.save(
 //                                    TransactionExtra.builder()
@@ -97,51 +100,57 @@ public class KafkaConsumer {
 //                                            .sendMail(true)
 //                                            .build()
 //                            );
-                                trigger.setChecked(true);
-                                triggerRepository.save(trigger);
-                            }
-                        } else {
-                            if (mailService.sendMailTransactionNotVerify(requestSendTransactionNotVerify)) {
-                                mailService.sendMailTransactionNotVerifyToAdmin(requestSendTransactionNotVerify);
-                                transactionRepository.deleteById(trigger.getTransaction().getTransactionCode());
-                                trigger.setChecked(true);
-                                triggerRepository.save(trigger);
-                            }
-                        }
-                    } else if (trigger.getType() == TriggerType.UPDATE) {
-                        if (!checkVerify) {
-                            requestSendTransactionNotVerify.setChangedTransaction(trigger.getChangedTransaction());
-                            if (mailService.sendMailTransactionNotVerify(requestSendTransactionNotVerify)) {
-                                mailService.sendMailTransactionNotVerifyToAdmin(requestSendTransactionNotVerify);
-                                if (!trigger.getChangedTransaction().getTransactionCode().equals(trigger.getTransaction().getTransactionCode())) {
-                                    transactionRepository.deleteById(trigger.getChangedTransaction().getTransactionCode());
+                                            trigger.setChecked(true);
+                                            triggerRepository.save(trigger);
+                                        }
+                                    } else {
+                                        if (mailService.sendMailTransactionNotVerify(requestSendTransactionNotVerify)) {
+                                            mailService.sendMailTransactionNotVerifyToAdmin(requestSendTransactionNotVerify);
+                                            transactionRepository.deleteById(trigger.getTransaction().getTransactionCode());
+                                            trigger.setChecked(true);
+                                            triggerRepository.save(trigger);
+                                        }
+                                    }
+                                } else if (trigger.getType() == TriggerType.UPDATE) {
+                                    if (!checkVerify) {
+                                        requestSendTransactionNotVerify.setChangedTransaction(trigger.getChangedTransaction());
+                                        if (mailService.sendMailTransactionNotVerify(requestSendTransactionNotVerify)) {
+                                            mailService.sendMailTransactionNotVerifyToAdmin(requestSendTransactionNotVerify);
+                                            if (!trigger.getChangedTransaction().getTransactionCode().equals(trigger.getTransaction().getTransactionCode())) {
+                                                transactionRepository.deleteById(trigger.getChangedTransaction().getTransactionCode());
+                                            }
+                                            /////nan giải khi thêm -> trigger sinh ra -> quay về if thứ nhất -> gửi email
+                                            transactionRepository.save(trigger.getTransaction());
+                                            trigger.setChecked(true);
+                                            triggerRepository.save(trigger);
+                                        }
+                                    } else {
+                                        trigger.setChecked(true);
+                                        triggerRepository.save(trigger);
+                                    }
+                                } else if (trigger.getType() == TriggerType.DELETE) {
+                                    if (checkVerify) {
+                                        if (mailService.sendMailTransactionNotVerify(requestSendTransactionNotVerify)) {
+                                            mailService.sendMailTransactionNotVerifyToAdmin(requestSendTransactionNotVerify);
+                                            /////nan giải
+                                            transactionRepository.save(trigger.getTransaction());
+                                            trigger.setChecked(true);
+                                            triggerRepository.save(trigger);
+                                        }
+                                    } else {
+                                        trigger.setChecked(true);
+                                        triggerRepository.save(trigger);
+                                    }
                                 }
-                                /////nan giải khi thêm -> trigger sinh ra -> quay về if thứ nhất -> gửi email
-                                transactionRepository.save(trigger.getTransaction());
-                                trigger.setChecked(true);
+                            } catch (Exception e) {
+                                trigger.setGot(false);
                                 triggerRepository.save(trigger);
                             }
-                        } else {
-                            trigger.setChecked(true);
-                            triggerRepository.save(trigger);
                         }
-                    } else if (trigger.getType() == TriggerType.DELETE) {
-                        if (checkVerify) {
-                            if (mailService.sendMailTransactionNotVerify(requestSendTransactionNotVerify)) {
-                                mailService.sendMailTransactionNotVerifyToAdmin(requestSendTransactionNotVerify);
-                                /////nan giải
-                                transactionRepository.save(trigger.getTransaction());
-                                trigger.setChecked(true);
-                                triggerRepository.save(trigger);
-                            }
-                        } else {
-                            trigger.setChecked(true);
-                            triggerRepository.save(trigger);
-                        }
-                    }
-                });
+                );
             }
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
+            triggerRepository.saveAll(triggerLogs.stream().peek(tr -> tr.setGot(false)).collect(Collectors.toList()));
             LOGGER.error(e.getMessage());
         }
     }

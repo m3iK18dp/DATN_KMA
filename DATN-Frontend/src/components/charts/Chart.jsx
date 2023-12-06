@@ -170,17 +170,6 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
         },
       },
       plugins: {
-        tooltip: {
-          callback:
-          {
-            label: function (value) {
-              return value.toLocaleString('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-              });
-            },
-          }
-        },
         legend: {
           display: false,
           position: "top",
@@ -219,17 +208,6 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
         },
       },
       plugins: {
-        tooltip: {
-          callback:
-          {
-            label: function (value) {
-              return value.toLocaleString('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-              });
-            },
-          }
-        },
         legend: {
           display: false,
           position: "top",
@@ -619,10 +597,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                   labels: ["Deposit", "Withdraw", "Transfer", "Credited"],
                   datasets: [
                     {
-                      // label: "Category Quantity Sold",
-                      // backgroundColor: "rgba(14, 159, 110,0.4)",
-                      backgroundColor: dataUse.datasets.map(dataset => dataset.backgroundColor),
-                      // ["rgba(14, 159, 110,0.4)"],
+                      backgroundColor: ["rgba(120,120,255,0.5)", "rgba(255,120,120,0.5)", "rgba(75,192,192,0.5)", "rgba(255,255,120,0.5)"],
                       borderColor: "rgba(14, 159, 110,1)",
                       borderCapStyle: "butt",
                       borderDash: [],
@@ -638,7 +613,6 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                       pointRadius: 1,
                       pointHitRadius: 10,
                       data: statistics.total,
-                      // hidden: false,
                     },
                   ],
                 }}

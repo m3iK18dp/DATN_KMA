@@ -41,12 +41,9 @@ const authenticationService = {
   register: async (user, otp, navigate) => {
     try {
       const res = await callApi(navigate, "auth", "post", user, { otp: otp });
-      if (res.status === "ok") {
-        localStorage.setItem("token", res.data[0]);
-        sessionStorage.setItem("username", user.email);
-        sessionStorage.setItem("roles", res.data[1]);
-        sessionStorage.setItem("isRevoked", false);
-      }
+      // if (res.status === "ok") {
+
+      // }
       return res;
     } catch (err) {
       throw new Error(err);

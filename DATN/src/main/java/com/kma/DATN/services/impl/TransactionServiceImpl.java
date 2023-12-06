@@ -108,6 +108,7 @@ public class TransactionServiceImpl implements ITransactionService {
         if (accountRepository.findByAccountNumber(accountNumber) == null) {
             throw new NotFoundException("Account not found");
         }
+        entityManager.unwrap(Session.class).refresh(accountRepository.findById(accountNumber), LockModeType.PESSIMISTIC_WRITE);
         Transaction transaction = new Transaction();
         transaction.setTransactionCode(generateUniqueTransactionCode());
         transaction.setSenderAccountNumber(accountNumber);

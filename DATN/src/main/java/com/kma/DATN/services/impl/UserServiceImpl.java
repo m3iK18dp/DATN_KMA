@@ -122,8 +122,11 @@ public class UserServiceImpl implements IUserService {
             List<Account> accounts = savedUser.getAccounts();
             accounts.add(account);
             savedUser.setAccounts(accounts);
+            String passwordHash = savedUser.getPassword();
+            savedUser.setPassword(user.getPassword());
             hyperledgerFabricService.registerUser(user.getId(), "Org1");
             mailService.sendMailThankYou(savedUser.getEmail(), savedUser);
+            savedUser.setPassword(passwordHash);
             return new UserRequestDto(savedUser);
         } catch (Exception exception) {
             exception.printStackTrace();

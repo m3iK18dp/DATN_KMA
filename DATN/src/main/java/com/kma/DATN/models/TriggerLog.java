@@ -40,6 +40,9 @@ public class TriggerLog {
     @Column(name = "changedTransaction")
     private Transaction changedTransaction;
 
+    @Column(name = "got", nullable = false)
+    private boolean got = false;
+
     @Override
     public String toString() {
         return "TriggerLog{" +
@@ -49,6 +52,7 @@ public class TriggerLog {
                 ", createdAt=" + createdAt +
                 ", transaction=" + transaction +
                 ", changedTransaction=" + changedTransaction +
+                ", got=" + got +
                 '}';
     }
 }

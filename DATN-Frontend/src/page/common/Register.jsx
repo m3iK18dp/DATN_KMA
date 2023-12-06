@@ -123,8 +123,8 @@ function Register() {
           });
           navigate("/login");
         } else {
-          setEmailIsFilled(res.message);
-          setStatus("Registration failed.");
+          // setEmailIsFilled(res.message);
+          setStatus("Registration failed! " + res.message);
         }
         setInProcessing(false);
       });
