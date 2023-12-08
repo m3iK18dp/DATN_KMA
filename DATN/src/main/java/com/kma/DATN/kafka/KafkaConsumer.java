@@ -48,7 +48,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "java", groupId = "myGroup")
     public void consumer(String message) {
-        LOGGER.info(String.format("Message received -> %s", message));
+        LOGGER.info(String.format("TriggerLog received -> %s", message));
         List<TriggerLog> triggerLogs = new ArrayList<>();
         try {
             triggerLogs = objectMapper.readValue(message, new TypeReference<>() {

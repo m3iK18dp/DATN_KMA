@@ -1,4 +1,4 @@
-Client
+Zookeeper
 C:\kafka>.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
 
 
@@ -11,3 +11,7 @@ C:\kafka>.\bin\windows\kafka-console-producer.bat --topic topic-example --bootst
 
 Received message
 C:\kafka>.\bin\windows\kafka-console-consumer.bat --topic java -from-beginning --bootstrap-server localhost:9092
+C:\kafka>.\bin\windows\kafka-console-consumer.bat --topic event -from-beginning --bootstrap-server localhost:9092
+
+
+
