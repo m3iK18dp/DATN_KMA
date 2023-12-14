@@ -7,11 +7,11 @@ import com.kma.DATN.repositories.OTPRepository;
 import com.kma.DATN.services.IOTPService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Random;
 
 @Service
@@ -32,7 +32,7 @@ public class OTPServiceImpl implements IOTPService {
         if (!currentOtp.getCreateTime().plusSeconds(120).isAfter(LocalDateTime.now())) {
             throw new RuntimeException("OTP Expired!");
         }
-        return Objects.equals(currentOtp.getOtp(), otp);
+        return new BCryptPasswordEncoder().matches(otp, currentOtp.getOtp());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class OTPServiceImpl implements IOTPService {
         }
         try {
             String otpGenerated = generateOTP();
-            OTP otp = OTP.builder().otp(otpGenerated).email(email).otpType(type).createTime(time).build();
+            OTP otp = OTP.builder().otp(new BCryptPasswordEncoder().encode(otpGenerated)).email(email).otpType(type).createTime(time).build();
             if (currentOtp != null)
                 otp.setId(currentOtp.getId());
             otpRepository.save(otp);

@@ -41,11 +41,15 @@ build/
 
 /mail-server/node_modules
 
-HyperledgerFabric/api-2.0/node_modules
-
 **/node_modules
 
+DATN-HyperledgerFabric/api-2.0/node_modules
 
+**/vendor
+**/fabric-ca/
+**/crypto-config/
+**/org1-wallet/
+**/org2-wallet/
 
 **.zip
 

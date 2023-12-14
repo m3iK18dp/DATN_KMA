@@ -25,7 +25,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"username\": \"kiempham1256@gmail.com\",\r\n    \"password\": \"admin_Abcd@1234\"\r\n}",
+											"raw": "{\r\n    \"username\": \"datn.hyperwallet@gmail.com\",\r\n    \"password\": \"admin_Abcd@1234\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -58,7 +58,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"username\": \"kiempham1256@gmail.com\",\r\n    \"password\": \"121234\"\r\n}",
+											"raw": "{\r\n    \"username\": \"datn.hyperwallet@gmail.com\",\r\n    \"password\": \"710693\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -366,7 +366,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNjk4NzUyNTUwLCJleHAiOjE2OTg3NTQzNTB9.GdGus2DnL8zEV43H9aCWvZqDocnGvG8Vih37W5jY11JiO5nHjZyzFKYk6uOHqMKqeJyaVZ1kRS_yBm58cOodgA",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYXRuLmh5cGVyd2FsbGV0QGdtYWlsLmNvbSIsImlhdCI6MTcwMTc3MzUyNiwiZXhwIjoxNzAxNzc1MzI2fQ.XAnLAUV5myquzWOJlkAloVbr8aEuo-vThYIZGzGVrYqkGBIkh8nxZkDi4MwIDYbb68_00fqHYhAh9JphVcguuA",
 													"type": "string"
 												}
 											]
@@ -468,7 +468,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNzAwODI5NDU5LCJleHAiOjE3MDA4MzEyNTl9.OPeIphcNjbCN9w-tbeZs74EYktylKWQW8K45kAjGRaRGhe_N99biLWgXmd_1EloN7_CmXwvZFUpO3DwKrGWkXw",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYXRuLmh5cGVyd2FsbGV0QGdtYWlsLmNvbSIsImlhdCI6MTcwMTc3NjYzOCwiZXhwIjoxNzAxNzc4NDM4fQ.wr_ekYxsvJRDxhecCzzMLT8CJRyMyHU_yg8R_prUMr36pis75_Dlsi1FTMkpxn63dAzu40FFvebGRBiWiZfmbA",
 													"type": "string"
 												}
 											]
@@ -480,7 +480,7 @@
 											"formdata": [
 												{
 													"key": "accountNumber",
-													"value": "3c94282d",
+													"value": "20165850",
 													"type": "text"
 												},
 												{
@@ -496,7 +496,7 @@
 											]
 										},
 										"url": {
-											"raw": "http://localhost:8080/api/transaction/deposit?otp=166069",
+											"raw": "http://localhost:8080/api/transaction/deposit?otp=843800",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -510,7 +510,7 @@
 											"query": [
 												{
 													"key": "otp",
-													"value": "166069"
+													"value": "843800"
 												}
 											]
 										}
@@ -525,7 +525,7 @@
 											"bearer": [
 												{
 													"key": "token",
-													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWVtcGhhbTEyNTZAZ21haWwuY29tIiwiaWF0IjoxNjk4ODQ3MDU2LCJleHAiOjE2OTg4NDg4NTZ9.lp25PQuDk5vzhGHmCb9a4rS2OXI9JTCokEMp2RUPlO6e3ZfykNQXd2rqkn3pe1RMVDZV3F4_AIbrlY0Mb-elYA",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYXRuLmh5cGVyd2FsbGV0QGdtYWlsLmNvbSIsImlhdCI6MTcwMTc4MjkzMSwiZXhwIjoxNzAxNzg0NzMxfQ.LY1RVI91YubJ6qULZ6NPY4zm4U_NQrPazwVFuvfEjhatiVXrhDBYlXRSh8ztlkPhTO_9uNbOSqvVfeEQKPuhUw",
 													"type": "string"
 												}
 											]
@@ -537,7 +537,7 @@
 											"formdata": [
 												{
 													"key": "accountNumber",
-													"value": "3c94282d",
+													"value": "20165850",
 													"type": "text"
 												},
 												{
@@ -547,13 +547,13 @@
 												},
 												{
 													"key": "amount",
-													"value": "40000",
+													"value": "10000",
 													"type": "text"
 												}
 											]
 										},
 										"url": {
-											"raw": "http://localhost:8080/api/transaction/withdraw?otp=123456",
+											"raw": "http://localhost:8080/api/transaction/withdraw?otp=717907",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -567,7 +567,7 @@
 											"query": [
 												{
 													"key": "otp",
-													"value": "123456"
+													"value": "717907"
 												}
 											]
 										}
@@ -691,7 +691,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:8080/api/transaction?_account_number=3c94282d",
+											"raw": "http://localhost:8080/api/transaction?_account_number=20165850",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -723,10 +723,6 @@
 													"disabled": true
 												},
 												{
-													"key": "_account_number",
-													"value": "3c94282d"
-												},
-												{
 													"key": "_verify",
 													"value": "true",
 													"disabled": true
@@ -741,6 +737,10 @@
 													"value": "2b5e454db7",
 													"description": "242ee6ff70",
 													"disabled": true
+												},
+												{
+													"key": "_account_number",
+													"value": "20165850"
 												}
 											]
 										}
@@ -1218,10 +1218,13 @@
 								{
 									"name": "CreateOTP",
 									"request": {
+										"auth": {
+											"type": "noauth"
+										},
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:8080/api/otp?email=kiempham1256@gmail.com&type=TRANSACTION",
+											"raw": "http://localhost:8080/api/otp?email=datn.hyperwallet@gmail.com&type=TRANSACTION",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -1234,7 +1237,7 @@
 											"query": [
 												{
 													"key": "email",
-													"value": "kiempham1256@gmail.com"
+													"value": "datn.hyperwallet@gmail.com"
 												},
 												{
 													"key": "type",
@@ -1251,12 +1254,12 @@
 							"name": "WebSocket",
 							"item": [
 								{
-									"name": "CreateOTP",
+									"name": "SendMessage",
 									"request": {
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:8080/api/socket/send-message",
+											"raw": "http://localhost:8080/api/socket/send-message?des=3c94282d&mess=abc",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -1266,6 +1269,16 @@
 												"api",
 												"socket",
 												"send-message"
+											],
+											"query": [
+												{
+													"key": "des",
+													"value": "3c94282d"
+												},
+												{
+													"key": "mess",
+													"value": "abc"
+												}
 											]
 										}
 									},
@@ -1709,13 +1722,13 @@
 							"raw": "{\n\t\"username\":\"00000000\",\n\t\"orgName\": \"Org1\"\n}\t"
 						},
 						"url": {
-							"raw": "http://192.168.152.129:4000/users",
+							"raw": "http://192.168.152.130:4000/users",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -1775,13 +1788,13 @@
 							"raw": "{\n\t\"username\":\"00000000\",\n\t\"orgName\": \"Org1\"\n}\t"
 						},
 						"url": {
-							"raw": "http://192.168.152.129:4000/users/login",
+							"raw": "http://192.168.152.130:4000/users/login",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -1794,6 +1807,20 @@
 				},
 				{
 					"name": "Add Transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let currentValue = pm.variables.get(\"dynamicVar\");\r",
+									"let newValue = parseInt(currentValue) + 1;\r",
+									"pm.variables.set(\"dynamicVar\", newValue.toString());\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1810,16 +1837,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fcn\": \"CreateTransaction\",\n    \"args\": [\"TX123455\",\"2023-09-23T10:50:10Z\",\"$2a$12$TGDSnLWrdqFTKDiTYESNFelNajEonwX7wtdZwYOz3WW/1QlWcxRFKs\"]\n}"
+							"raw": "{\n    \"fcn\": \"CreateTransaction\",\n    \"args\": [\"TX123452\",\"2023-09-23T10:50:10Z\",\"$2a$12$TGDSnLWrdqFTKDiTYESNFelNajEonwX7wtdZwYOz3WW/1QlWcxRFKs\"]\n}"
 						},
 						"url": {
-							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc",
+							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -1850,16 +1877,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fcn\": \"UpdateTransactionById\",\n    \"args\": [\"TX123454\",\"2023-09-22T11:50:10Z\",\"$2a$12$/KvsGn11qi65cQBiDeastelZm3zdrZJlT9xfZ7ETmLcQSOP.s/iGa\"]\n}"
+							"raw": "{\n    \"fcn\": \"UpdateTransactionById\",\n    \"args\": [\"afb9199487\",\"2023-12-07T01:54:21Z\",\"f520858a6a70af871458dfa4a0515f95d87b823add84865b6581b7d9fe9b5a99\"]\n}\n"
 						},
 						"url": {
-							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc",
+							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -1878,13 +1905,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?fcn=GetAllTransaction",
+							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?fcn=GetAllTransaction",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -1909,13 +1936,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"TX123456\",\"2023-09-22T11:50:10Z\"]&fcn=GetTransactionById",
+							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"TX123456\",\"2023-09-22T11:50:10Z\"]&fcn=GetTransactionById",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -1944,13 +1971,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"TX123456\"]&fcn=GetTransactionByIds",
+							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"TX123456\"]&fcn=GetTransactionByIds",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -1979,13 +2006,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?args=[[[\"TX123456\",\"2023-09-22T11:50:10Z\"]]]&fcn=GetTransactionByConditions",
+							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?args=[[[\"TX123456\",\"2023-09-22T11:50:10Z\"]]]&fcn=GetTransactionByConditions",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -2014,13 +2041,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?fcn=GetTransactionForQuery&args=[\"{\\\"selector\\\":{\\\"ID\\\":{\\\"$in\\\":[\\\"TX123456\\\",\\\"TX123457\\\"]}}}\"]",
+							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?fcn=GetTransactionForQuery&args=[\"{\\\"selector\\\":{\\\"ID\\\":{\\\"$in\\\":[\\\"TX123456\\\",\\\"TX123457\\\"]}}}\"]",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -2055,7 +2082,7 @@
 								},
 								{
 									"key": "args",
-									"value": "[\"all\"]",
+									"value": "[\"\"]",
 									"disabled": true
 								}
 							]
@@ -2146,13 +2173,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"9d77b61a7b\"]&fcn=GetHistoryForTransaction",
+							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"afb9199487\"]&fcn=GetHistoryForTransaction",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -2164,7 +2191,7 @@
 							"query": [
 								{
 									"key": "args",
-									"value": "[\"9d77b61a7b\"]"
+									"value": "[\"afb9199487\"]"
 								},
 								{
 									"key": "fcn",
@@ -2193,16 +2220,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fcn\": \"DeleteTransactionById\",\n    \"args\": [\"TX1234561\"]\n}"
+							"raw": "{\n    \"fcn\": \"DeleteTransactionById\",\n    \"args\": [\"TX123452\"]\n}"
 						},
 						"url": {
-							"raw": "http://192.168.152.129:4000/channels/mychannel/chaincodes/transaction_cc",
+							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc",
 							"protocol": "http",
 							"host": [
 								"192",
 								"168",
 								"152",
-								"129"
+								"130"
 							],
 							"port": "4000",
 							"path": [
@@ -2214,6 +2241,36 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI1NzU3MTIsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMjUzOTcxMn0.1YiGkNcT2CgsnyzK92NrqsTRxi3bIocqN1NsdbKMUoU",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -2423,7 +2480,35 @@
 					"response": []
 				},
 				{
-					"name": "Send Mail Transaction Verify Copy",
+					"name": "Send Mail Transaction Verify To Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"transaction\": {\r\n        \"transactionCode\": \"9573844a86\",\r\n        \"transactionTime\": \"2023-10-09T14:45:10\",\r\n        \"amount\": 10000,\r\n        \"senderAccountNumber\": \"3c94282d\",\r\n        \"senderFullName\": \"Phạm Đoàn Admin\",\r\n        \"recipientAccountNumber\": \"3c94283ns\",\r\n        \"recipientFullName\": \"Nguyễn Văn A\",\r\n        \"description\": \"Withdraw money to bank\",\r\n        \"transactionType\": \"TRANSFER\",\r\n        \"transactionStatus\": \"SUCCESS\"\r\n    },\r\n    \"time\":\"2023-10-31 00:46:23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-transaction-verify-to-admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-transaction-verify-to-admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Mail Transaction Verify To Recipient",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -2473,6 +2558,34 @@
 							"port": "3001",
 							"path": [
 								"send-mail-transaction-not-verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Mail Transaction Not Verify To Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kiempham1245@gmail.com\",\r\n    \"transaction\": {\r\n        \"transactionCode\": \"9573844a86\",\r\n        \"transactionTime\": \"2023-10-09T14:45:10\",\r\n        \"amount\": 10000,\r\n        \"senderAccountNumber\": \"3c94282d\",\r\n        \"senderFullName\": \"Phạm Đoàn Admin\",\r\n        \"recipientAccountNumber\": \"3c94283ns\",\r\n        \"recipientFullName\": \"Nguyễn Văn A\",\r\n        \"description\": \"Withdraw money to bank\",\r\n        \"transactionType\": \"TRANSFER\",\r\n        \"transactionStatus\": \"SUCCESS\"\r\n    },\r\n    \"changedTransaction\": {\r\n        \"transactionCode\": \"9573844a86\",\r\n        \"transactionTime\": \"2023-10-09T14:45:10\",\r\n        \"amount\": 100000,\r\n        \"senderAccountNumber\": \"3c94282d\",\r\n        \"senderFullName\": \"Phạm Đoàn Admin\",\r\n        \"recipientAccountNumber\": \"3c94283ns\",\r\n        \"recipientFullName\": \"Nguyễn Văn A Nguyễn Văn A Nguyễn Văn A\",\r\n        \"description\": \"Withdraw money to bank\",\r\n        \"transactionType\": \"TRANSFER\",\r\n        \"transactionStatus\": \"SUCCESS\"\r\n    },\r\n    \"time\": \"2023-10-31 00:46:23\",\r\n    \"type\": \"UPDATE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/send-mail-transaction-not-verify-to-admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"send-mail-transaction-not-verify-to-admin"
 							]
 						}
 					},

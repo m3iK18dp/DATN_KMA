@@ -1,5 +1,6 @@
 @echo off
 start "Kafka Zookeeper" cmd /k "cd /d C:\kafka\bin\windows && zookeeper-server-start.bat ..\..\config\zookeeper.properties"
+powershell Start-Sleep -Seconds 8
 start "Kafka Server" cmd /k "cd /d C:\kafka\bin\windows && kafka-server-start.bat ..\..\config\server.properties"
 start "Kafka Java" cmd /k "cd /d C:\kafka\bin\windows && kafka-console-consumer.bat --topic java -from-beginning --bootstrap-server localhost:9092"
 start "Kafka Event" cmd /k "cd /d C:\kafka\bin\windows && kafka-console-consumer.bat --topic event -from-beginning --bootstrap-server localhost:9092"
