@@ -1,0 +1,23 @@
+name: Caliper Benchmarks
+version: "2.0.0"
+
+caliper:
+  blockchain: fabric
+
+channels:
+  - channelName: mychannel
+    contracts:
+    - id: transaction_cc
+
+organizations:
+  - mspid: Org1MSP
+    identities:
+      certificates:
+      - name: 'User1'
+        clientPrivateKey:
+          path: '../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/c80ecbfa9dc914592df63dd9b055c6fbcba297f7d41818ee64df378118a55800_sk'
+        clientSignedCert:
+          path: '../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem'
+    connectionProfile:
+      path: '../api-2.0/config/connection-org1.json'
+      discover: true

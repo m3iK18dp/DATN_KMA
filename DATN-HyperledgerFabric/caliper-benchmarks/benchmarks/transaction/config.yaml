@@ -1,0 +1,68 @@
+test:
+  workers:
+    number: 5
+  rounds:
+    - label: Get all Transactions.
+      txDuration: 30
+      rateControl:
+          type: fixed-load
+          opts:
+            transactionLoad: 5
+      workload:
+        module: benchmarks/transaction/getAllTransactions.js
+        # arguments:
+        #   assets: 500
+    - label: Get Transaction By ID.
+      txDuration: 30
+      rateControl:
+          type: fixed-load
+          opts:
+            transactionLoad: 5
+      workload:
+        module: benchmarks/transaction/getTransactionById.js
+        # arguments:
+        #   assets: 500
+    - label: Get Transaction For Query.
+      txDuration: 30
+      rateControl:
+          type: fixed-load
+          opts:
+            transactionLoad: 5
+      workload:
+        module: benchmarks/transaction/getTransactionForQuery.js
+        # arguments:
+        #   assets: 500
+    - label: Get History For Transaction.
+      txDuration: 30
+      rateControl:
+          type: fixed-load
+          opts:
+            transactionLoad: 5
+      workload:
+        module: benchmarks/transaction/getHistoryForTransaction.js
+        # arguments:
+        #   assets: 500
+    - label: Create Transaction.
+      txDuration: 100
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 5
+      workload:
+        module: benchmarks/transaction/createTransaction.js
+    - label: Update Transaction By ID.
+      txDuration: 30
+      rateControl:
+          type: fixed-load
+          opts:
+            transactionLoad: 2
+      workload:
+        module: benchmarks/transaction/updateTransaction.js
+    - label: Delete Transaction by ID.
+      txDuration: 30
+      rateControl:
+          type: fixed-load
+          opts:
+            transactionLoad: 2
+      workload:
+        module: benchmarks/transaction/deleteTransaction.js
