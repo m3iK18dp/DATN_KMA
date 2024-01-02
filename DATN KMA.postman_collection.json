@@ -1877,7 +1877,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fcn\": \"UpdateTransactionById\",\n    \"args\": [\"afb9199487\",\"2023-12-07T01:54:21Z\",\"f520858a6a70af871458dfa4a0515f95d87b823add84865b6581b7d9fe9b5a99\"]\n}\n"
+							"raw": "{\n    \"fcn\": \"UpdateTransactionById\",\n    \"args\": [\"TX000884\",\"2023-12-14T13:59:20Z\",\"f520858a6a70af871458dfa4a0515f95d87b823add84865b6581b7d9fe9b5a99\"]\n}\n"
 						},
 						"url": {
 							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc",
@@ -2173,7 +2173,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"afb9199487\"]&fcn=GetHistoryForTransaction",
+							"raw": "http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?args=[\"4d1ea11d46\"]&fcn=GetHistoryForTransaction",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -2191,7 +2191,7 @@
 							"query": [
 								{
 									"key": "args",
-									"value": "[\"afb9199487\"]"
+									"value": "[\"4d1ea11d46\"]"
 								},
 								{
 									"key": "fcn",
@@ -2248,7 +2248,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI1NzU3MTIsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMjUzOTcxMn0.1YiGkNcT2CgsnyzK92NrqsTRxi3bIocqN1NsdbKMUoU",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDMzNTAyMDAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMzMxNDIwMH0.fczzaJo4SD4Ak8s21fsf-sltx00aGNcMjzS1h11f7ow",
 						"type": "string"
 					}
 				]

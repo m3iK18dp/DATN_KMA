@@ -58,6 +58,7 @@ Content-Disposition: form-data; name="amount"
 POST http://localhost:8080/api/transaction/transfer?otp=796396 HTTP/2.0
 Content-Type: multipart/form-data; boundary=my_boundary
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYXRuLmh5cGVyd2FsbGV0QGdtYWlsLmNvbSIsImlhdCI6MTcwMTc4MjkzMSwiZXhwIjoxNzAxNzg0NzMxfQ.LY1RVI91YubJ6qULZ6NPY4zm4U_NQrPazwVFuvfEjhatiVXrhDBYlXRSh8ztlkPhTO_9uNbOSqvVfeEQKPuhUw
+Websurge-Request-Inactive: 1
 Websurge-Request-Name: Transfer
 
 --my_boundary

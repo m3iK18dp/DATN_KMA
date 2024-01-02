@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `datn_hyperwallet` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `datn_hyperwallet`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: datn_hyperwallet
@@ -96,6 +98,112 @@ CREATE TABLE `transactions` (
   CONSTRAINT `account_sender` FOREIGN KEY (`senderAccountNumber`) REFERENCES `accounts` (`accountNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`backend_datn`@`localhost`*/ /*!50003 TRIGGER `after_transaction_insert` AFTER INSERT ON `transactions` FOR EACH ROW BEGIN
+    SET @transactionJSON = JSON_OBJECT(
+        'transactionCode', NEW.transactionCode,
+        'amount', NEW.amount,
+        'senderAccountNumber', NEW.senderAccountNumber,
+        'senderFullName', NEW.senderFullName,
+        'recipientAccountNumber', NEW.recipientAccountNumber,
+        'recipientFullName', NEW.recipientFullName,
+        'transactionStatus', NEW.transactionStatus,
+        'transactionType', NEW.transactionType,
+        'transactionTime', NEW.transactionTime,
+        'description', NEW.description
+    );
+    SET @transactionJSON = JSON_SET(@transactionJSON, '$.description', REPLACE(NEW.description, "'", "\\'"));
+    INSERT INTO TriggerLog (type, transaction)
+    VALUES ('INSERT', @transactionJSON);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`backend_datn`@`localhost`*/ /*!50003 TRIGGER `after_transaction_update` AFTER UPDATE ON `transactions` FOR EACH ROW BEGIN
+    SET @transactionJSON = JSON_OBJECT(
+        'transactionCode', OLD.transactionCode,
+        'amount', OLD.amount,
+        'senderAccountNumber', OLD.senderAccountNumber,
+        'senderFullName', OLD.senderFullName,
+        'recipientAccountNumber', OLD.recipientAccountNumber,
+        'recipientFullName', OLD.recipientFullName,
+        'transactionStatus', OLD.transactionStatus,
+        'transactionType', OLD.transactionType,
+        'transactionTime', OLD.transactionTime,
+        'description', OLD.description
+    );
+    SET @changedTransactionJSON = JSON_OBJECT(
+        'transactionCode', NEW.transactionCode,
+        'amount', NEW.amount,
+        'senderAccountNumber', NEW.senderAccountNumber,
+        'senderFullName', NEW.senderFullName,
+        'recipientAccountNumber', NEW.recipientAccountNumber,
+        'recipientFullName', NEW.recipientFullName,
+        'transactionStatus', NEW.transactionStatus,
+        'transactionType', NEW.transactionType,
+        'transactionTime', NEW.transactionTime,
+        'description', NEW.description
+    );
+    SET @transactionJSON = JSON_SET(@transactionJSON, '$.description', REPLACE(OLD.description, "'", "\\'"));
+    SET @changedTransactionJSON = JSON_SET(@changedTransactionJSON, '$.description', REPLACE(OLD.description, "'", "\\'"));
+    INSERT INTO TriggerLog (type, transaction, changedTransaction)
+    VALUES ('UPDATE', @transactionJSON, @changedTransactionJSON);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`backend_datn`@`localhost`*/ /*!50003 TRIGGER `after_transaction_delete` AFTER DELETE ON `transactions` FOR EACH ROW BEGIN
+    SET @transactionJSON = JSON_OBJECT(
+        'transactionCode', OLD.transactionCode,
+        'amount', OLD.amount,
+        'senderAccountNumber', OLD.senderAccountNumber,
+        'senderFullName', OLD.senderFullName,
+        'recipientAccountNumber', OLD.recipientAccountNumber,
+        'recipientFullName', OLD.recipientFullName,
+        'transactionStatus', OLD.transactionStatus,
+        'transactionType', OLD.transactionType,
+        'transactionTime', OLD.transactionTime,
+        'description', OLD.description
+    );
+    SET @transactionJSON = JSON_SET(@transactionJSON, '$.description', REPLACE(OLD.description, "'", "\\'"));
+    INSERT INTO TriggerLog (type, transaction)
+    VALUES ('DELETE', @transactionJSON);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `triggerlog`
@@ -141,6 +249,14 @@ CREATE TABLE `users` (
   UNIQUE KEY `UK_6dotkott2kjsp8vw4d0m25fb7` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping events for database 'datn_hyperwallet'
+--
+
+--
+-- Dumping routines for database 'datn_hyperwallet'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -151,4 +267,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-14 14:56:58
+-- Dump completed on 2024-01-02 13:17:49

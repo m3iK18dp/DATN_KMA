@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `datn_hyperwallet` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `datn_hyperwallet`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: datn_hyperwallet
@@ -136,6 +138,112 @@ LOCK TABLES `transactions` WRITE;
 INSERT INTO `transactions` VALUES ('4649e0c02c',100000,'Deposit money from bank',NULL,NULL,'57986397','Phạm Đoàn Kiếm','SUCCESS','2023-12-07 01:19:29.000000','DEPOSIT'),('4d1ea11d46',100000,'Chuyển tiền','d9cac72b','Nguyễn Đình Khôi','57986397','Phạm Đoàn Kiếm','SUCCESS','2023-12-14 13:59:20.000000','TRANSFER'),('4e6d9fca2b',50000,'Deposit money from bank',NULL,NULL,'57986397','Phạm Đoàn Kiếm','SUCCESS','2023-12-07 00:54:07.000000','DEPOSIT'),('551f354213',40000,'Gửi tiền','d9cac72b','Nguyễn Đình Khôi','57986397','Phạm Đoàn Kiếm','SUCCESS','2023-12-07 00:58:37.000000','TRANSFER'),('5aaab5dfaf',100000,'Gửi tiền','5a52e54f','Phạm Đoàn Kiếm','ade2b59d','Phạm Đoàn Kiếm','SUCCESS','2023-12-12 15:41:17.000000','TRANSFER'),('62a33f4cdf',500000,'Deposit money from bank',NULL,NULL,'57986397','Phạm Đoàn Kiếm','SUCCESS','2023-12-07 01:29:39.000000','DEPOSIT'),('7e96a1ee2e',50000,'Gửi tiền','d9cac72b','Nguyễn Đình Khôi','57986397','Phạm Đoàn Kiếm','SUCCESS','2023-12-07 01:23:40.000000','TRANSFER'),('afb9199487',100000,'Gửi tiền trả','57986397','Phạm Đoàn Kiếm','d9cac72b','Nguyễn Đình Khôi','SUCCESS','2023-12-07 01:54:21.000000','TRANSFER'),('e05cfea426',50000,'Gửi tiền','d9cac72b','Nguyễn Đình Khôi','57986397','Phạm Đoàn Kiếm','SUCCESS','2023-12-07 01:23:38.000000','TRANSFER'),('faa5d98df4',150000,'Deposit money from bank',NULL,NULL,'ade2b59d','Phạm Đoàn Kiếm','SUCCESS','2023-12-07 00:22:27.000000','DEPOSIT');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`backend_datn`@`localhost`*/ /*!50003 TRIGGER `after_transaction_insert` AFTER INSERT ON `transactions` FOR EACH ROW BEGIN
+    SET @transactionJSON = JSON_OBJECT(
+        'transactionCode', NEW.transactionCode,
+        'amount', NEW.amount,
+        'senderAccountNumber', NEW.senderAccountNumber,
+        'senderFullName', NEW.senderFullName,
+        'recipientAccountNumber', NEW.recipientAccountNumber,
+        'recipientFullName', NEW.recipientFullName,
+        'transactionStatus', NEW.transactionStatus,
+        'transactionType', NEW.transactionType,
+        'transactionTime', NEW.transactionTime,
+        'description', NEW.description
+    );
+    SET @transactionJSON = JSON_SET(@transactionJSON, '$.description', REPLACE(NEW.description, "'", "\\'"));
+    INSERT INTO TriggerLog (type, transaction)
+    VALUES ('INSERT', @transactionJSON);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`backend_datn`@`localhost`*/ /*!50003 TRIGGER `after_transaction_update` AFTER UPDATE ON `transactions` FOR EACH ROW BEGIN
+    SET @transactionJSON = JSON_OBJECT(
+        'transactionCode', OLD.transactionCode,
+        'amount', OLD.amount,
+        'senderAccountNumber', OLD.senderAccountNumber,
+        'senderFullName', OLD.senderFullName,
+        'recipientAccountNumber', OLD.recipientAccountNumber,
+        'recipientFullName', OLD.recipientFullName,
+        'transactionStatus', OLD.transactionStatus,
+        'transactionType', OLD.transactionType,
+        'transactionTime', OLD.transactionTime,
+        'description', OLD.description
+    );
+    SET @changedTransactionJSON = JSON_OBJECT(
+        'transactionCode', NEW.transactionCode,
+        'amount', NEW.amount,
+        'senderAccountNumber', NEW.senderAccountNumber,
+        'senderFullName', NEW.senderFullName,
+        'recipientAccountNumber', NEW.recipientAccountNumber,
+        'recipientFullName', NEW.recipientFullName,
+        'transactionStatus', NEW.transactionStatus,
+        'transactionType', NEW.transactionType,
+        'transactionTime', NEW.transactionTime,
+        'description', NEW.description
+    );
+    SET @transactionJSON = JSON_SET(@transactionJSON, '$.description', REPLACE(OLD.description, "'", "\\'"));
+    SET @changedTransactionJSON = JSON_SET(@changedTransactionJSON, '$.description', REPLACE(OLD.description, "'", "\\'"));
+    INSERT INTO TriggerLog (type, transaction, changedTransaction)
+    VALUES ('UPDATE', @transactionJSON, @changedTransactionJSON);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`backend_datn`@`localhost`*/ /*!50003 TRIGGER `after_transaction_delete` AFTER DELETE ON `transactions` FOR EACH ROW BEGIN
+    SET @transactionJSON = JSON_OBJECT(
+        'transactionCode', OLD.transactionCode,
+        'amount', OLD.amount,
+        'senderAccountNumber', OLD.senderAccountNumber,
+        'senderFullName', OLD.senderFullName,
+        'recipientAccountNumber', OLD.recipientAccountNumber,
+        'recipientFullName', OLD.recipientFullName,
+        'transactionStatus', OLD.transactionStatus,
+        'transactionType', OLD.transactionType,
+        'transactionTime', OLD.transactionTime,
+        'description', OLD.description
+    );
+    SET @transactionJSON = JSON_SET(@transactionJSON, '$.description', REPLACE(OLD.description, "'", "\\'"));
+    INSERT INTO TriggerLog (type, transaction)
+    VALUES ('DELETE', @transactionJSON);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `triggerlog`
@@ -201,6 +309,14 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES ('00000000','17A Cộng Hòa',0,'2023-12-05 17:49:43.000000','datn.hyperwallet@gmail.com','Phạm Đoàn','Kiếm','2023-12-05 17:49:43.000000','$2a$10$xe4USkeKSeljX.3Ms2GC5eN1UG.tNsvLcB9gJbet3CeGr4cjzcwei','0373926165','$2a$10$eChoNMHeQ.Es92iyZOrRF.6.pto4u/juSrtGeImbk4seO3/M2a04y','ADMIN','ACTIVE'),('2e2e1926','Tân Bình',0,'2023-12-07 00:37:00.000000','kiempham1256@gmail.com','Phạm Đoàn','Kiếm','2023-12-07 00:51:55.000000','$2a$10$b03B6PD2a2Rr7sNAxEw9juOOUGabajhcJPs34KMSqm739RthGOpji','0373926165','$2a$10$oc4GxJ78ZSiWXP9uYdRk0.MkK34KtYbEz3l6pvZE/iX5XI3PP1sK2','USER','ACTIVE'),('3d1f35e8','47 Gò Vấp',0,'2023-12-07 00:24:45.000000','kiempham1245@gmail.com','Nguyễn Đình','Khôi','2023-12-07 00:24:45.000000','$2a$10$HzugztjMVc0dyrlnhu9SSOkfXf0ba1TvNPnEG6OZ4tPngHH/CkoPm','0382394729','$2a$10$DEzcv38FE5ifatHn.QrttuI9G4ALoaS8rHiqGWkoWV9tYGo/zciKq','USER','ACTIVE');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'datn_hyperwallet'
+--
+
+--
+-- Dumping routines for database 'datn_hyperwallet'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -211,4 +327,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-14 14:57:20
+-- Dump completed on 2024-01-02 13:17:38
