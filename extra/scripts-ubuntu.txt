@@ -1,0 +1,86 @@
+--- Installation
+- Install curl and the golang software package
++ sudo apt-get install curl
++ sudo apt-get install golang
++ export GOPATH=$HOME/go
++ export PATH=$PATH:$GOPATH/bin
+
+//////////////////////
+vim ~/.bashrc
+export PATH=$PATH:/usr/local/go/bin:/home/kiempham/.go/bin
+export GOPATH=/home/kiempham/go
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:/home/kiempham/fabric-samples/bin
+//////////////////
+
+- Install Node.js, npm, and Python
++ sudo apt-get install nodejs
++ sudo apt-get install npm
++ sudo apt-get install python
+
+
+- Install and upgrade docker and docker-compose
++ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
++ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu(lsb_release -cs) stable"
++ sudo apt-get update
++ apt-cache policy docker-ce
++ sudo apt-get install -y docker-ce
++ sudo apt-get install docker-compose
++ sudo apt-get upgrade
+
+- Update Node.js and golang to the proper versions:
++ wget https://dl.google.com/go/go1.20.7.linux-amd64.tar.gz
++ tar -xzvf go1.20.7.linux-amd64.tar.gz
++ sudo mv go/ /usr/local
++ export GOPATH=/usr/local/go
++ export PATH=$PATH:$GOPATH/bin
++ curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-get install -y nodejs
+https://github.com/nodesource/distributions
+
+---Install samples, Binary and Docker Images
++ curl -sSL http://bit.ly/2ysbOFE | sudo bash -s
++ curl -sSL http://bit.ly/2ysbOFE | sudo bash -s <fabric_version> <fabric-ca_version> <3party_version>
++ curl -sSL http://bit.ly/2ysbOFE | sudo bash -s 2.5.3 1.5.6 1.4.7
+https://raw.githubusercontent.com/hyperledger/fabric/master/scripts/bootstrap.sh
+
+--- Add go vender
+go mod tidy
+go mod vendor
+---
+sudo docker-compose -f docker-compose-persistance.yaml up -d
+
+---Stop and Remove all docker current
+sudo docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
+
+
+////////////////// SETUP MULTI HOST FOR LEDGER
+doc1: https://kctheservant.medium.com/multi-host-deployment-for-first-network-hyperledger-fabric-v2-273b794ff3d
+doc2: https://techelix.medium.com/hyperledger-fabric-on-multiple-hosts-a33b08ef24f
+PC1: peer0.org1, peer1.org1, orderer, CA, CLI
+PC2: peer0.org2, peer1.org2
+
+
+PC1: 
+Initialize a swarm: $ sudo docker swarm init --advertise-addr 192.168.152.130
+Join the swarm with the other host as a manager (PC1 will create swarm and PC2 will join it)
+-> result:**
+Swarm initialized: current node (ujl5af2oigi67s8764pxfb849) is now a manager.
+To add a worker to this swarm, run the following command:
+$ sudo docker swarm join --token SWMTKN-1-5tfvaxute99gzdktaeb264gpfxs737yh32fuaurc7dajv3je7k-erwypxrn5djvdr2u8a6aoklja 192.168.152.130:2377
+
+To add a manager to this swarm, run 'sudo docker swarm join-token manager' and follow the instructions.
+**
+
+P2: Join swarm in PC1: $ sudo docker swarm join --token SWMTKN-1-2lzbziy4vwnqdefdrny6hxhqkzlfbypzodv5ihf2dhs1sqpasa-4eslsx08k8rzqu9onrrly4bd8 192.168.152.130:2377
+
+P1: Create a network “net-fabric” $ sudo docker network create --attachable --driver overlay fabric
+-> result: 2ludedqnakhdfkoy6l1hksi1i
+
+
+**Thêm dịch vụ $ sudo docker stack deploy -c docker-compose.yaml [tên container]
+**Xóa dịch vụ $ sudo docker remove [tên container]
+
+**Restart docker $ sudo systemctl restart docker
+**Xem bên trong mạng $ sudo docker inspect fabric
+**Xem service share trong mạng $ sudo docker service ls
