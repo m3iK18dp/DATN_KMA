@@ -1,7 +1,8 @@
 @echo off
 start "Kafka Zookeeper" cmd /k "cd /d C:\kafka\bin\windows && zookeeper-server-start.bat ..\..\config\zookeeper.properties"
-powershell Start-Sleep -Seconds 10
+powershell Start-Sleep -Seconds 7
 start "Kafka Server" cmd /k "cd /d C:\kafka\bin\windows && kafka-server-start.bat ..\..\config\server.properties"
+powershell Start-Sleep -Seconds 7
 start "Kafka Java" cmd /k "cd /d C:\kafka\bin\windows && kafka-console-consumer.bat --topic java -from-beginning --bootstrap-server localhost:9092"
 start "Kafka Event" cmd /k "cd /d C:\kafka\bin\windows && kafka-console-consumer.bat --topic event -from-beginning --bootstrap-server localhost:9092"
 start "CORE" cmd /k "cd /d D:\DATN - BLOCKCHAIN\DATN\DATN\target && java -jar DATN-0.0.1-SNAPSHOT.jar"

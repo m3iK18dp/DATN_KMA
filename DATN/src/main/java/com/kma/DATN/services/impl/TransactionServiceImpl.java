@@ -108,7 +108,7 @@ public class TransactionServiceImpl implements ITransactionService {
         if (accountRepository.findByAccountNumber(accountNumber) == null) {
             throw new NotFoundException("Account not found");
         }
-        entityManager.unwrap(Session.class).refresh(accountRepository.findById(accountNumber), LockModeType.PESSIMISTIC_WRITE);
+        entityManager.unwrap(Session.class).refresh(accountRepository.findByAccountNumber(accountNumber), LockModeType.PESSIMISTIC_WRITE);
         Transaction transaction = new Transaction();
         transaction.setTransactionCode(generateUniqueTransactionCode());
         transaction.setSenderAccountNumber(accountNumber);
@@ -123,9 +123,7 @@ public class TransactionServiceImpl implements ITransactionService {
             accountRepository.changeBalance(accountNumber, amount);
         } else {
             throw new RuntimeException("Failed add transaction to fabric network");
-
         }
-
         return new TransactionRequestDto(transaction);
     }
 
@@ -441,10 +439,11 @@ public class TransactionServiceImpl implements ITransactionService {
     @Override
     public MultiMap<String, Object> getStatisticsWithAccountNumber(String accountNumber, HttpServletRequest request) {
         MultiMap<String, Object> result = new MultiMap<>();
-        Long[] deposit = {0L, 0L};
-        Long[] withdraw = {0L, 0L};
-        Long[] transfer = {0L, 0L};
-        Long[] credited = {0L, 0L};
+//        MultiMap<Integer, Long> deposit = new MultiMap<>();
+        Long[] deposit = {1L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L};
+        Long[] withdraw = {1L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L};
+        Long[] transfer = {1L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L};
+        Long[] credited = {1L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L};
         User userAuth = extractUser(request);
         if (Objects.equals(accountNumber, ""))
             accountNumber = accountRepository.findNewestAccount();
@@ -452,23 +451,24 @@ public class TransactionServiceImpl implements ITransactionService {
         List<Transaction> transactions = transactionRepository.findTransactionsWithAccountNumber(finalAccountNumber);
         AtomicInteger i = new AtomicInteger();
         int monthNow = LocalDateTime.now().getMonthValue();
+        int monthPrev = LocalDateTime.now().minusMonths(1L).getMonthValue();
         transactions.forEach(transaction -> {
             if (transaction.getTransactionType() == TransactionType.DEPOSIT)
-                deposit[monthNow - transaction.getTransactionTime().getMonthValue()] += transaction.getAmount();
+                deposit[transaction.getTransactionTime().getMonthValue()] += transaction.getAmount();
             if (transaction.getTransactionType() == TransactionType.WITHDRAW)
-                withdraw[monthNow - transaction.getTransactionTime().getMonthValue()] += transaction.getAmount();
+                withdraw[transaction.getTransactionTime().getMonthValue()] += transaction.getAmount();
             if (transaction.getTransactionType() == TransactionType.TRANSFER) {
                 if (Objects.equals(transaction.getSenderAccountNumber(), finalAccountNumber))
-                    transfer[monthNow - transaction.getTransactionTime().getMonthValue()] += transaction.getAmount();
+                    transfer[transaction.getTransactionTime().getMonthValue()] += transaction.getAmount();
                 else
-                    credited[monthNow - transaction.getTransactionTime().getMonthValue()] += transaction.getAmount();
+                    credited[transaction.getTransactionTime().getMonthValue()] += transaction.getAmount();
             }
             i.getAndIncrement();
         });
-        result.put("deposit", List.of(new Object[]{deposit[0], deposit[1], 100.0 * deposit[0] / (deposit[1] == 0 ? 1 : deposit[1])}));
-        result.put("withdraw", List.of(new Object[]{withdraw[0], withdraw[1], 100.0 * withdraw[0] / (withdraw[1] == 0 ? 1 : withdraw[1])}));
-        result.put("transfer", List.of(new Object[]{transfer[0], transfer[1], 100.0 * transfer[0] / (transfer[1] == 0 ? 1 : transfer[1])}));
-        result.put("credited", List.of(new Object[]{credited[0], credited[1], 100.0 * credited[0] / (credited[1] == 0 ? 1 : credited[1])}));
+        result.put("deposit", List.of(new Object[]{deposit[monthNow], deposit[monthPrev], 100.0 * deposit[monthNow] / (deposit[monthPrev] == 0 ? 1 : deposit[monthPrev])}));
+        result.put("withdraw", List.of(new Object[]{withdraw[monthNow], withdraw[monthPrev], 100.0 * withdraw[monthNow] / (withdraw[monthPrev] == 0 ? 1 : withdraw[monthPrev])}));
+        result.put("transfer", List.of(new Object[]{transfer[monthNow], transfer[monthPrev], 100.0 * transfer[monthNow] / (transfer[monthPrev] == 0 ? 1 : transfer[monthPrev])}));
+        result.put("credited", List.of(new Object[]{credited[monthNow], credited[monthPrev], 100.0 * credited[monthNow] / (credited[monthPrev] == 0 ? 1 : credited[monthPrev])}));
         return result;
     }
 

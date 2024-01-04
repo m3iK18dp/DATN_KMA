@@ -55,10 +55,14 @@ public class KafkaConsumer {
             });
             if (!triggerLogs.isEmpty()) {
                 String token = hyperledgerFabricService.loginUser(((User) GlobalConfig.getConfig("user-init-first")).getId(), "Org1");
-                List<TransactionFabric> transactionFabrics = hyperledgerFabricService
-                        .getTransactionByIds(triggerLogs.stream().map(triggerLog ->
-                                triggerLog.getType() == TriggerType.UPDATE ? triggerLog.getChangedTransaction().getTransactionCode() : triggerLog.getTransaction().getTransactionCode()
-                        ).collect(Collectors.toList()), token);
+                List<String> listId = new ArrayList<>();
+                triggerLogs.forEach(triggerLog -> {
+                    if (triggerLog.getType() == TriggerType.UPDATE && listId.stream().noneMatch(id -> Objects.equals(id, triggerLog.getChangedTransaction().getTransactionCode())))
+                        listId.add(triggerLog.getChangedTransaction().getTransactionCode());
+                    if (listId.stream().noneMatch(id -> Objects.equals(id, triggerLog.getTransaction().getTransactionCode())))
+                        listId.add(triggerLog.getTransaction().getTransactionCode());
+                });
+                List<TransactionFabric> transactionFabrics = hyperledgerFabricService.getTransactionByIds(listId, token);
                 triggerLogs.forEach(trigger -> {
                             try {
                                 boolean checkVerify = transactionFabrics.stream()
@@ -120,7 +124,16 @@ public class KafkaConsumer {
                                                 transactionRepository.deleteById(trigger.getChangedTransaction().getTransactionCode());
                                             }
                                             /////nan giải khi thêm -> trigger sinh ra -> quay về if thứ nhất -> gửi email
-                                            transactionRepository.save(trigger.getTransaction());
+                                            boolean checkVerifyOld = transactionFabrics.stream()
+                                                    .anyMatch(
+                                                            transactionFabric ->
+                                                                    transactionFabric.getId().equals(trigger.getTransaction().getTransactionCode()) &&
+                                                                            hyperledgerFabricService.checkTransactionWithTransactionHash(trigger.getTransaction(), transactionFabric.getDataHash())
+                                                    );
+                                            if (checkVerifyOld)
+                                                transactionRepository.save(trigger.getTransaction());
+                                            else
+                                                transactionRepository.deleteById(trigger.getTransaction().getTransactionCode());
                                             trigger.setChecked(true);
                                             triggerRepository.save(trigger);
                                         }

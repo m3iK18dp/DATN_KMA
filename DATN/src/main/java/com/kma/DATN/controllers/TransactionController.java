@@ -162,6 +162,7 @@ public class TransactionController {
         try {
             return new ResponseObject<>("ok", "Deposit success", transactionService.cashDeposit(accountNumber, pin, amount, otp, request));
         } catch (Exception exception) {
+            exception.printStackTrace();
             return new ResponseObject<>("error", "Deposit failed " + exception.getMessage(), null);
         }
     }

@@ -24,80 +24,14 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
     @Query(value = """
             SELECT t.* FROM transactions t
             WHERE   (
-                        :keyword = '' AND
-                            (
-                            (LOWER(t.transactionCode) LIKE LOWER(CONCAT('%', :transactionCode, '%'))) AND
-                            (LOWER(t.senderAccountNumber) LIKE LOWER(CONCAT('%', :senderAccountNumber, '%'))) AND
-                            (LOWER(t.senderFullName) LIKE LOWER(CONCAT('%', :senderName, '%'))) AND
-                            (t.recipientAccountNumber IS NULL OR LOWER(t.recipientAccountNumber) LIKE LOWER(CONCAT('%', :recipientAccountNumber, '%'))) AND
-                            (t.recipientFullName IS NULL OR LOWER(t.recipientFullName) LIKE LOWER(CONCAT('%', :recipientName, '%'))) AND
-                            (:transactionType = '' OR t.transactionType = :transactionType) AND
-                            (:transactionStatus = '' OR t.transactionStatus = :transactionStatus) AND
-                            (
-                                :transactionTime IS NULL OR
-                                (
-                                    t.transactionTime >= :transactionTime
-                                    AND t.transactionTime <= DATE_ADD(:transactionTime, INTERVAL 1 DAY)
-                                )
-                            ) AND
-                            (:startTime IS NULL OR t.transactionTime >= :startTime) AND
-                            (:endTime IS NULL OR t.transactionTime < DATE_ADD(:endTime, INTERVAL 1 DAY)) AND
-                            (:userId = -1 OR
-                                t.transactionCode IN (
-                                    SELECT tr.transactionCode FROM transactions tr, accounts ac
-                                    WHERE (tr.senderAccountNumber = ac.accountNumber OR tr.recipientAccountNumber = ac.accountNumber) AND
-                                    ac.user_id = :userId
-                                    )
-                            ) AND
-                            (
-                                LOWER(t.senderAccountNumber) LIKE LOWER(CONCAT('%', :accountNumber, '%')) OR
-                                LOWER(t.recipientAccountNumber) LIKE LOWER(CONCAT('%', :accountNumber, '%'))
-                            )
-                        )
-                    ) OR
-                    (
-                        :keyword != '' AND
                         (
-                            (LOWER(t.transactionCode) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
-                            (LOWER(t.senderAccountNumber) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
-                            (LOWER(t.senderFullName) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
-                            (t.recipientAccountNumber IS NOT NULL AND LOWER(t.recipientAccountNumber) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
-                            (t.recipientFullName IS NOT NULL AND LOWER(t.recipientFullName) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
-                            (LOWER(t.description) LIKE LOWER(CONCAT('%', :keyword, '%')))
-                        )
-                    )
-            """, countQuery = """
-                SELECT COUNT(t.transactionCode) FROM transactions t
-                WHERE   (
                             :keyword = '' AND
                             (
                                 (LOWER(t.transactionCode) LIKE LOWER(CONCAT('%', :transactionCode, '%'))) AND
                                 (LOWER(t.senderAccountNumber) LIKE LOWER(CONCAT('%', :senderAccountNumber, '%'))) AND
                                 (LOWER(t.senderFullName) LIKE LOWER(CONCAT('%', :senderName, '%'))) AND
                                 (t.recipientAccountNumber IS NULL OR LOWER(t.recipientAccountNumber) LIKE LOWER(CONCAT('%', :recipientAccountNumber, '%'))) AND
-                                (t.recipientFullName IS NULL OR LOWER(t.recipientFullName) LIKE LOWER(CONCAT('%', :recipientName, '%'))) AND
-                                (:transactionType = '' OR t.transactionType = :transactionType) AND
-                                (:transactionStatus = '' OR t.transactionStatus = :transactionStatus) AND
-                                (
-                                    :transactionTime IS NULL OR
-                                    (
-                                        t.transactionTime >= :transactionTime
-                                        AND t.transactionTime <= DATE_ADD(:transactionTime, INTERVAL 1 DAY)
-                                    )
-                                ) AND
-                                (:startTime IS NULL OR t.transactionTime >= :startTime) AND
-                                (:endTime IS NULL OR t.transactionTime < DATE_ADD(:endTime, INTERVAL 1 DAY)) AND
-                                (:userId = -1 OR
-                                    t.transactionCode IN (
-                                        SELECT tr.transactionCode FROM transactions tr, accounts ac
-                                        WHERE (tr.senderAccountNumber = ac.accountNumber OR tr.recipientAccountNumber = ac.accountNumber) AND
-                                        ac.user_id = :userId
-                                        )
-                                ) AND
-                                (
-                                    LOWER(t.senderAccountNumber) LIKE LOWER(CONCAT('%', :accountNumber, '%')) OR
-                                    LOWER(t.recipientAccountNumber) LIKE LOWER(CONCAT('%', :accountNumber, '%'))
-                                )
+                                (t.recipientFullName IS NULL OR LOWER(t.recipientFullName) LIKE LOWER(CONCAT('%', :recipientName, '%'))) 
                             )
                         ) OR
                         (
@@ -110,6 +44,76 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
                                 (t.recipientFullName IS NOT NULL AND LOWER(t.recipientFullName) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
                                 (LOWER(t.description) LIKE LOWER(CONCAT('%', :keyword, '%')))
                             )
+                        )
+                    ) AND
+                    (:transactionType = '' OR t.transactionType = :transactionType) AND
+                    (:transactionStatus = '' OR t.transactionStatus = :transactionStatus) AND
+                    (
+                        :transactionTime IS NULL OR
+                        (
+                            t.transactionTime >= :transactionTime
+                            AND t.transactionTime <= DATE_ADD(:transactionTime, INTERVAL 1 DAY)
+                        )
+                    ) AND
+                    (:startTime IS NULL OR t.transactionTime >= :startTime) AND
+                    (:endTime IS NULL OR t.transactionTime < DATE_ADD(:endTime, INTERVAL 1 DAY)) AND
+                    (:userId = -1 OR
+                        t.transactionCode IN (
+                            SELECT tr.transactionCode FROM transactions tr, accounts ac
+                            WHERE (tr.senderAccountNumber = ac.accountNumber OR tr.recipientAccountNumber = ac.accountNumber) AND
+                            ac.user_id = :userId
+                            )
+                    ) AND
+                    (
+                        LOWER(t.senderAccountNumber) LIKE LOWER(CONCAT('%', :accountNumber, '%')) OR
+                        LOWER(t.recipientAccountNumber) LIKE LOWER(CONCAT('%', :accountNumber, '%'))
+                    )
+            """, countQuery = """
+                SELECT COUNT(t.transactionCode) FROM transactions t
+                WHERE   (
+                            (
+                                :keyword = '' AND
+                                (
+                                    (LOWER(t.transactionCode) LIKE LOWER(CONCAT('%', :transactionCode, '%'))) AND
+                                    (LOWER(t.senderAccountNumber) LIKE LOWER(CONCAT('%', :senderAccountNumber, '%'))) AND
+                                    (LOWER(t.senderFullName) LIKE LOWER(CONCAT('%', :senderName, '%'))) AND
+                                    (t.recipientAccountNumber IS NULL OR LOWER(t.recipientAccountNumber) LIKE LOWER(CONCAT('%', :recipientAccountNumber, '%'))) AND
+                                    (t.recipientFullName IS NULL OR LOWER(t.recipientFullName) LIKE LOWER(CONCAT('%', :recipientName, '%'))
+                                )
+                            ) OR
+                            (
+                                :keyword != '' AND
+                                (
+                                    (LOWER(t.transactionCode) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
+                                    (LOWER(t.senderAccountNumber) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
+                                    (LOWER(t.senderFullName) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
+                                    (t.recipientAccountNumber IS NOT NULL AND LOWER(t.recipientAccountNumber) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
+                                    (t.recipientFullName IS NOT NULL AND LOWER(t.recipientFullName) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR
+                                    (LOWER(t.description) LIKE LOWER(CONCAT('%', :keyword, '%')))
+                                )
+                            )
+                        )AND
+                        (:transactionType = '' OR t.transactionType = :transactionType) AND
+                        (:transactionStatus = '' OR t.transactionStatus = :transactionStatus) AND
+                        (
+                            :transactionTime IS NULL OR
+                            (
+                                t.transactionTime >= :transactionTime
+                                AND t.transactionTime <= DATE_ADD(:transactionTime, INTERVAL 1 DAY)
+                            )
+                        ) AND
+                        (:startTime IS NULL OR t.transactionTime >= :startTime) AND
+                        (:endTime IS NULL OR t.transactionTime < DATE_ADD(:endTime, INTERVAL 1 DAY)) AND
+                        (:userId = -1 OR
+                            t.transactionCode IN (
+                                SELECT tr.transactionCode FROM transactions tr, accounts ac
+                                WHERE (tr.senderAccountNumber = ac.accountNumber OR tr.recipientAccountNumber = ac.accountNumber) AND
+                                ac.user_id = :userId
+                                )
+                        ) AND
+                        (
+                            LOWER(t.senderAccountNumber) LIKE LOWER(CONCAT('%', :accountNumber, '%')) OR
+                            LOWER(t.recipientAccountNumber) LIKE LOWER(CONCAT('%', :accountNumber, '%'))
                         )
             """, nativeQuery = true)
     Page<Transaction> findTransactionsWithPaginationAndSort(

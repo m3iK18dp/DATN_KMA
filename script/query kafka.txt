@@ -1,10 +1,10 @@
 Zookeeper
 C:\kafka>.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
-
+restartup -> zookeeper-server-start.bat ..\..\config\zookeeper.properties
 
 Server
 C:\kafka>.\bin\windows\kafka-server-start.bat .\config\server.properties
-
+restartup -> kafka-server-start.bat ..\..\config\server.properties
 
 Send message
 C:\kafka>.\bin\windows\kafka-console-producer.bat --topic topic-example --bootstrap-server localhost:9092
