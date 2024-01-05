@@ -303,7 +303,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
                 />
               </div>
               <div className="text-xl text-red-700 italic">
-                +{statisticMonth.deposit ? statisticMonth.deposit[2] : ""}%
+                +{statisticMonth.deposit ? statisticMonth.deposit[2].toFixed(2) : ""}%
               </div>
             </div>
           </div>
@@ -342,7 +342,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
               <div className="text-xl text-blue-700 italic">
                 +
                 {statisticMonth.withdraw
-                  ? parseInt(statisticMonth.withdraw[2])
+                  ? parseInt(statisticMonth.withdraw[2]).toFixed(2)
                   : ""}
                 %
               </div>
@@ -383,7 +383,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
               <div className="text-xl italic text-green-700">
                 +
                 {statisticMonth.transfer
-                  ? parseInt(statisticMonth?.transfer[2])
+                  ? parseInt(statisticMonth?.transfer[2]).toFixed(2)
                   : ""}
                 %
               </div>
@@ -424,7 +424,7 @@ const CustomChart = ({ transactions = [], currentAccount = {}, params }) => {
               <div className="text-xl text-yellow-700 italic">
                 +
                 {statisticMonth.credited
-                  ? parseInt(statisticMonth.credited[0])
+                  ? parseInt(statisticMonth.credited[0]).toFixed(2)
                   : ""}
                 %
               </div>

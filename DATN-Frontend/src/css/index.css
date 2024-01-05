@@ -163,7 +163,7 @@ code {
   transform: translateY(-260px);
 }
 .filter-container.expanded-admin {
-  transform: translateY(-26px);
+  transform: translateY(-260px);
 }
 /* width */
 ::-webkit-scrollbar {

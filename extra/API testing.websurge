@@ -1,6 +1,6 @@
 POST http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc HTTP/2.0
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4MDQ1NzAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMTc2ODU3MH0.y0TRdOL5xmtb0XpvOInY1fvSv8Pl4M4xlOfAT4_SeWo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQ0NjU3MTAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwNDQyOTcxMH0.ng1iPb1ZL44GSea1C2vtjz0oZCvyncK-YUUW8NBYW1A
 Websurge-Request-Inactive: 1
 Websurge-Request-Name: CreateTransaction
 
@@ -97,7 +97,7 @@ Websurge-Request-Name: GetTransaction-have-verify
 
 POST http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc HTTP/2.0
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4MDQ1NzAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMTc2ODU3MH0.y0TRdOL5xmtb0XpvOInY1fvSv8Pl4M4xlOfAT4_SeWo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQ0NjU3MTAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwNDQyOTcxMH0.ng1iPb1ZL44GSea1C2vtjz0oZCvyncK-YUUW8NBYW1A
 websurge-sessionid: 0
 Websurge-Request-Inactive: 1
 Websurge-Request-Name: UpdateTransaction
@@ -110,23 +110,21 @@ Websurge-Request-Name: UpdateTransaction
 ------------------------------------------------------------------
 
 GET http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?fcn=GetAllTransaction HTTP/2.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4MDQ1NzAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMTc2ODU3MH0.y0TRdOL5xmtb0XpvOInY1fvSv8Pl4M4xlOfAT4_SeWo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQ0NjU3MTAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwNDQyOTcxMH0.ng1iPb1ZL44GSea1C2vtjz0oZCvyncK-YUUW8NBYW1A
 websurge-sessionid: 0
-Websurge-Request-Inactive: 1
 Websurge-Request-Name: GetAllTransaction
 
 ------------------------------------------------------------------
 
 GET http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?args=["TX123456","2023-09-22T11:50:10Z"]&fcn=GetTransactionById HTTP/2.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4MDQ1NzAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMTc2ODU3MH0.y0TRdOL5xmtb0XpvOInY1fvSv8Pl4M4xlOfAT4_SeWo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQ0NjU3MTAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwNDQyOTcxMH0.ng1iPb1ZL44GSea1C2vtjz0oZCvyncK-YUUW8NBYW1A
 websurge-sessionid: 0
-Websurge-Request-Inactive: 1
 Websurge-Request-Name: GetTransactionById
 
 ------------------------------------------------------------------
 
 GET http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?fcn=GetTransactionForQuery&args=["{\"selector\":{\"ID\":{\"$in\":[\"TX123456\",\"TX123457\"]}}}"] HTTP/2.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4MDQ1NzAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMTc2ODU3MH0.y0TRdOL5xmtb0XpvOInY1fvSv8Pl4M4xlOfAT4_SeWo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQ0NjU3MTAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwNDQyOTcxMH0.ng1iPb1ZL44GSea1C2vtjz0oZCvyncK-YUUW8NBYW1A
 websurge-sessionid: 0
 Websurge-Request-Inactive: 1
 Websurge-Request-Name: GetTransactionForQurery
@@ -134,7 +132,7 @@ Websurge-Request-Name: GetTransactionForQurery
 ------------------------------------------------------------------
 
 GET http://192.168.152.130:4000/channels/mychannel/chaincodes/transaction_cc?args=["0fd88d82b9"]&fcn=GetHistoryForTransaction HTTP/2.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE4MDQ1NzAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwMTc2ODU3MH0.y0TRdOL5xmtb0XpvOInY1fvSv8Pl4M4xlOfAT4_SeWo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDQ0NjU3MTAsInVzZXJuYW1lIjoiMDAwMDAwMDAiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTcwNDQyOTcxMH0.ng1iPb1ZL44GSea1C2vtjz0oZCvyncK-YUUW8NBYW1A
 websurge-sessionid: 0
 Websurge-Request-Inactive: 1
 Websurge-Request-Name: GetHistoryForTransaction

@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"path": "DATN-Frontend"
+	},
+	{
+		"path": "DATN-HyperledgerFabric"
+	},
+	{
+		"path": "mail-server"
+	}
+]
+}
